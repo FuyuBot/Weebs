@@ -8,5 +8,5 @@ paranoia='https://api.truthordarebot.xyz/v1/paranoia'
 
 host='na01-sql.pebblehost.com'
 user='customer_249998_fuyu'
-password='TsWjN1@Ni9#$BigPrkfP'
+password='YyZdusOTR8sOw8fk0@ks'
 db='customer_249998_fuyu'
