@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+from discord.utils import get
 
 
 class joinleave(commands.Cog):
@@ -24,7 +25,7 @@ class joinleave(commands.Cog):
             title=f'{member} joined the server',
             color=discord.Color.green()
         )
-        unverified = self.bot.guild.get_role(1022172788460625951)
+        unverified = discord.utils.get(member.guild.roles, name="unverified")
         await member.add_roles(unverified)
         #await welcomeChannel.send(embed=embed)
         await logsChannel.send(embed=logsEmbed)
