@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 import requests
 import json
+import config
 
 #https://some-random-api.ml/endpoints
 
@@ -26,7 +27,7 @@ class animals(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=catPicture)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         print(interaction.user)
         await interaction.response.send_message(f"{interaction.user.mention} here is your cat picture.", embed=embed)
 
@@ -39,7 +40,7 @@ class animals(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=dogPicture)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} here is your dog picture.", embed=embed)
 
 

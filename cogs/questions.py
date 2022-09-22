@@ -4,6 +4,7 @@ from discord.ui import Button,View
 from discord.ext import commands
 import requests
 import random
+import config
 from config import truth,dare,wyr,nhie,paranoia
 
 Turl = truth
@@ -48,7 +49,7 @@ async def dareButton_callback(interaction):
         description=f"Type: Dare | Rated: {Drating}",
         color=discord.Color.red()
     )
-    embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+    embed.set_footer(text=config.footer)
     view = View()
     view.add_item(truthButton)
     view.add_item(dareButton)
@@ -67,7 +68,7 @@ async def truthButton_callback(interaction):
         description=f"Type: Truth | Rated: {Trating}",
         color=discord.Color.green()
     )
-    embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+    embed.set_footer(text=config.footer)
     view = View()
     view.add_item(truthButton)
     view.add_item(dareButton)
@@ -86,7 +87,7 @@ async def wyrButton_callback(interaction):
         description=f"Type: Would You Rather | Rated: {Wrating}",
         color=discord.Color.blue()
     )
-    embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+    embed.set_footer(text=config.footer)
     view = View()
     view.add_item(truthButton)
     view.add_item(dareButton)
@@ -104,7 +105,7 @@ async def nhieButton_callback(interaction):
         description=f"Type: Never Have I Ever | Rated: {Nrating}",
         color=discord.Color.orange()
     )
-    embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+    embed.set_footer(text=config.footer)
     view = View()
     view.add_item(truthButton)
     view.add_item(dareButton)
@@ -121,7 +122,7 @@ async def paranoiaButton_callback(interaction):
         description=f"Type: Paranoia | Rated: {Prating}",
         color=discord.Color.purple()
     )
-    embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+    embed.set_footer(text=config.footer)
     view = View()
     view.add_item(truthButton)
     view.add_item(dareButton)
@@ -145,7 +146,7 @@ class questions(commands.Cog):
             description=f"Type: Truth | Rated: {Trating}",
             color=discord.Color.green()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(truthButton)
         view.add_item(dareButton)
@@ -166,7 +167,7 @@ class questions(commands.Cog):
             description=f"Type: Dare | Rated: {Drating}",
             color=discord.Color.red()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(truthButton)
         view.add_item(dareButton)
@@ -187,7 +188,7 @@ class questions(commands.Cog):
             description=f"Type: Would You Rather | Rated: {Wrating}",
             color=discord.Color.blue()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(truthButton)
         view.add_item(dareButton)
@@ -208,7 +209,7 @@ class questions(commands.Cog):
             description=f"Type: Never Have I Ever | Rated: {Nrating}",
             color=discord.Color.orange()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(truthButton)
         view.add_item(dareButton)
@@ -228,7 +229,7 @@ class questions(commands.Cog):
             description=f"Type: Paranoia | Rated: {Prating}",
             color=discord.Color.purple()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(truthButton)
         view.add_item(dareButton)
@@ -250,7 +251,7 @@ class questions(commands.Cog):
             description=f"Type: TRUTH and Rating: {Trating}",
             color=discord.Color.green()
             )
-            embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+            embed.set_footer(text=config.footer)
             view = View()
             view.add_item(truthButton)
             view.add_item(dareButton)
@@ -269,7 +270,7 @@ class questions(commands.Cog):
             description=f"Type: Dare | Rated: {Drating}",
             color=discord.Color.red()
             )
-            embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+            embed.set_footer(text=config.footer)
             view = View()
             view.add_item(truthButton)
             view.add_item(dareButton)
@@ -288,7 +289,7 @@ class questions(commands.Cog):
             description=f"Type: Would You Rather | Rated: {Wrating}",
             color=discord.Color.blue()
             )
-            embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+            embed.set_footer(text=config.footer)
             view = View()
             view.add_item(truthButton)
             view.add_item(dareButton)
@@ -307,7 +308,7 @@ class questions(commands.Cog):
             description=f"Type: Never Have I Ever | Rated: {Nrating}",
             color=discord.Color.orange()
             )
-            embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+            embed.set_footer(text=config.footer)
             view = View()
             view.add_item(truthButton)
             view.add_item(dareButton)
@@ -326,7 +327,7 @@ class questions(commands.Cog):
             description=f"Type: Paranoia | Rated: {Prating}",
             color=discord.Color.purple()
             )
-            embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+            embed.set_footer(text=config.footer)
             view = View()
             view.add_item(truthButton)
             view.add_item(dareButton)

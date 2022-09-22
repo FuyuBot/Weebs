@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+import config
 
 
 class members(commands.Cog):
@@ -21,7 +22,7 @@ class members(commands.Cog):
         embed.add_field(name="Account Created:", value=user.created_at, inline=False)
         embed.add_field(name="Server Nickname", value=user.nick)
         embed.add_field(name="ID:", value=user.id)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(embed=embed)
 
 

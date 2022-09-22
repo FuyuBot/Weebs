@@ -7,8 +7,9 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
     async def on_submit(self, interaction: discord.Interaction):
         user = interaction.user
         print(f"`{self.verification}`")
-        print(f"`{interaction.user.name}`")
-        if interaction.user.name in self.verification:
+        print(f"`{user}`")
+        if user == self.verification:
+            print("1")
             verified = discord.utils.get(user.guild.roles, name="Member")
             unverified = discord.utils.get(user.guild.roles, name="unverified")
             welcomeChannel = self.bot.get_channel(865056995295625256)

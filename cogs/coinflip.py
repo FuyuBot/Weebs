@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import random
+import config
 
 
 class coinflip(commands.Cog):
@@ -20,14 +21,14 @@ class coinflip(commands.Cog):
                 color=0x2699C6
             )
             embed.set_image(url="https://c.tenor.com/nEu74vu_sT4AAAAC/heads-coinflip.gif")
-            embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+            embed.set_footer(text=config.footer)
             await interaction.response.user(embed=embed)
         else:
             embed = discord.Embed(
                 color=0x2699C6
             )
             embed.set_image(url='https://c.tenor.com/kK8D7hQXX5wAAAAC/coins-tails.gif')
-            embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+            embed.set_footer(text=config.footer)
             await interaction.response.user(embed=embed)
 
 

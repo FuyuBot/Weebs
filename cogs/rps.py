@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ui import Button,View
 import random
+import config
 
 
 rockButton = Button(label="", style=discord.ButtonStyle.secondary, emoji="🪨")
@@ -18,7 +19,7 @@ async def rockButton_callback(interaction):
             description=":robot:>  :rock: | :rock:  <:neutral_face:\n\nChoose your choice with one of the button.",
             color=0x2699C6
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(rockButton)
         view.add_item(paperButton)
@@ -31,7 +32,7 @@ async def rockButton_callback(interaction):
             description=":robot:>  :newspaper: | :rock:  <:sob:\n\nTo replay click or tap the replay button.",
             color=discord.Color.red()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(replayButton)
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
@@ -42,7 +43,7 @@ async def rockButton_callback(interaction):
             description=":robot:>  :scissors: | :rock:  <:grin:\n\nTo replay click or tap the replay button.",
             color=discord.Color.green()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(replayButton)
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
@@ -56,7 +57,7 @@ async def paperButton_callback(interaction):
             description=":robot:>  :rock: | :newspaper:  <:grin:\n\nTo replay click or tap the replay button.",
             color=discord.Color.green()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(replayButton)
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
@@ -67,7 +68,7 @@ async def paperButton_callback(interaction):
             description=":robot:>  :newspaper: | :newspaper:  <:neutral_face:\n\nChoose your choice with one of the button.",
             color=0x2699C6
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(rockButton)
         view.add_item(paperButton)
@@ -80,7 +81,7 @@ async def paperButton_callback(interaction):
             description=":robot:>  :scissors: | :newspaper:  <:sob:\n\nTo replay click or tap the replay button.",
             color=discord.Color.red()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(replayButton)
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
@@ -94,7 +95,7 @@ async def scissorsButton_callback(interaction):
             description=":robot:>  :rock: | :scissors:  <:sob:\n\nTo replay click or tap the replay button.",
             color=discord.Color.red()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(replayButton)
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
@@ -105,7 +106,7 @@ async def scissorsButton_callback(interaction):
             description=":robot:>  :newspaper: | :scissors:  <:grin:\n\nTo replay click or tap the replay button.",
             color=discord.Color.green()
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(replayButton)
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
@@ -116,7 +117,7 @@ async def scissorsButton_callback(interaction):
             description=":robot:>  :scissors: | :scissors:  <:neutral_face:\n\nChoose your choice with one of the button.",
             color=0x2699C6
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(rockButton)
         view.add_item(paperButton)
@@ -130,7 +131,7 @@ async def replayButton_callback(interaction):
             description="Choose your choice with one of the buttons.",
             color=0x2699C6
         )
-    embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+    embed.set_footer(text=config.footer)
     view = View()
     view.add_item(rockButton)
     view.add_item(paperButton)
@@ -155,7 +156,7 @@ class rps(commands.Cog):
             description="Choose your choice with one of the buttons.",
             color=0x2699C6
         )
-        embed.set_footer(text='Bot created by Jzcob#2842 and Sezn#6554.')
+        embed.set_footer(text=config.footer)
         view = View()
         view.add_item(rockButton)
         view.add_item(paperButton)

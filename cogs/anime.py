@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import requests
+import config
 
 #API https://otakugifs.xyz/api
 
@@ -23,7 +24,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} blew a kiss at {user.mention}', embed=embed)
 
     @app_commands.command(name='angrystare', description="Stare Angerly at someone")
@@ -35,7 +36,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} angerly stared at {user.mention}', embed=embed)
 
     @app_commands.command(name='bite', description='Bite someone')
@@ -47,7 +48,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} Bit {user.mention}', embed=embed)
 
     @app_commands.command(name='blush', description='Blush')
@@ -59,7 +60,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} is blushing', embed=embed)
 
     @app_commands.command(name='brofist', description='Bro Fist')
@@ -71,7 +72,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} bro fisted {user.mention}', embed=embed)
 
     @app_commands.command(name='celebrate')
@@ -83,7 +84,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} is celebrating', embed=embed)
 
     @app_commands.command(name='cheers', description='Cheers')
@@ -95,7 +96,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} is cheering', embed=embed)
 
     @app_commands.command(name='clap', description='Clap')
@@ -107,7 +108,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} is clapping', embed=embed)
 
     @app_commands.command(name='confused', description='Confused')
@@ -119,7 +120,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is confused", embed=embed)
 
     @app_commands.command(name='cool', description='Cool')
@@ -131,7 +132,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} thinks its cool", embed=embed)
 
     @app_commands.command(name='cry', description='Cry')
@@ -143,7 +144,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is crying", embed=embed)
 
     @app_commands.command(name='cuddle', description='Cuddle with someone')
@@ -155,7 +156,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} wants to cuddle with {user.mention}', embed=embed)
 
     @app_commands.command(name='dance', description='Dance')
@@ -167,7 +168,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is dancing", embed=embed)
 
     @app_commands.command(name='drool', description='Drool')
@@ -179,7 +180,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is drooling", embed=embed)
 
     @app_commands.command(name='evillaugh', description='Evil Laugh')
@@ -191,7 +192,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} laughed evilly", embed=embed)
 
     @app_commands.command(name='facepalm', description='Facepalm')
@@ -203,7 +204,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} facepalmed", embed=embed)
 
     @app_commands.command(name='handhold', description="Hold someone's hand")
@@ -215,7 +216,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} held {user.mention} hand", embed=embed)
 
     @app_commands.command(name='happy', description='Happy')
@@ -227,7 +228,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is happy", embed=embed)
 
     @app_commands.command(name='headbang', description='Headbang')
@@ -239,7 +240,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is happy", embed=embed)
 
     @app_commands.command(name='hug', description='Hug someone')
@@ -251,7 +252,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} gave {user.mention} a hug", embed=embed)
 
     @app_commands.command(name='kiss', description='Kiss someone')
@@ -263,7 +264,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} kissed {user.mention}", embed=embed)
 
     @app_commands.command(name='laugh', description='Laugh')
@@ -275,7 +276,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} starting to laugh", embed=embed)
 
     @app_commands.command(name='lick', description='Lick someone')
@@ -287,7 +288,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} kissed {user.mention}", embed=embed)
 
     @app_commands.command(name='love', description='Love someone')
@@ -299,7 +300,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is inlove with {user.mention}", embed=embed)
 
     @app_commands.command(name='mad', description='Mad')
@@ -311,7 +312,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is angry", embed=embed)
 
     @app_commands.command(name='nervous', description='Nervous')
@@ -323,7 +324,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} is nervous', embed=embed)
 
     @app_commands.command(name='no', description='No')
@@ -335,7 +336,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} said no', embed=embed)
 
     @app_commands.command(name='nom', description='Nom')
@@ -347,7 +348,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} nommed", embed=embed)
 
     @app_commands.command(name='nosebleed', description='Nosebleed')
@@ -359,7 +360,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} got a nosebleed", embed=embed)
 
     @app_commands.command(name='nuzzle', description='Nuzzle')
@@ -371,7 +372,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} nuzzled {user.mention}", embed=embed)
 
     @app_commands.command(name='nyah', description='Nyah')
@@ -383,7 +384,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f'{interaction.user.mention} nyah {user.mention}', embed=embed)
 
     @app_commands.command(name='pat', description='Pat someone')
@@ -395,6 +396,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} pat {user.mention}", embed=embed)
 
     @app_commands.command(name='peek', description='Peek at someone')
@@ -406,6 +408,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} peeked at {user.mention}", embed=embed)
 
     @app_commands.command(name='pinch', description='Pinch someone')
@@ -417,6 +420,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} pinched {user.mention}", embed=embed)
 
     @app_commands.command(name='poke', description='Poke someone')
@@ -428,6 +432,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} poked {user.mention}", embed=embed)
 
     @app_commands.command(name='pout', description='Pout')
@@ -439,7 +444,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is pouting", embed=embed)
 
     @app_commands.command(name='punch', description='Punch someone')
@@ -451,6 +456,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} punched {user.mention}", embed=embed)
 
     @app_commands.command(name='roll', description='Roll')
@@ -462,7 +468,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} rolled", embed=embed)
 
     @app_commands.command(name='run', description='Run away')
@@ -474,7 +480,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} ran away from {user.mention}", embed=embed)
 
     @app_commands.command(name='sad', description='Sad')
@@ -486,7 +492,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is sad", embed=embed)
 
     @app_commands.command(name='scared', description='Scared')
@@ -498,7 +504,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is scared", embed=embed)
 
     @app_commands.command(name='shrug', description='¯\_(ツ)_/¯')
@@ -510,7 +516,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} shrugged", embed=embed)
 
     @app_commands.command(name='shy', description='Be Shy')
@@ -522,7 +528,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is shy", embed=embed)
 
     @app_commands.command(name='sigh', description='Sigh')
@@ -534,7 +540,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} sighed", embed=embed)
 
     @app_commands.command(name='sip', description='Sip')
@@ -546,7 +552,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} took a sipped", embed=embed)
 
     @app_commands.command(name='slap', description='Slap someone')
@@ -558,7 +564,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} slapped {user.mention}", embed=embed)
 
     @app_commands.command(name='sleep', description='Fall asleep')
@@ -570,7 +576,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} fell asleep", embed=embed)
 
     @app_commands.command(name='slowclap', description='Slowclap')
@@ -582,7 +588,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} clapped slowly", embed=embed)
 
     @app_commands.command(name='smack', description='Smack someone')
@@ -594,7 +600,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} smack {user.mention}", embed=embed)
 
     @app_commands.command(name='smile', description='Smile')
@@ -606,7 +612,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_money(f"{interaction.user.mention} smiled", embed=embed)
 
     @app_commands.command(name='smug', description='Smug')
@@ -618,7 +624,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} smugged", embed=embed)
 
     @app_commands.command(name='sneeze', description='Sneeze')
@@ -630,7 +636,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} Sneezed", embed=embed)
 
     @app_commands.command(name='sorry', description='Sorry')
@@ -642,7 +648,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is sorry", embed=embed)
 
     @app_commands.command(name='stare', description='Stare')
@@ -654,7 +660,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} stared at {user.mention}", embed=embed)
 
     @app_commands.command(name='stop', description='Stop')
@@ -666,7 +672,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} STOP", embed=embed)
 
     @app_commands.command(name='surprise', description='Surprise')
@@ -678,7 +684,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is surprised", embed=embed)
 
     @app_commands.command(name='sweat', description='Sweat')
@@ -690,7 +696,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is sweating", embed=embed)
 
     @app_commands.command(name='thumbsup', description='Put your thumb up')
@@ -702,7 +708,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} put their thumb up", embed=embed)
 
     @app_commands.command(name='tickle', description='Tickle someone')
@@ -714,7 +720,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} tickled {user.mention}", embed=embed)
 
     @app_commands.command(name='tired', description='Tired')
@@ -726,7 +732,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is tired", embed=embed)
 
     @app_commands.command(name='wave', description='Wave to someone')
@@ -738,7 +744,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        embed.set_footer(text=f"Bot created by Jzcob#2842 and Sezn#6554")
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} waved at {user.mention}", embed=embed)
 
     @app_commands.command(name='wink', description='Wink at someone')
@@ -750,6 +756,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} winked at {user.mention}", embed=embed)
 
     @app_commands.command(name='woah', description=':o')
@@ -761,6 +768,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} woahed", embed=embed)
 
     @app_commands.command(name='yawn', description='Yawn')
@@ -772,7 +780,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} Yawned", embed=embed)
 
     @app_commands.command(name='yay', description='Yay')
@@ -784,6 +792,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} Yayed", embed=embed)
 
     @app_commands.command(name='yes', description='Yes')
@@ -795,6 +804,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
+        embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} is happy", embed=embed)
 
 
