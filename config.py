@@ -4,6 +4,7 @@ dare='https://api.truthordarebot.xyz/v1/dare'
 wyr='https://api.truthordarebot.xyz/v1/wyr'
 nhie='https://api.truthordarebot.xyz/v1/nhie'
 paranoia='https://api.truthordarebot.xyz/v1/paranoia'
+embedFooter = text = 'Bot created by Jzcob#2842 and Sezn#6554.'
 
 
 host='na01-sql.pebblehost.com'
