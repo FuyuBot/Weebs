@@ -18,7 +18,7 @@ class poll(commands.Cog):
     @app_commands.command(name='poll', description='Start a Poll.')
     async def poll(self, interaction: discord.Interaction,channel: discord.TextChannel , title: str, option1: str, option2: str, option3: str=None, option4: str=None):
         user = interaction.user
- 
+
         embed = discord.Embed(
             title=f'{title}'
         )

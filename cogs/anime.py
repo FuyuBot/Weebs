@@ -428,7 +428,7 @@ class anime(commands.Cog):
             color=0x2699C6
         )
         embed.set_image(url=animeGif)
-        await interaction.response.send_message(f"{ctx.author.mention} poked {user.mention}", embed=embed)
+        await interaction.response.send_message(f"{interaction.user.mention} poked {user.mention}", embed=embed)
 
     @app_commands.command(name='pout', description='Pout')
     async def pout(self, interaction: discord.Interaction):
