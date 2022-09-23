@@ -12,13 +12,6 @@ class rng(commands.Cog):
     async def on_ready(self):
         print(f"LOADED: `rng.py`")
     
-    
-    @commands.command()
-    async def syncweebs(self, ctx) -> None:
-        fmt = await ctx.bot.tree.sync(guild=ctx.guild)
-        print(f"Synced {len(fmt)} commands.")
-        return
-    
 
     @app_commands.command(name='rng', description="Random anime game.")
     @app_commands.describe(animelist='Which list do you want to pick from?')

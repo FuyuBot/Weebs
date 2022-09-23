@@ -27,11 +27,11 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
         
         logsEmbed = discord.Embed(
             title=f'{user} Verified.',
-            color=discord.Color.green()
+            color=0x2699C6
         )
         embed = discord.Embed(
             title=f'Welcome {user} to the server.',
-            color=discord.Color.green(),
+            color=0x2699C6,
             description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
         )
         

@@ -12,11 +12,24 @@ class sync(commands.Cog):
 
     
     @commands.command()
+    @commands.has_any_role("*")
     async def sync(self, ctx) -> None:
-        fmt = await ctx.bot.tree.sync()
-        print(f"Synced {len(fmt)} commands.")
-        return
+        try:
+            fmt = await ctx.bot.tree.sync()
+            print(f"Synced {len(fmt)} commands.")
+            return
+        except Exception as e:
+            print(e)
 
+    @commands.command()
+    @commands.has_any_role("*")
+    async def syncweebs(self, ctx) -> None:
+        try:
+            fmt = await ctx.bot.tree.sync(guild=ctx.guild)
+            print(f"Synced {len(fmt)} commands.")
+            return
+        except Exception as e:
+            print(e)
 
 async def setup(bot):
     await bot.add_cog(sync(bot))

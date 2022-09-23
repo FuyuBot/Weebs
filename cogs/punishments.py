@@ -36,7 +36,7 @@ class punishments(commands.Cog):
 
 ######## Ban
     @app_commands.command(name='ban' , description="A Weebs Hangout: Ban Command")
-    @commands.has_any_role(moderator, seniormoderator, seniorstaff)
+    @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def ban(self, interaction: discord.Interaction, user: discord.Member, reason: str = None):
         player = user.id
         staff = interaction.user.id
@@ -106,7 +106,7 @@ class punishments(commands.Cog):
 
 ######## UnBan
     @app_commands.command(name='unban', description="A Weebs Hangout: UnBan Command")
-    @commands.has_any_role(moderator, seniormoderator, seniorstaff)
+    @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def unban(self, interaction: discord.Interaction, user: discord.Member):
         player = user.id
         cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
@@ -133,7 +133,7 @@ class punishments(commands.Cog):
 
 ######## TimeOut
     @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
-    @commands.has_any_role(helper, moderator, seniormoderator, seniorstaff)
+    @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
     async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: str=None, durationtype: str=None, *, reason: str=None):
         staff = interaction.user.id
         originaldur = duration
@@ -203,7 +203,7 @@ class punishments(commands.Cog):
 
 
     @app_commands.command(name='remove_timeout', description="A Weebs Hangout: Remove Timeout Command")
-    @commands.has_any_role(moderator, seniormoderator, seniorstaff)
+    @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def remove_timeout(self, interaction: discord.Interaction, user: discord.Member):
         await user.remove_timeout()
         embed = discord.Embed(
@@ -215,7 +215,7 @@ class punishments(commands.Cog):
         await logs.send(embed=embed)
 ######## Warn
     @app_commands.command(name='warn', description="A Weebs hangout: Warn a user with a given reason.")
-    @commands.has_any_role(trialhelper, helper, moderator, seniormoderator, seniorstaff)
+    @app_commands.checks.has_any_role(trialhelper, helper, moderator, seniormoderator, seniorstaff)
     async def warn(self, interaction: discord.Interaction, user: discord.Member, *, reason: str=None):
         player = user.id
         staff = interaction.user.id
