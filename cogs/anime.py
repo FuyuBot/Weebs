@@ -793,7 +793,7 @@ class anime(commands.Cog):
         )
         embed.set_image(url=animeGif)
         embed.set_footer(text=config.footer)
-        await interaction.response.send_message(f"{interaction.user.mention} Yayed", embed=embed)
+        await interaction.response.send_message(f"{interaction.user.mention} Yay'ed", embed=embed)
 
     @app_commands.command(name='yes', description='Yes')
     async def yes(self, interaction: discord.Interaction):
@@ -805,7 +805,7 @@ class anime(commands.Cog):
         )
         embed.set_image(url=animeGif)
         embed.set_footer(text=config.footer)
-        await interaction.response.send_message(f"{interaction.user.mention} is happy", embed=embed)
+        await interaction.response.send_message(f"{interaction.user.mention} agrees", embed=embed)
 
 
 async def setup(bot):

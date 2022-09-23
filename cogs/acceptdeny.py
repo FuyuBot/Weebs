@@ -1,6 +1,16 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+import mysql.connector
+from config import host, user, password, db
+
+mydb = mysql.connector.connect(
+host = host,
+user = user,
+password = password,
+database = db
+)
+cursor = mydb.cursor()
 
 class acceptdeny(commands.Cog):
     def __init__(self, bot):
@@ -13,16 +23,28 @@ class acceptdeny(commands.Cog):
     @app_commands.command(name='accept', description="Accept a user's staff application")
     @app_commands.checks.has_any_role("Staff Manager", "Management Team")
     async def accept(self, interaction: discord.Interaction, user: discord.Member):
-        acceptMSG = "Congradulations, your application has been accepted! You will be moving on to the next step in the application process.\nA member of our management team will be reaching out to you soon, so be on the lookout for further details."
-        try:
-            await user.send(acceptMSG)
-            sent = True
-        except Exception as e:
-            print(e)
-        if sent != True:
-            await interaction.response.send_message("Message did not send.")
-        else: 
-            await interaction.response.send_message("Message sent.")
+        
+        cursor.execute(f"SELECT id FROM applicants WHERE id = {user.id}")
+        checkDB = cursor.fetchall()
+
+        if checkDB == []:
+            await interaction.response.send_message("There are no applicants.", ephemeral= True)
+        else:
+            for row in checkDB:
+                playerRow = row[0]
+                if playerRow != checkDB[0][0]:
+                    await interaction.response.send_message(f"<{user}> is not an applicant.", ephemeral= True)
+                else:
+                    cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
+                    mydb.commit()
+                    acceptMSG = "Congradulations, your application has been accepted! You will be moving on to the next step in the application process.\nA member of our management team will be reaching out to you soon, so be on the lookout for further details."
+                    try:
+                        await user.send(acceptMSG)
+                        await interaction.response.send_message("Message sent.")
+                    except Exception as e:
+                        print(e)
+                        await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+                    
 
     @app_commands.command(name='deny', description="Deny a user's staff application.")
     @app_commands.checks.has_any_role("Staff Manager", "Management Team")
@@ -38,36 +60,43 @@ class acceptdeny(commands.Cog):
         val2 = "Unfortunately, your application has been denied.\nWe have decided that your application doesn't meet our criteria. If you still wish to apply, try using more detail in your responses."
         val3 = "Unfortunately, your application has been denied.\nWe have concluded that the amount of time you are able to contribute does not meet the required amount of time needed.\nIf you believe we can make a compromise, please make a ticket so we can reevaluate your application."
             
-        if reason.name == "Under aged.":
-            try:
-                await user.send(val1)
-                sent = True
-            except Exception as e:
-                print(e)
-            if sent != True:
-                await interaction.response.send_message("Message did not send.")
-            else: 
-                await interaction.response.send_message("Message sent.")
-        elif reason.name == "Not enough detail.":
-            try:
-                await user.send(val2)
-                sent = True
-            except Exception as e:
-                print(e)
-            if sent != True:
-                await interaction.response.send_message("Message did not send.")
-            else: 
-                await interaction.response.send_message("Message sent.")
-        elif reason.name == "Not enough time.":
-            try:
-                await user.send(val3)
-                sent = True
-            except Exception as e:
-                print(e)
-            if sent != True:
-                await interaction.response.send_message("Message did not send.")
-            else: 
-                await interaction.response.send_message("Message sent.")
+        cursor.execute(f"SELECT id FROM applicants WHERE id = {user.id}")
+        checkDB = cursor.fetchall()
+
+        if checkDB == []:
+            await interaction.response.send_message("There are no applicants.", ephemeral= True)
+        else:
+            for row in checkDB:
+                playerRow = row[0]
+                if playerRow != checkDB[0][0]:
+                    await interaction.response.send_message(f"<{user}> is not an applicant.", ephemeral= True)
+                else:
+                    cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
+                    mydb.commit()
+
+                    if reason.name == "Under aged.":
+                        try:
+                            await user.send(val1)
+                            await interaction.response.send_message("Message sent.")
+                        except Exception as e:
+                            print(e)
+                            await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+
+                    elif reason.name == "Not enough detail.":
+                        try:
+                            await user.send(val2)
+                            await interaction.response.send_message("Message sent.")
+                        except Exception as e:
+                            print(e)
+                            await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+
+                    elif reason.name == "Not enough time.":
+                        try:
+                            await user.send(val3)
+                            await interaction.response.send_message("Message sent.")
+                        except Exception as e:
+                            print(e)
+                            await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
 
 async def setup(bot):
     await bot.add_cog(acceptdeny(bot), guilds=[discord.Object(id=860752406551461909)])

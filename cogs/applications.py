@@ -1,9 +1,16 @@
 import discord
 from discord import app_commands, TextStyle
 from discord.ext import commands
-import config
+import mysql.connector
+from config import host, user, password, db
 
-
+mydb = mysql.connector.connect(
+host = host,
+user = user,
+password = password,
+database = db
+)
+cursor = mydb.cursor()
 
 class applications(commands.Cog):
     def __init__(self, bot):
@@ -30,12 +37,27 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
     #send at the end of the message saying we will contact them, and a confirmation message saying it was sent in the channel to close the modal.
     async def on_submit(self, interaction: discord.Interaction):
         
-        try:
-            userName = interaction.user.name
-            userID = interaction.user.id
-            applicationLogs = interaction.client.get_channel(1022658693977870377)
-            ageToStr = str(self.age) 
-            ageToInt = int(ageToStr)
+
+        userName = interaction.user.name
+        userID = interaction.user.id
+        applicationLogs = interaction.client.get_channel(1022658693977870377)
+        ageToStr = str(self.age) 
+        ageToInt = int(ageToStr)
+
+        cursor.execute(f"SELECT id FROM applicants WHERE id = {userID}")
+        checkDB = cursor.fetchall()
+
+        if checkDB == []:
+            sql = "INSERT INTO applicants (id) VALUES (%s)"
+            val = (userID,)
+
+            try:
+                cursor.execute(sql, val)
+                mydb.commit()
+            except Exception as e:
+                print(e)
+                await interaction.response.send_message('Did not send to the DB!', ephemeral= True)
+
             if ageToInt < 13:
                 embed = discord.Embed(
                     title=f"{userName}'s application",
@@ -47,6 +69,7 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
                 embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
                 embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
                 embed.set_footer(text= f"Applicant's ID: {userID}")
+                
 
                 await applicationLogs.send(embed=embed)
                 await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
@@ -64,10 +87,49 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
 
                 await applicationLogs.send(embed=embed)
                 await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
+        else:
+            for row in checkDB:
+                playerRow = row[0]
+                if playerRow == checkDB[0][0]:
+                    await interaction.response.send_message(f"You have already applied.", ephemeral= True)
+                    return
+                else:
+                    sql = "INSERT INTO applicants (id) VALUES (%s)"
+                    val = (userID)
+                    try:
+                        cursor.execute(sql, val)
+                        mydb.commit()
+                    except:
+                        await interaction.response.send_message('Did not send to the DB!', ephemeral= True)
+                    if ageToInt < 13:
+                        embed = discord.Embed(
+                            title=f"{userName}'s application",
+                            color=discord.Color.red()
+                        )
+                        embed.add_field(name= self.age.label, value= self.age)
+                        embed.add_field(name= self.languages.label, value= self.languages)
+                        embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
+                        embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
+                        embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
+                        embed.set_footer(text= f"Applicant's ID: {userID}")
+                        
 
+                        await applicationLogs.send(embed=embed)
+                        await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
+                    else:
+                        embed = discord.Embed(
+                            title=f"{userName}'s application",
+                            color=0x2699C6
+                        )
+                        embed.add_field(name= self.age.label, value= self.age)
+                        embed.add_field(name= self.languages.label, value= self.languages)
+                        embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
+                        embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
+                        embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
+                        embed.set_footer(text= f"Applicant's ID: {userID}")
 
-        except Exception as e:
-            print(e)
+                        await applicationLogs.send(embed=embed)
+                        await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
     
 async def setup(bot):
     await bot.add_cog(applications(bot), guilds=[discord.Object(id=860752406551461909)])

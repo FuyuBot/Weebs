@@ -5,6 +5,7 @@ from cogs.rng import rng
 from discord.ext import commands
 from discord import app_commands
 import os
+#color=0x2699C6
 
 
 intents = discord.Intents.all()

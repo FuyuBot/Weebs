@@ -1,0 +1,8 @@
+- Tickets
+- dadjokes #https://dadjokes.io, https://rapidapi.com/KegenGuyll/api/dad-jokes
+- space things
+- game states
+- animegirl gif command
+- event logs
+
+- remake staff help commands
