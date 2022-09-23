@@ -57,7 +57,7 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
                 )
                 embed.add_field(name= self.age.label, value= self.age)
                 embed.add_field(name= self.languages.label, value= self.languages)
-                embed.add_field(name= self.whyStaff.label, value= self.age)
+                embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
                 embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
                 embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
                 embed.set_footer(text= f"Applicant's ID: {userID}")

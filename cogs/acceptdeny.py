@@ -10,6 +10,20 @@ class acceptdeny(commands.Cog):
     async def on_ready(self):
         print("LOADED: `acceptdeny.py`")
     
+    @app_commands.command(name='accept', description="Accept a user's staff application")
+    @app_commands.checks.has_any_role("Staff Manager", "Management Team")
+    async def accept(self, interaction: discord.Interaction, user: discord.Member):
+        acceptMSG = "Congradulations, your application has been accepted! You will be moving on to the next step in the application process.\nA member of our management team will be reaching out to you soon, so be on the lookout for further details."
+        try:
+            await user.send(acceptMSG)
+            sent = True
+        except Exception as e:
+            print(e)
+        if sent != True:
+            await interaction.response.send_message("Message did not send.")
+        else: 
+            await interaction.response.send_message("Message sent.")
+
     @app_commands.command(name='deny', description="Deny a user's staff application.")
     @app_commands.checks.has_any_role("Staff Manager", "Management Team")
     @app_commands.describe(reason='What is the reason for denial?')
