@@ -115,7 +115,7 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
                         
 
                         await applicationLogs.send(embed=embed)
-                        await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
+                        await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Make sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
                     else:
                         embed = discord.Embed(
                             title=f"{userName}'s application",

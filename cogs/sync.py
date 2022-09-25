@@ -24,12 +24,15 @@ class sync(commands.Cog):
     @commands.command()
     @commands.has_any_role("*")
     async def syncweebs(self, ctx) -> None:
-        try:
-            fmt = await ctx.bot.tree.sync(guild=ctx.guild)
-            print(f"Synced {len(fmt)} commands.")
-            return
-        except Exception as e:
-            print(e)
+        if ctx.author.id == 920797181034778655 or ctx.author.id == 155580061888675840:
+            try:
+                fmt = await ctx.bot.tree.sync(guild=ctx.guild)
+                print(f"Synced {len(fmt)} commands.")
+                return
+            except Exception as e:
+                print(e)
+        else:
+            print("Failed: not sean or jacob.")
 
 async def setup(bot):
     await bot.add_cog(sync(bot))

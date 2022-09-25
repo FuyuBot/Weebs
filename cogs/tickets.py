@@ -59,14 +59,12 @@ class SelectMenu(discord.ui.Select):
             if self.values[0] == "Staff App":
                 channelStaffApps = await interaction.guild.create_text_channel(name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}", category= staffCategory)
                 await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
-
-                await channelStaffApps.send(f"{managementTeam.mention}, {interaction.user.mention} has created a ticket.")
                 embed = discord.Embed(
                     title= f"{interaction.user}",
-                color=0x2699C6
+                    color=0x2699C6
                 )
                 embed.set_footer(text= f"User's ID: {interaction.user.id}")
-                await interaction.response.send_message(embed=embed)
+                await channelStaffApps.send(f"<@&{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
                 
             elif self.values[0] == "Report":
                 channelReason = await interaction.guild.create_text_channel(name=f"report-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesReport, reason=f"Report ticket for {interaction.user}", category= reportCategory)
