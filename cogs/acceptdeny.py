@@ -28,13 +28,11 @@ class acceptdeny(commands.Cog):
         checkDB = cursor.fetchall()
 
         if checkDB == []:
-            await interaction.response.send_message("There are no applicants.", ephemeral= True)
+            await interaction.response.send_message(f"{user} is not an applicant.", ephemeral= True)
         else:
             for row in checkDB:
                 playerRow = row[0]
-                if playerRow != checkDB[0][0]:
-                    await interaction.response.send_message(f"<{user}> is not an applicant.", ephemeral= True)
-                else:
+                if playerRow == checkDB[0][0]:
                     cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
                     mydb.commit()
                     acceptMSG = "Congradulations, your application has been accepted! You will be moving on to the next step in the application process.\nA member of our management team will be reaching out to you soon, so be on the lookout for further details."
@@ -44,7 +42,6 @@ class acceptdeny(commands.Cog):
                     except Exception as e:
                         print(e)
                         await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
-                    
 
     @app_commands.command(name='deny', description="Deny a user's staff application.")
     @app_commands.checks.has_any_role("Staff Manager", "Management Team")
@@ -64,20 +61,18 @@ class acceptdeny(commands.Cog):
         checkDB = cursor.fetchall()
 
         if checkDB == []:
-            await interaction.response.send_message("There are no applicants.", ephemeral= True)
+            await interaction.response.send_message(f"{user} is not an applicant.", ephemeral= True)
         else:
             for row in checkDB:
                 playerRow = row[0]
-                if playerRow != checkDB[0][0]:
-                    await interaction.response.send_message(f"<{user}> is not an applicant.", ephemeral= True)
-                else:
+                if playerRow == checkDB[0][0]:
                     cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
                     mydb.commit()
 
                     if reason.name == "Under aged.":
                         try:
                             await user.send(val1)
-                            await interaction.response.send_message("Message sent.")
+                            await interaction.response.send_message("Denial message `Under aged` sent.")
                         except Exception as e:
                             print(e)
                             await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
@@ -85,7 +80,7 @@ class acceptdeny(commands.Cog):
                     elif reason.name == "Not enough detail.":
                         try:
                             await user.send(val2)
-                            await interaction.response.send_message("Message sent.")
+                            await interaction.response.send_message("Denial message `Not enough detail` sent.")
                         except Exception as e:
                             print(e)
                             await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
@@ -93,7 +88,7 @@ class acceptdeny(commands.Cog):
                     elif reason.name == "Not enough time.":
                         try:
                             await user.send(val3)
-                            await interaction.response.send_message("Message sent.")
+                            await interaction.response.send_message("Denial message `Not enough time` sent.")
                         except Exception as e:
                             print(e)
                             await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")

@@ -1,13 +1,12 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-import requests
 from dadjokes import Dadjoke
+
 
 class dadJokes(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
     
     @commands.Cog.listener()
     async def on_ready(self):

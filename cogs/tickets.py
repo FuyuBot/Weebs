@@ -1,9 +1,17 @@
-from datetime import datetime
-from glob import glob
-import discord, os
+import discord
+import config
 from discord import app_commands, utils
 from discord.ext import commands
-from discord.ui import Select, View
+import mysql.connector
+from config import host, user, password, db
+
+mydb = mysql.connector.connect(
+host = host,
+user = user,
+password = password,
+database = db
+)
+cursor = mydb.cursor()
 
 ######### Roles ###########
 trialhelper = 860758016764936193
@@ -57,14 +65,31 @@ class SelectMenu(discord.ui.Select):
             reportCategory = discord.utils.get(interaction.guild.categories, id= 1022942452585340928)
             category = discord.utils.get(interaction.guild.categories, id= 1022942720391647330)
             if self.values[0] == "Staff App":
-                channelStaffApps = await interaction.guild.create_text_channel(name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}", category= staffCategory)
-                await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
-                embed = discord.Embed(
-                    title= f"{interaction.user}",
-                    color=0x2699C6
-                )
-                embed.set_footer(text= f"User's ID: {interaction.user.id}")
-                await channelStaffApps.send(f"<@&{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
+                cursor.execute(f"SELECT id FROM applicants WHERE id = {interaction.user.id}")
+                checkDB = cursor.fetchall()
+                if checkDB == []:
+                    channelStaffApps = await interaction.guild.create_text_channel(name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}", category= staffCategory)
+                    await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
+                    embed = discord.Embed(
+                        title= f"{interaction.user}",
+                        color=0x2699C6
+                    )
+                    embed.set_footer(text= f"User's ID: {interaction.user.id}")
+                    embed.add_field(name="Staff Application Submitted:", value="❎")
+                    await channelStaffApps.send(f"<{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
+                else:
+                    for row in checkDB:
+                        playerRow = row[0]
+                        if playerRow == checkDB[0][0]:
+                            channelStaffApps = await interaction.guild.create_text_channel(name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}", category= staffCategory)
+                            await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
+                            embed = discord.Embed(
+                                title= f"{interaction.user}",
+                                color=0x2699C6
+                            )
+                            embed.add_field(name="Staff Application Submitted:", value="✅")
+                            embed.set_footer(text= f"User's ID: {interaction.user.id}")
+                            await channelStaffApps.send(f"<{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
                 
             elif self.values[0] == "Report":
                 channelReason = await interaction.guild.create_text_channel(name=f"report-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesReport, reason=f"Report ticket for {interaction.user}", category= reportCategory)
@@ -121,4 +146,4 @@ class Confirm(discord.ui.View):
     
 
 async def setup(bot):
-    await bot.add_cog(tickets(bot), guilds=[discord.Object(id=860752406551461909)])
+    await bot.add_cog(tickets(bot), guilds=[discord.Object(id=config.weebsHangout)])

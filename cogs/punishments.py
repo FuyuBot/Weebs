@@ -35,6 +35,7 @@ class punishments(commands.Cog):
         print("LOADED: 'punishments.py'")
 
 ######## Ban
+
     @app_commands.command(name='ban' , description="A Weebs Hangout: Ban Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def ban(self, interaction: discord.Interaction, user: discord.Member, reason: str = None):
@@ -104,102 +105,77 @@ class punishments(commands.Cog):
                     await logs.send(embed=embed)
 
 
-######## UnBan
-    @app_commands.command(name='unban', description="A Weebs Hangout: UnBan Command")
-    @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
-    async def unban(self, interaction: discord.Interaction, user: discord.Member):
-        player = user.id
-        cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
-        checkDB = cursor.fetchall()
-        if checkDB == []:
-            await interaction.response.send_message("Nobody has been banned yet.")
-        else:
-            for row in checkDB:
-                playerRow = row[0]
-                if playerRow != checkDB[0][0]:
-                    await interaction.response.send_message(f"<@{player}> is not banned.")
-                else:
-                    cursor.execute(f"DELETE FROM bans WHERE player = {player}")
-                    mydb.commit()
-                    embed = discord.Embed(
-                        title=f'{user} was unbanned.',
-                        color=discord.Color.green()
-                    )
-                    await interaction.response.send_message(embed=embed)
-                    await interaction.guild.unban(user)
-                    logs = self.bot.get_channel(865078390109634590)
-                    await logs.send(embed=embed)
-
-
 ######## TimeOut
     @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
-    async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: str=None, durationtype: str=None, *, reason: str=None):
-        staff = interaction.user.id
-        originaldur = duration
-        duration = int(duration)
+    async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: int, durationtype: str, reason: str=None):
+        try:
+            staff = interaction.user.id
+            originaldur = duration
+            duration = int(duration)
 
-        durations = [
-            'minute', 'minutes', 'min',
-            'hour', 'hours', 'h',
-            'day', 'days', 'd',
-            'week', 'weeks', 'w',
-            'month', 'm'
-        ]
+            durations = [
+                'minute', 'minutes', 'min',
+                'hour', 'hours', 'h',
+                'day', 'days', 'd',
+                'week', 'weeks', 'w',
+                'month', 'm'
+            ]
 
-        durType = durationtype.lower()
-        timeoutEmbed = discord.Embed(
-            title=f"{user} was put in timeout",
-            color=discord.Color.red()
-        )
-        timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
-        timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}.", inline= True)
-        timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
+            durType = durationtype.lower()
+            timeoutEmbed = discord.Embed(
+                title=f"{user} was put in timeout",
+                color=discord.Color.red()
+            )
+            timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
+            timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}.", inline= True)
+            timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
 
-        if durType in durations:
-            if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
-                duration *= 60
-                await user.timeout(until= discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
-                await interaction.response.send_message(embed=timeoutEmbed)
-                logs = self.bot.get_channel(865078390109634590)
-                await logs.send(embed=timeoutEmbed)
-            elif durType == "hour" or durType == "hours" or durType == "h" and duration <= 672:
-                duration *= 3600
-                await user.timeout(until= discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
-                await interaction.response.send_message(embed=timeoutEmbed)
-                logs = self.bot.get_channel(865078390109634590)
-                await logs.send(embed=timeoutEmbed)
-            elif durType == "day" or durType == "days" or durType == "d" and duration <= 28:
-                duration *= 86400
-                await user.timeout(until= discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
-                await interaction.response.send_message(embed=timeoutEmbed)
-                logs = self.bot.get_channel(865078390109634590)
-                await logs.send(embed=timeoutEmbed)
-            elif durType == "week" or durType == "weeks" or durType == "w" and duration <= 4:
-                duration *= 604800
-                await user.timeout(until= discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
-                await interaction.response.send_message(embed=timeoutEmbed)
-                logs = self.bot.get_channel(865078390109634590)
-                await logs.send(embed=timeoutEmbed)
-            elif durType == "month" or durType == "m" and duration == 1:
-                duration = 2.419e+6
-                await user.timeout(until= discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
-                await interaction.response.send_message(embed=timeoutEmbed)
-                logs = self.bot.get_channel(865078390109634590)
-                await logs.send(embed=timeoutEmbed)
+            if durType in durations:
+                if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
+                    duration *= 60
+                    await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
+                    await interaction.response.send_message(embed=timeoutEmbed)
+                    logs = self.bot.get_channel(865078390109634590)
+                    await logs.send(embed=timeoutEmbed)
+                elif durType == "hour" or durType == "hours" or durType == "h" and duration <= 672:
+                    duration *= 3600
+                    await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
+                    await interaction.response.send_message(embed=timeoutEmbed)
+                    logs = self.bot.get_channel(865078390109634590)
+                    await logs.send(embed=timeoutEmbed)
+                elif durType == "day" or durType == "days" or durType == "d" and duration <= 28:
+                    duration *= 86400
+                    await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
+                    await interaction.response.send_message(embed=timeoutEmbed)
+                    logs = self.bot.get_channel(865078390109634590)
+                    await logs.send(embed=timeoutEmbed)
+                elif durType == "week" or durType == "weeks" or durType == "w" and duration <= 4:
+                    duration *= 604800
+                    await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
+                    await interaction.response.send_message(embed=timeoutEmbed)
+                    logs = self.bot.get_channel(865078390109634590)
+                    await logs.send(embed=timeoutEmbed)
+                elif durType == "month" or durType == "m" and duration == 1:
+                    duration = 2.419e+6
+                    await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
+                    await interaction.response.send_message(embed=timeoutEmbed)
+                    logs = self.bot.get_channel(865078390109634590)
+                    await logs.send(embed=timeoutEmbed)
+                else:
+                    embed = discord.Embed(
+                        title= "Timeouts can only be up to 1 month.",
+                        color= discord.Color.red()
+                    )
+                    await interaction.response.send_message(embed=embed)
             else:
                 embed = discord.Embed(
-                    title= "Timeouts can only be up to 1 month.",
-                    color= discord.Color.red()
-                )
+                        title= "Invalid duration.",
+                        color= discord.Color.red()
+                    )
                 await interaction.response.send_message(embed=embed)
-        else:
-            embed = discord.Embed(
-                    title= "Invalid duration.",
-                    color= discord.Color.red()
-                )
-            await interaction.response.send_message(embed=embed)
-
+        except Exception as e:
+            print(e)
 
 
     @app_commands.command(name='remove_timeout', description="A Weebs Hangout: Remove Timeout Command")
@@ -216,7 +192,7 @@ class punishments(commands.Cog):
 ######## Warn
     @app_commands.command(name='warn', description="A Weebs hangout: Warn a user with a given reason.")
     @app_commands.checks.has_any_role(trialhelper, helper, moderator, seniormoderator, seniorstaff)
-    async def warn(self, interaction: discord.Interaction, user: discord.Member, *, reason: str=None):
+    async def warn(self, interaction: discord.Interaction, user: discord.Member, reason: str=None):
         player = user.id
         staff = interaction.user.id
         reason = str(reason)

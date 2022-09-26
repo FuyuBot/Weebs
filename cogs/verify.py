@@ -1,4 +1,5 @@
 import discord
+import config
 from discord import app_commands
 from discord.ext import commands
 
@@ -45,4 +46,4 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
             await interaction.response.send_message("'/verify' and enter your discord name and tag. e.g. Name#1234", ephemeral= True)
             
 async def setup(bot):
-    await bot.add_cog(verfiy(bot), guilds=[discord.Object(id=860752406551461909)])
+    await bot.add_cog(verfiy(bot), guilds=[discord.Object(id=config.weebsHangout)])
