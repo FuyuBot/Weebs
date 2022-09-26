@@ -21,7 +21,7 @@ class logs(commands.Cog):
             embed.add_field(name='Before', value=before)
             embed.add_field(name='After', value=after)
             logsChannel = self.bot.get_channel(865073673668526080)
-            await logsChannel.send(embed=embed)
+            #await logsChannel.send(embed=embed)
         except Exception as e:
             print(e)
 

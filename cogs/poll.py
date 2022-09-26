@@ -3,7 +3,10 @@ from discord import app_commands
 from discord.ext import commands
 import config
 
-
+moderator = 860758015959498763
+seniormoderator = 860758015585812480
+seniorstaff = 865054271857885225
+managementTeam = 860758013731274762
 
 class poll(commands.Cog):
     def __int__(self, bot):
@@ -15,6 +18,7 @@ class poll(commands.Cog):
         print('LOADED: `poll.py`')
 
     @app_commands.command(name='poll', description='Start a Poll.')
+    @app_commands.checks.has_any_role(moderator,seniormoderator,seniorstaff,managementTeam)
     async def poll(self, interaction: discord.Interaction, title: str, option1: str, option2: str, option3: str=None, option4: str=None):
         user = interaction.user
         message = interaction.message

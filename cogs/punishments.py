@@ -44,10 +44,16 @@ class punishments(commands.Cog):
         reason = str(reason)
         cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
         checkDB = cursor.fetchall()
+        isStaff = str(user.top_role)
 
         if staff == player:
             await interaction.response.send_message("You cannot ban yourself.",  ephemeral=True)
             return
+        elif isStaff == "Staff Team" or isStaff == "Management Team" or isStaff == "Senior Staff" or isStaff == "*":
+                if isStaff == "Management Team" or isStaff == "*":
+                    await user.send(f"{interaction.user} tried to ban you just letting you know 🕵️‍♂️")
+                await interaction.response.send_message("That user is a staff member you can't ban them!", ephemeral=True)
+                return
         elif 926163269503299695 == player:
             await interaction.response.send_message("You cannot ban me.")
             return
@@ -110,9 +116,11 @@ class punishments(commands.Cog):
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
     async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: int, durationtype: str, reason: str=None):
         try:
+            
             staff = interaction.user.id
             originaldur = duration
             duration = int(duration)
+            
 
             durations = [
                 'minute', 'minutes', 'min',
@@ -121,7 +129,6 @@ class punishments(commands.Cog):
                 'week', 'weeks', 'w',
                 'month', 'm'
             ]
-
             durType = durationtype.lower()
             timeoutEmbed = discord.Embed(
                 title=f"{user} was put in timeout",
@@ -130,7 +137,19 @@ class punishments(commands.Cog):
             timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
             timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}.", inline= True)
             timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
-
+            player = user.id
+            isStaff = str(user.top_role)
+            if staff == player:
+                await interaction.response.send_message("You cannot timeout yourself.",  ephemeral=True)
+                return
+            elif isStaff == "Staff Team" or isStaff == "Management Team" or isStaff == "Senior Staff" or isStaff == "*":
+                if isStaff == "Management Team" or isStaff == "*":
+                    await user.send(f"{interaction.user} tried to time you out just letting you know 🕵️‍♂️")
+                await interaction.response.send_message("That user is a staff member you can't timeout them!", ephemeral=True)
+                return
+            elif 926163269503299695 == player:
+                await interaction.response.send_message("You cannot warn me.")
+                return
             if durType in durations:
                 if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
                     duration *= 60
@@ -192,15 +211,22 @@ class punishments(commands.Cog):
 ######## Warn
     @app_commands.command(name='warn', description="A Weebs hangout: Warn a user with a given reason.")
     @app_commands.checks.has_any_role(trialhelper, helper, moderator, seniormoderator, seniorstaff)
-    async def warn(self, interaction: discord.Interaction, user: discord.Member, reason: str=None):
+    async def warn(self, interaction: discord.Interaction, user: discord.Member, reason: str):
         player = user.id
         staff = interaction.user.id
         reason = str(reason)
         cursor.execute(f"SELECT player FROM warns WHERE player = {player}")
         checkDB = cursor.fetchall()
+        isStaff = str(user.top_role)
 
         if staff == player:
             await interaction.response.send_message("You cannot warn yourself.",  ephemeral=True)
+            return
+        elif isStaff == "Staff Team" or isStaff == "Management Team" or isStaff == "Senior Staff" or isStaff == "*":
+            if isStaff == "Management Team" or isStaff == "*":
+                await user.send(f"{interaction.user} tried to warn you just letting you know 🕵️‍♂️")
+            await interaction.response.send_message("That user is a staff member you can't warn them!", ephemeral=True)
+            return
         elif 926163269503299695 == player:
             await interaction.response.send_message("You cannot warn me.")
             return
@@ -230,9 +256,9 @@ class punishments(commands.Cog):
                 title="You have been warned in A Weeb's Hangout",
                 color=discord.Color.red()
             )
-            embed.add_field(name="Reason", value=f"{reason}")
-            embed.add_field(name="Time", value=f"{dt_string}")
-            embed.set_footer(text=f"Your discord ID: {player}")
+            playerEmbed.add_field(name="Reason", value=f"{reason}")
+            playerEmbed.add_field(name="Time", value=f"{dt_string}")
+            playerEmbed.set_footer(text=f"Your discord ID: {player}")
             await interaction.response.send_message(embed=embed)
             await user.send(embed=playerEmbed)
         else:

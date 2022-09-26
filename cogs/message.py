@@ -43,6 +43,7 @@ class message(commands.Cog):
                         print("Author did not match ID")
 
     @app_commands.command(name='message', description="Allows you set a message so that the bot can respond to you whenever you type.")
+    @app_commands.checks.has_any_role(895490315174178857) #Special Perms
     async def message(self, interaction: discord.Interaction, msg: str):
         cancel = ['cancel', 'stop']
         if msg not in cancel:

@@ -35,7 +35,10 @@ class acceptdeny(commands.Cog):
                 if playerRow == checkDB[0][0]:
                     cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
                     mydb.commit()
-                    acceptMSG = "Congradulations, your application has been accepted! You will be moving on to the next step in the application process.\nA member of our management team will be reaching out to you soon, so be on the lookout for further details."
+                    acceptMSG = "Congradulations, your application has been accepted! You will be moving on to the next step in the\
+                        application process.\nA member of our management team will be reaching out to you soon, so be on the lookout for further\
+                            details. In the meantime if you haven't already we ask you to please enable 2fa on your discord account.\
+                                This is needed if you wish to use our punishment commands they are required."
                     try:
                         await user.send(acceptMSG)
                         await interaction.response.send_message("Message sent.")
@@ -53,9 +56,13 @@ class acceptdeny(commands.Cog):
     ])
     async def deny(self, interaction: discord.Interaction, user: discord.Member , reason: discord.app_commands.Choice[str]):
         
-        val1 = "Unfortunately, your application has been denied.\nPer Discord's TOS, we can not accept any applications of anyone under the age of 13.\nFind more details at: https://discord.com/terms#2."
-        val2 = "Unfortunately, your application has been denied.\nWe have decided that your application doesn't meet our criteria. If you still wish to apply, try using more detail in your responses."
-        val3 = "Unfortunately, your application has been denied.\nWe have concluded that the amount of time you are able to contribute does not meet the required amount of time needed.\nIf you believe we can make a compromise, please make a ticket so we can reevaluate your application."
+        val1 = "Unfortunately, your application has been denied.\nPer Discord's TOS, we can not\
+            accept any applications of anyone under the age of 13.\nFind more details at: https://discord.com/terms#2."
+        val2 = "Unfortunately, your application has been denied.\nWe have decided that your application\
+            doesn't meet our criteria. If you still wish to apply, try using more detail in your responses."
+        val3 = "Unfortunately, your application has been denied.\nWe have concluded that the amount of\
+            time you are able to contribute does not meet the required amount of time needed.\nIf you\
+                believe we can make a compromise, please make a ticket so we can reevaluate your application."
             
         cursor.execute(f"SELECT id FROM applicants WHERE id = {user.id}")
         checkDB = cursor.fetchall()
