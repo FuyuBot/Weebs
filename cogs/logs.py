@@ -18,7 +18,7 @@ class logs(commands.Cog):
             embed = discord.Embed(color=0x2699C6)
             embed.set_author(name=message.author, icon_url=message.author.avatar)
             embed.add_field(name=f'Messaged Deleted in #{message.channel.name}', value=message.content)
-            embed.set_footer(text=f"User's ID: {message.author.id}")
+            embed.set_footer(text=f"User's ID: {message.author.id} {message.created_at}")
             logsChannel = self.bot.get_channel(865073643553423360)
             await logsChannel.send(embed=embed)
         except Exception as e:
@@ -27,10 +27,8 @@ class logs(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         try:
-            embed = discord.Embed(title=f'Messaged Edited in #{before.channel.name}',color=0x2699C6)
+            embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=0x2699C6, description=f"**Before:** {before.content}\n**+After:** {after.content}")
             embed.set_author(name=before.author, icon_url=before.author.avatar)
-            embed.add_field(name=f'Before', value=before.content)
-            embed.add_field(name=f'After', value=after.content)
             embed.set_footer(text=f"User's ID: {before.author.id}")
             logsChannel = self.bot.get_channel(865073643553423360)
             await logsChannel.send(embed=embed)
