@@ -508,7 +508,7 @@ class logs(commands.Cog):
             print(e)
 
 async def setup(bot):
-    await bot.add_cog(logs(bot))
+    await bot.add_cog(logs(bot), guilds=[discord.Object(id=860752406551461909)])
 
 
 #@commands.Cog.listener()

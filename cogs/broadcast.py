@@ -18,6 +18,7 @@ class broadcast(commands.Cog):
         sendChannel = interaction.client.get_channel(channel.id)
         embed = discord.Embed(
             title=f'{title}',
+            color=0x2699C6,
             description=f'{msg}'
         )
         await sendChannel.send(embed=embed)
