@@ -28,6 +28,7 @@ class animals(commands.Cog):
         )
         embed.set_image(url=catPicture)
         embed.set_footer(text=config.footer)
+        print(interaction.user.get_role(860758013731274762))
         await interaction.response.send_message(f"{interaction.user.mention} here is your cat picture.", embed=embed)
 
     @app_commands.command(name='dog', description="Send a random picture of a dog.")
