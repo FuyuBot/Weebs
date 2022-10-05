@@ -35,9 +35,9 @@ class economy(commands.Cog):
         userDB = cursor.fetchone()
         if userDB is None:
             cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({user.id}, 0, 0)")
+            mydb.commit()
         else: return
-        mydb.commit()
-    
+        
     @app_commands.command(name='balance', description="Check your balance.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
     async def balance(self, interaction: discord.Interaction , member: discord.Member=None):
@@ -78,7 +78,7 @@ class economy(commands.Cog):
                     embed=discord.Embed(title="Your bank balance", color=0x2699C6)
                     embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                     embed.add_field(name="Wallet Balance:", value=f"{wallet}", inline=True)
-                    embed.add_field(name="Bank Ballance", value=f"{bank}")
+                    embed.add_field(name="Bank Ballance:", value=f"{bank}")
 
                     await interaction.response.send_message(embed=embed)
 
@@ -104,7 +104,7 @@ class economy(commands.Cog):
                         embed=discord.Embed(title=f"{member.name}'s bank balance", color=0x2699C6)
                         embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                         embed.add_field(name="Wallet Balance:", value=f"{wallet}", inline=True)
-                        embed.add_field(name="Bank Ballance", value=f"{bank}")
+                        embed.add_field(name="Bank Ballance:", value=f"{bank}")
 
                         await interaction.response.send_message(embed=embed)
                     else:
@@ -124,12 +124,13 @@ class economy(commands.Cog):
                         embed=discord.Embed(title=f"{member.name}'s bank balance", color=0x2699C6)
                         embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                         embed.add_field(name="Wallet Balance:", value=f"{wallet}", inline=True)
-                        embed.add_field(name="Bank Ballance", value=f"{bank}")
+                        embed.add_field(name="Bank Ballance:", value=f"{bank}")
 
                         await interaction.response.send_message(embed=embed)
         except Exception as e:
             print(e)
-    @app_commands.command(name='work', description="Check your balance.")
+
+    @app_commands.command(name='work', description="Earn money by working.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
     async def work(self, interaction: discord.Interaction):
         earnings = random.randint(1, 5)
@@ -140,31 +141,31 @@ class economy(commands.Cog):
             mydb.commit()
             cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
             wallet = cursor.fetchone()
-            cursor.execute(f"UPDATE economy SET wallet {earnings + wallet} WHERE id = {interaction.user.id}")
+            amount = earnings + int(wallet[0])
+            cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {interaction.user.id}")
 
             try:
                 wallet = wallet[0]
             except:
                 wallet = 0
             
-            embed=discord.Embed(title=f"You earned ${earnings} from working!", color=0x2699C6)
+            embed=discord.Embed(description=f"You earned ${earnings} from working!", color=0x2699C6)
             embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
 
             await interaction.response.send_message(embed=embed)
         else:
             try:
-                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({interaction.user.id}, 0, 0)")
-                mydb.commit()
                 cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
                 wallet = cursor.fetchone()
-                cursor.execute(f"UPDATE economy SET wallet {earnings + wallet} WHERE id = {interaction.user.id}")
+                amount = earnings + int(wallet[0])
+                cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {interaction.user.id}")
 
                 try:
                     wallet = wallet[0]
                 except:
                     wallet = 0
                 
-                embed=discord.Embed(title=f"You earned ${earnings} from working!", color=0x2699C6)
+                embed=discord.Embed(description=f"You earned ${earnings} from working!", color=0x2699C6)
                 embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
 
                 await interaction.response.send_message(embed=embed)
