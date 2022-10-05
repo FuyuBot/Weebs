@@ -86,17 +86,16 @@ class leveling(commands.Cog):
                     xp += random.uniform(1, 3)
                     cursor.execute(f"UPDATE levels SET xp = {xp:,.2f} WHERE player = {player}")
             
-
-            maxXP = 100
-            if xp >= maxXP:
+            if xp >= 100:
                 level += 1
                 xp = 0
                 cursor.execute(f"UPDATE levels SET level = {level} WHERE player = {player}")
-                cursor.execute(f"UPDATE levels SET xp = {xp:,.2f} WHERE player = {player}")
+                cursor.execute(f"UPDATE levels SET xp = {xp} WHERE player = {player}")
                 await message.channel.send(f'<@{player}> has leveled up to level **{level}**!')
 
-            for xxp in range(level):
-                maxXP *= 1.5
+            
+
+            
             
             mydb.commit()
 
