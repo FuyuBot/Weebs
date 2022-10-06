@@ -89,6 +89,11 @@ class leveling(commands.Cog):
             if xp >= 100:
                 level += 1
                 xp = 0
+                cursor.execute(f"SELECT wallet FROM economy WHERE id = {message.user.id}")
+                wallet = cursor.fetchone()
+                earnings = 10
+                amount = earnings + int(wallet[0])
+                cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {message.user.id}")
                 cursor.execute(f"UPDATE levels SET level = {level} WHERE player = {player}")
                 cursor.execute(f"UPDATE levels SET xp = {xp} WHERE player = {player}")
                 await message.channel.send(f'<@{player}> has leveled up to level **{level}**!')

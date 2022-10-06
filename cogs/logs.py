@@ -214,7 +214,6 @@ class logs(commands.Cog):
         try:
             embed=discord.Embed(title="Role created", color=0x2699C6, description=f"Name: {role.name}")
             embed.set_thumbnail(url=hexIMAGE)
-            embed.set_author(name=self.bot, icon_url=self.bot.avatar)
             embed.set_footer(text=f"Role ID: {role.id} | Created at: {role.created_at}")
             if role.hoist == True:
                 embed.add_field(name="Hoisted?", value="✅")

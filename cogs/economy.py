@@ -26,18 +26,6 @@ class economy(commands.Cog):
     async def on_ready(self):
         print("LOADED: `economy.py`")
     
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.author.bot: return
-        
-        user = message.author
-        cursor.execute(f"SELECT id FROM economy WHERE id = {user.id}")
-        userDB = cursor.fetchone()
-        if userDB is None:
-            cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({user.id}, 0, 0)")
-            mydb.commit()
-        else: return
-        
     @app_commands.command(name='balance', description="Check your balance.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
     async def balance(self, interaction: discord.Interaction , member: discord.Member=None):
@@ -133,28 +121,13 @@ class economy(commands.Cog):
     @app_commands.command(name='work', description="Earn money by working.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
     async def work(self, interaction: discord.Interaction):
-        earnings = random.randint(1, 5)
-        cursor.execute(f"SELECT id FROM economy WHERE id = {interaction.user.id}")
-        userDB = cursor.fetchone()
-        if userDB is None:
-            cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({interaction.user.id}, 0, 0)")
-            mydb.commit()
-            cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
-            wallet = cursor.fetchone()
-            amount = earnings + int(wallet[0])
-            cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {interaction.user.id}")
-
-            try:
-                wallet = wallet[0]
-            except:
-                wallet = 0
-            
-            embed=discord.Embed(description=f"You earned ${earnings} from working!", color=0x2699C6)
-            embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
-
-            await interaction.response.send_message(embed=embed)
-        else:
-            try:
+        try:
+            earnings = random.randint(1, 5)
+            cursor.execute(f"SELECT id FROM economy WHERE id = {interaction.user.id}")
+            userDB = cursor.fetchone()
+            if userDB is None:
+                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({interaction.user.id}, 0, 0)")
+                mydb.commit()
                 cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
                 wallet = cursor.fetchone()
                 amount = earnings + int(wallet[0])
@@ -169,10 +142,188 @@ class economy(commands.Cog):
                 embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
 
                 await interaction.response.send_message(embed=embed)
-            except Exception as e:
-                print(e)
+            else:
+                try:
+                    cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
+                    wallet = cursor.fetchone()
+                    amount = earnings + int(wallet[0])
+                    cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {interaction.user.id}")
+                    mydb.commit()
+                    try:
+                        wallet = wallet[0]
+                    except:
+                        wallet = 0
+                    
+                    embed=discord.Embed(description=f"You earned ${earnings} from working!", color=0x2699C6)
+                    embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
 
-        mydb.commit()
+                    await interaction.response.send_message(embed=embed)
+                except Exception as e:
+                    print(e)
+        except Exception as e:
+            print(e)
+
+    @app_commands.command(name="deposit", description="Deposit money into your bank account.")
+    @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
+    async def deposit(self, interaction: discord.Interaction, amount: int):
+        try:
+            cursor.execute(f"SELECT * FROM economy WHERE ID = {interaction.user.id}")
+            data = cursor.fetchone()
+            if data is None:
+                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({interaction.user.id}, 0, 0)")
+                mydb.commit()
+                return await interaction.response.send_message("Your account has just been created. You have no money to deposit.", ephemeral=True)
+                
+            else:
+                try:
+                    wallet = int(data[1])
+                    bank = int(data[2])
+                except Exception as e:
+                    await interaction.response.send_message("There was an error.")
+                    print(e)
+                
+                if wallet == 0:
+                    return await interaction.response.send_message("You don't have any money to transfer over.", ephemeral=True)
+                elif amount == 0:
+                    return await interaction.response.send_message("You can't transfer $0.", ephemeral=True)
+                elif wallet < amount:
+                    return await interaction.response.send_message("That number is larger then the amount of money you have in your wallet.", ephemeral=True)
+                else:
+                    bankAmount = bank + amount
+                    walletAmount = wallet - amount
+                    cursor.execute(f"UPDATE economy SET bank = {bankAmount} WHERE id = {interaction.user.id}")
+                    cursor.execute(f"UPDATE economy SET wallet = {walletAmount} WHERE id = {interaction.user.id}")
+                    mydb.commit()
+                    await interaction.response.send_message(f"You have deposited ${amount} into your bank.")
+                    
+        except Exception as e:
+            print(e)
+    
+    @app_commands.command(name="withdraw", description="Withdraw money from your bank account.")
+    @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
+    async def withdraw(self, interaction: discord.Interaction, amount: int):
+        cursor.execute(f"SELECT * FROM economy WHERE ID = {interaction.user.id}")
+        data = cursor.fetchone()
+        if data is None:
+            cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({interaction.user.id}, 0, 0)")
+            mydb.commit()
+            return await interaction.response.send_message("Your account has just been created. You have no money to withdraw.", ephemeral=True)
+            
+        else:
+            try:
+                wallet = int(data[1])
+                bank = int(data[2])
+            except Exception as e:
+                await interaction.response.send_message("There was an error.")
+                print(e)
+            
+            if bank == 0:
+                return await interaction.response.send_message("You don't have any money to transfer over.", ephemeral=True)
+            elif amount == 0:
+                return await interaction.response.send_message("You can't transfer $0.", ephemeral=True)
+            elif bank < amount:
+                return await interaction.response.send_message("That number is larger then the amount of money you have in your bank.", ephemeral=True)
+            else:
+                bankAmount = bank - amount
+                walletAmount = wallet + amount
+                cursor.execute(f"UPDATE economy SET bank = {bankAmount} WHERE id = {interaction.user.id}")
+                cursor.execute(f"UPDATE economy SET wallet = {walletAmount} WHERE id = {interaction.user.id}")
+                await interaction.response.send_message(f"You have withdrawn ${amount} from your bank.")
+                mydb.commit()
+
+    @app_commands.command(name="add-money", description="Adds money to a user.")
+    @app_commands.checks.has_role(managementTeam)
+    async def addMoney(self, interaction: discord.Interaction, member: discord.Member, amount: int):
+        try:
+            cursor.execute(f"SELECT * FROM economy WHERE id = {member.id}")
+            userDB = cursor.fetchone()
+            if userDB is None:
+                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({member.id}, 0, 0)")
+                mydb.commit()
+                return await interaction.response.send_message(f"{member} did not have an account before, creating one now.")
+            else:
+                addAmount = int(userDB[1]) + amount
+                cursor.execute(f"UPDATE economy SET wallet = {addAmount} WHERE id = {member.id}")
+                mydb.commit()
+
+                await interaction.response.send_message(f"Added ${amount} to {member.name}'s wallet.")
+        except Exception as e:
+            print(e)
+    
+    @app_commands.command(name="remove-money", description="Adds money to a user.")
+    @app_commands.checks.has_role(managementTeam)
+    @app_commands.describe(where='Which account?')
+    @app_commands.choices(where=[
+        discord.app_commands.Choice(name= 'Wallet', value=""),
+        discord.app_commands.Choice(name= 'Bank', value=""),
+        discord.app_commands.Choice(name= 'All', value="")
+    ])
+    async def removeMoney(self, interaction: discord.Interaction, member: discord.Member, where: discord.app_commands.Choice[str], amount: int=None):
+        try:
+            cursor.execute(f"SELECT * FROM economy WHERE id = {member.id}")
+            userDB = cursor.fetchone()
+            print(where.name)
+            if userDB is None:
+                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({member.id}, 0, 0)")
+                mydb.commit()
+                return await interaction.response.send_message(f"{member} did not have an account before, creating one now.")
+            else:
+                if amount == 0:
+                    return await interaction.response.send_message("You can't remove nothing.")
+                if where.name != "All" and amount == None:
+                    return await interaction.response.send_message("Please put in an amount.")
+                if where.name == "Wallet":
+                    removeAmount = int(userDB[1]) - amount
+                    cursor.execute(f"UPDATE economy SET wallet = {removeAmount} WHERE id = {member.id}")
+                    mydb.commit()
+                    await interaction.response.send_message(f"Removed ${amount} from {member.name}'s wallet.")
+                elif where.name == "Bank":
+                    removeAmount = int(userDB[2]) - amount
+                    cursor.execute(f"UPDATE economy SET wallet = {removeAmount} WHERE id = {member.id}")
+                    mydb.commit()
+                    await interaction.response.send_message(f"Removed ${amount} from {member.name}'s bank.")
+                elif where.name == "All":
+                    cursor.execute(f"UPDATE economy SET wallet = 0 WHERE id = {member.id}")
+                    cursor.execute(f"UPDATE economy SET bank = 0 WHERE id = {member.id}")
+                    await interaction.response.send_message(f"Removed all money from {member.name}.")
+                else:
+                    return await interaction.response.send_message("That was not one of the options.")
+        except Exception as e:
+            print(e)
+    
+    @app_commands.command(name="pay", description="Pay some money to another user")
+    @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
+    async def pay(self, interaction: discord.Interaction, member: discord.Member, amount: int):
+        try:
+            cursor.execute(f"SELECT * FROM economy WHERE id = {interaction.user.id}")
+            userMoney = cursor.fetchone()
+            cursor.execute(f"SELECT * FROM economy WHERE id = {member.id}")
+            memberMoney = cursor.fetchone()
+            if userMoney is None:
+                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({interaction.user.id}, 0, 0)")
+                mydb.commit()
+                return await interaction.response.send_message("Your account has just been created. You have no money to pay.", ephemeral=True)
+            elif memberMoney is None:
+                cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({member.id}, 0, 0)")
+                mydb.commit()
+                return await interaction.response.send_message(f"{member} did not have an account before, creating one now.")
+            else:
+                userWallet = int(userMoney[1])
+                memberWallet = int(memberMoney[1])
+                if userWallet == 0:
+                    return await interaction.response.send_message("You have no money in your wallet to send over.")
+                elif userWallet < amount:
+                    return await interaction.response.send_message("You don't have that amount of money.")
+                else:
+                    removeAmount = userWallet - amount
+                    addAmount = memberWallet + amount
+                    cursor.execute(f"UPDATE economy SET wallet = {removeAmount} WHERE id = {interaction.user.id}")
+                    cursor.execute(f"UPDATE economy SET wallet = {addAmount} WHERE id = {member.id}")
+                    return await interaction.response.send_message(f"You have payed {member.mention} ${amount}.")
+
+
+        except Exception as e:
+            print(e)
 
 async def setup(bot):
     await bot.add_cog(economy(bot), guilds=[discord.Object(id=860752406551461909)])
