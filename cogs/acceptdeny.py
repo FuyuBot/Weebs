@@ -50,9 +50,9 @@ class acceptdeny(commands.Cog):
     @app_commands.checks.has_any_role("Staff Manager", "Management Team")
     @app_commands.describe(reason='What is the reason for denial?')
     @app_commands.choices(reason=[
-        discord.app_commands.Choice(name= 'Under aged.', value=""),
-        discord.app_commands.Choice(name= 'Not enough detail.', value=""),
-        discord.app_commands.Choice(name= 'Not enough time.', value="")
+        discord.app_commands.Choice(name= 'Under aged.', value="under_aged"),
+        discord.app_commands.Choice(name= 'Not enough detail.', value="not_detailed"),
+        discord.app_commands.Choice(name= 'Not enough time.', value="no_time")
     ])
     async def deny(self, interaction: discord.Interaction, user: discord.Member , reason: discord.app_commands.Choice[str]):
         
@@ -76,7 +76,7 @@ class acceptdeny(commands.Cog):
                     cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
                     mydb.commit()
 
-                    if reason.name == "Under aged.":
+                    if reason.value == "under_age":
                         try:
                             await user.send(val1)
                             await interaction.response.send_message("Denial message `Under aged` sent.")
@@ -84,7 +84,7 @@ class acceptdeny(commands.Cog):
                             print(e)
                             await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
 
-                    elif reason.name == "Not enough detail.":
+                    elif reason.value == "not_detailed":
                         try:
                             await user.send(val2)
                             await interaction.response.send_message("Denial message `Not enough detail` sent.")
@@ -92,7 +92,7 @@ class acceptdeny(commands.Cog):
                             print(e)
                             await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
 
-                    elif reason.name == "Not enough time.":
+                    elif reason.value == "no_time":
                         try:
                             await user.send(val3)
                             await interaction.response.send_message("Denial message `Not enough time` sent.")
