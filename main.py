@@ -1,7 +1,6 @@
 import discord
 import asyncio
 import config
-from cogs.rng import rng
 from discord.ext import commands
 from discord import app_commands
 import os
