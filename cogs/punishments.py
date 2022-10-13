@@ -110,7 +110,35 @@ class punishments(commands.Cog):
                     logs = self.bot.get_channel(865078390109634590)
                     await logs.send(embed=embed)
 
-
+######## Unban
+    @app_commands.command(name='unban', description="Unbans the player specified.")
+    @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
+    async def unban(self, interaction: discord.Interaction, user: discord.Member):
+        player = user.id
+        cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
+        checkDB = cursor.fetchall()
+        if checkDB is None:
+            await interaction.response.send_message("Nobody has been banned yet.") #Message if no one has been banned yet.
+        else:
+            cursor.execute(f"SELECT id FROM bans WHERE id = {player}")
+            x = cursor.fetchone()
+            try:
+                p = x[0]
+            except:
+                print("Did not work.")
+            if p is None:
+                await interaction.response.send_message(f"<@{player}> is not banned.") #Nessage if the specified user is not banned.
+            else:
+                cursor.execute(f"DELETE FROM bans WHERE player = {player}")
+                mydb.commit()
+                embed = discord.Embed(
+                    title=f'{user} was unbanned.',
+                    color=discord.Color.green()
+                )
+                await interaction.response.send_message(embed=embed)
+                #await interaction.guild.unban(user)
+                logs = self.bot.get_channel(865078390109634590)
+                await logs.send(embed=embed)
 ######## TimeOut
     @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
@@ -121,7 +149,6 @@ class punishments(commands.Cog):
             originaldur = duration
             duration = int(duration)
             
-
             durations = [
                 'minute', 'minutes', 'min',
                 'hour', 'hours', 'h',
@@ -148,7 +175,7 @@ class punishments(commands.Cog):
                 await interaction.response.send_message("That user is a staff member you can't timeout them!", ephemeral=True)
                 return
             elif 926163269503299695 == player:
-                await interaction.response.send_message("You cannot warn me.")
+                await interaction.response.send_message("You cannot put me in timeout.")
                 return
             if durType in durations:
                 if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
