@@ -1,9 +1,8 @@
-- Tickets
+- Tickets ✔️
 - this anime season command
-- dadjokes #https://dadjokes.io, https://rapidapi.com/KegenGuyll/api/dad-jokes
-- space things
-- game states
+- dadjokes #https://dadjokes.io, https://rapidapi.com/KegenGuyll/api/dad-jokes ✔️
 - animegirl gif command
-- event logs
+- event logs ✔️
 
-- remake staff help commands
+- custom help command
+- remake staff help commands ✔️

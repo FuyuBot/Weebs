@@ -11,3 +11,6 @@ host='na01-sql.pebblehost.com'
 user='customer_249998_fuyu'
 password='YyZdusOTR8sOw8fk0@ks'
 db='customer_249998_fuyu'
+
+
+color=0x2699C6

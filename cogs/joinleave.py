@@ -1,7 +1,5 @@
 import discord
-from discord import app_commands
 from discord.ext import commands
-from discord.utils import get
 
 
 class joinleave(commands.Cog):
@@ -19,6 +17,7 @@ class joinleave(commands.Cog):
             title=f'{member} joined the server',
             color=discord.Color.green()
         )
+        logsEmbed.set_footer(text=f"ID: {member.id}")
         unverified = discord.utils.get(member.guild.roles, name="unverified")
         await member.add_roles(unverified)
         await logsChannel.send(embed=logsEmbed)
@@ -30,6 +29,7 @@ class joinleave(commands.Cog):
             title=f'{member} has left the server.',
             color=discord.Color.green()
         )
+        embed.set_footer(text=f"ID: {member.id}")
         await logsChannel.send(embed=embed)
 
 
