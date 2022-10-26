@@ -249,14 +249,14 @@ class economy(commands.Cog):
                 await interaction.response.send_message(f"Added ${amount} to {member.name}'s wallet.")
         except Exception as e:
             print(e)
-    
+            
     @app_commands.command(name="remove-money", description="Adds money to a user.")
     @app_commands.checks.has_role(managementTeam)
     @app_commands.describe(where='Which account?')
     @app_commands.choices(where=[
-        discord.app_commands.Choice(name= 'Wallet', value=""),
-        discord.app_commands.Choice(name= 'Bank', value=""),
-        discord.app_commands.Choice(name= 'All', value="")
+        discord.app_commands.Choice(name= 'Wallet', value="1"),
+        discord.app_commands.Choice(name= 'Bank', value="2"),
+        discord.app_commands.Choice(name= 'All', value="3")
     ])
     async def removeMoney(self, interaction: discord.Interaction, member: discord.Member, where: discord.app_commands.Choice[str], amount: int=None):
         try:
@@ -320,10 +320,24 @@ class economy(commands.Cog):
                     cursor.execute(f"UPDATE economy SET wallet = {removeAmount} WHERE id = {interaction.user.id}")
                     cursor.execute(f"UPDATE economy SET wallet = {addAmount} WHERE id = {member.id}")
                     return await interaction.response.send_message(f"You have payed {member.mention} ${amount}.")
-
-
         except Exception as e:
             print(e)
-
+    
+    @app_commands.command(name="steal", description="Attempt to steal money from someone!")
+    @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
+    async def steal(self, interaction: discord.Interaction, user: discord.Member):
+        try:
+            ranNum = random.randint(1,5)
+            print(ranNum)
+            if ranNum == 1:
+                return await interaction.response.send_message("The attempt was successful!")
+            else:
+                return await interaction.response.send_message("The attempted to steal money failed.")
+        except Exception as e:
+            print(e)
+    @steal.error
+    async def on_steal_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            return await interaction.response.send_message(str(error))
 async def setup(bot):
     await bot.add_cog(economy(bot), guilds=[discord.Object(id=860752406551461909)])
