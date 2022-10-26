@@ -213,13 +213,13 @@ class punishments(commands.Cog):
                         title= "Timeouts can only be up to 1 month.",
                         color= discord.Color.red()
                     )
-                    await interaction.response.send_message(embed=embed)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             else:
                 embed = discord.Embed(
                         title= "Invalid duration.",
                         color= discord.Color.red()
                     )
-                await interaction.response.send_message(embed=embed)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
         except Exception as e:
             print(e)
 
