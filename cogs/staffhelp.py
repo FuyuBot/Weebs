@@ -286,6 +286,28 @@ class staffhelp(commands.Cog):
         await interaction.user.send(embed=manageThreads)
         await interaction.user.send(embed=exampleEmbed)
     
+#Manager & Management Commands and Permissions
+# warn
+# timeout
+# ban
+# close
+# polls
+# manage roles
+# view audit log
+# manage events
+# mention everyone
+# view and respond to all tickets
+# delete messages from other members
+# manage nicknames
+# manage threads
+# economy: add money
+# economy: remove money
+# apps: accept
+# apps: deny
+# broadcast
+# use all other help commands
+# information * THIS IS ONLY USED TO UPDATE INFORMATION
+
     @app_commands.command(name='manager-help', description='Sends how to use all of the commands and permissions given to Managers.')
     @app_commands.checks.has_any_role(managementTeam)
     async def managerhelp(self, interaction: discord.Interaction):

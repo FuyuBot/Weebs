@@ -325,12 +325,17 @@ class economy(commands.Cog):
     
     @app_commands.command(name="steal", description="Attempt to steal money from someone!")
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
-    async def steal(self, interaction: discord.Interaction, user: discord.Member):
+    async def steal(self, interaction: discord.Interaction, member: discord.Member):
         try:
             ranNum = random.randint(1,5)
             print(ranNum)
             if ranNum == 1:
-                return await interaction.response.send_message("The attempt was successful!")
+                cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
+                authorMoney = cursor.fetchone()
+                cursor.execute(f"SELECT wallet FROM economy WHERE id = {member.id}")
+                memberMoney = cursor.fetchone()
+                if memberMoney is None:
+                    return await interaction.response.send_message(f"Unfortunately, {member.mention} did not have any money on them to steal.")
             else:
                 return await interaction.response.send_message("The attempted to steal money failed.")
         except Exception as e:
