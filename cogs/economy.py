@@ -323,7 +323,7 @@ class economy(commands.Cog):
         except Exception as e:
             print(e)
     
-    @app_commands.command(name="steal", description="Attempt to steal money from someone!")
+    @app_commands.command(name="rob", description="Attempt to steal money from someone!")
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def steal(self, interaction: discord.Interaction, member: discord.Member):
         try:
