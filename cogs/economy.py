@@ -5,6 +5,7 @@ from discord.ext import commands
 import random
 import mysql.connector
 from config import host, user, password, db
+import math
 
 seniorstaff = 865054271857885225
 managementTeam = 860758013731274762
@@ -240,7 +241,8 @@ class economy(commands.Cog):
             if userDB is None:
                 cursor.execute(f"INSERT INTO economy (id, wallet, bank) VALUES ({member.id}, 0, 0)")
                 mydb.commit()
-                return await interaction.response.send_message(f"{member} did not have an account before, creating one now.")
+                mydb.reconnect()
+                await interaction.response.send_message(f"{member} did not have an account before, creating one now. Please input the command again.", ephemeral=True)
             else:
                 addAmount = int(userDB[1]) + amount
                 cursor.execute(f"UPDATE economy SET wallet = {addAmount} WHERE id = {member.id}")
@@ -285,6 +287,7 @@ class economy(commands.Cog):
                 elif where.name == "All":
                     cursor.execute(f"UPDATE economy SET wallet = 0 WHERE id = {member.id}")
                     cursor.execute(f"UPDATE economy SET bank = 0 WHERE id = {member.id}")
+                    mydb.commit()
                     await interaction.response.send_message(f"Removed all money from {member.name}.")
                 else:
                     return await interaction.response.send_message("That was not one of the options.")
@@ -319,25 +322,42 @@ class economy(commands.Cog):
                     addAmount = memberWallet + amount
                     cursor.execute(f"UPDATE economy SET wallet = {removeAmount} WHERE id = {interaction.user.id}")
                     cursor.execute(f"UPDATE economy SET wallet = {addAmount} WHERE id = {member.id}")
+                    mydb.commit()
                     return await interaction.response.send_message(f"You have payed {member.mention} ${amount}.")
         except Exception as e:
             print(e)
     
     @app_commands.command(name="steal", description="Attempt to steal money from someone!")
+    @app_commands.checks.has_any_role(managementTeam)
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def steal(self, interaction: discord.Interaction, member: discord.Member):
         try:
-            ranNum = random.randint(1,5)
-            print(ranNum)
-            if ranNum == 1:
-                cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
-                authorMoney = cursor.fetchone()
-                cursor.execute(f"SELECT wallet FROM economy WHERE id = {member.id}")
-                memberMoney = cursor.fetchone()
-                if memberMoney is None:
-                    return await interaction.response.send_message(f"Unfortunately, {member.mention} did not have any money on them to steal.")
+            if member.id == interaction.user.id:
+                return await interaction.response.send_message(f"You can not steal from yourself.")
+            elif member.id == 926163269503299695:
+                return await interaction.response.send_message(f"You can not steal from me!")
             else:
-                return await interaction.response.send_message("The attempted to steal money failed.")
+                ranNum = random.randint(1,2)
+                if ranNum == 1:
+                    cursor.execute(f"SELECT wallet FROM economy WHERE id = {interaction.user.id}")
+                    authorMoney = cursor.fetchone()
+                    cursor.execute(f"SELECT wallet FROM economy WHERE id = {member.id}")
+                    memberMoney = cursor.fetchone()
+                    if memberMoney is None:
+                        return await interaction.response.send_message(f"Unfortunately, {member.mention} did not have any money on them to steal.")
+                    else:
+                        wallet = int(memberMoney[0]) #Getting the wallet balance from the user and making it an int.
+                        authorWallet = int(authorMoney[0]) #Getting the wallet balance from the author.
+                        stealPercent = round(random.uniform(0,1), 2)#Getting a percentage of what to get from the user.
+                        stealAmount = wallet*stealPercent#Getting the amount being stolen from the user.
+                        newBalance = wallet - stealAmount
+                        authorNewBalance = authorWallet + stealAmount
+                        cursor.execute(f"UPDATE economy SET wallet = {newBalance:,.2f} WHERE id = {member.id}")
+                        cursor.execute(f"UPDATE economy SET wallet = {authorNewBalance:,.2f} WHERE id = {interaction.user.id}")
+                        mydb.commit()
+                        return await interaction.response.send_message(f"<@{interaction.user.id}>, you have stolen ${stealAmount:,.2f} from <@{member.id}>.")
+                else:
+                    return await interaction.response.send_message("The attempt to steal money failed.")
         except Exception as e:
             print(e)
     @steal.error
