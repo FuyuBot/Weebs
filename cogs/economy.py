@@ -348,12 +348,12 @@ class economy(commands.Cog):
                     else:
                         wallet = int(memberMoney[0]) #Getting the wallet balance from the user and making it an int.
                         authorWallet = int(authorMoney[0]) #Getting the wallet balance from the author.
-                        stealPercent = round(random.uniform(0,1), 2)#Getting a percentage of what to get from the user.
+                        stealPercent = round(random.uniform(0,0.5), 2)#Getting a percentage of what to get from the user.
                         stealAmount = wallet*stealPercent#Getting the amount being stolen from the user.
-                        newBalance = wallet - stealAmount
-                        authorNewBalance = authorWallet + stealAmount
-                        cursor.execute(f"UPDATE economy SET wallet = {newBalance:,.2f} WHERE id = {member.id}")
-                        cursor.execute(f"UPDATE economy SET wallet = {authorNewBalance:,.2f} WHERE id = {interaction.user.id}")
+                        newBalance = round(wallet - stealAmount, 2)
+                        authorNewBalance = round(authorWallet + stealAmount, 2)
+                        cursor.execute(f"UPDATE economy SET wallet = {newBalance} WHERE id = {member.id}")
+                        cursor.execute(f"UPDATE economy SET wallet = {authorNewBalance} WHERE id = {interaction.user.id}")
                         mydb.commit()
                         return await interaction.response.send_message(f"<@{interaction.user.id}>, you have stolen ${stealAmount:,.2f} from <@{member.id}>.")
                 else:

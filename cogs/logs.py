@@ -28,6 +28,8 @@ class logs(commands.Cog):
 # edit
     @commands.Cog.listener()
     async def on_message_delete(self, message):
+        if self.bot.guild.id != 860752406551461909:
+            return 
         try:
             embed = discord.Embed(color=0x2699C6)
             embed.set_author(name=message.author, icon_url=message.author.avatar)
@@ -40,6 +42,8 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_bulk_message_delete(self, messages):
+        if self.bot.guild.id != 860752406551461909:
+            return
         try:
             for msg in messages:
                 embed = discord.Embed(color=0x2699C6)
@@ -53,6 +57,8 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
+        if self.bot.guild.id != 860752406551461909:
+            return
         try:
             embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=0x2699C6, description=f"**Before:** {before.content}\n**+After:** {after.content}")
             embed.set_author(name=before.author, icon_url=before.author.avatar)
@@ -61,6 +67,8 @@ class logs(commands.Cog):
             await messageLogsChannel.send(embed=embed)
         except Exception as e:
             print(e)
+
+'''
 ################################
 ######## CHANNEL EVENTS ########
 ################################
@@ -505,7 +513,7 @@ class logs(commands.Cog):
             embed.set_footer(text=f"User ID: {rule.creator_id}")
         except Exception as e:
             print(e)
-
+'''
 async def setup(bot):
     await bot.add_cog(logs(bot), guilds=[discord.Object(id=860752406551461909)])
 
