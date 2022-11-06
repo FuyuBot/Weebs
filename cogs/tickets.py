@@ -96,11 +96,11 @@ class SelectMenu(discord.ui.Select):
                 
             elif self.values[0] == "Report":
                 channelReason = await interaction.guild.create_text_channel(name=f"report-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesReport, reason=f"Report ticket for {interaction.user}", category= reportCategory)
-                await channelReason.send(f"<@${staffTeam}<@${seniorstaff}>,\n{interaction.user.mention} has created a ticket.\n\nWhat would you like to report?")
+                await channelReason.send(f"<@&{staffTeam}<@&{seniorstaff}>,\n{interaction.user.mention} has created a ticket.\n\nWhat would you like to report?")
                 await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
             elif self.values[0] == "Ticket":
                 channelOther = await interaction.guild.create_text_channel(name=f"ticket-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesOther, reason=f"Ticket for {interaction.user}", category= category)
-                await channelOther.send(f"<@${staffTeam}>,\n{interaction.user.mention} has created a ticket.\n\nHow can we help you today?")
+                await channelOther.send(f"<@&{staffTeam}>,\n{interaction.user.mention} has created a ticket.\n\nHow can we help you today?")
                 await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
 
 class SelectView(discord.ui.View):

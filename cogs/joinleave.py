@@ -18,6 +18,7 @@ class joinleave(commands.Cog):
             color=discord.Color.green()
         )
         logsEmbed.set_footer(text=f"ID: {member.id}")
+        logsEmbed.set_footer(text=f"ID: {member.id}")
         unverified = discord.utils.get(member.guild.roles, name="unverified")
         await member.add_roles(unverified)
         await logsChannel.send(embed=logsEmbed)
@@ -29,6 +30,7 @@ class joinleave(commands.Cog):
             title=f'{member} has left the server.',
             color=discord.Color.green()
         )
+        embed.set_footer(text=f"ID: {member.id}")
         embed.set_footer(text=f"ID: {member.id}")
         await logsChannel.send(embed=embed)
 

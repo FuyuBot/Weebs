@@ -43,9 +43,38 @@ class weebs(commands.Cog):
             <@&1034276484556275742> - 1,000,000+ Messages\n\
             <@&1034276120876548126> - 500,000 Messages\n\
             <@&865430631944290334> - 100,00 Messages\n\
-            <@&865722681139527681> - 50,000 Messages\n\
-            <@&865727060172603433> - 10,000 Messages\n")
-        genshinEmbed = discord.Embed(color=config.color, description="Our roles related to Genshin Impact:\n\
+            <@&865727060172603433> - 50,000 Messages\n\
+            <@&865727060861386792> - 10,000 Messages\n")
+        faqEmbed = discord.Embed(color=config.color, description="Frequently asked Questions:\
+            Q: How can I apply to become a staff member?\n\
+            A: `/apply` in any channel.\n\n\
+            Q: Who can see my application?\n\
+            A: Only members of the Management Team.\n\n\
+            Q: How can I get more roles on the server?\n\
+            A: <#892554752175517756>\n\n\
+            Q: How do I report someone?\n\
+            A: Make a ticket with `/ticket` in any channel.\n\n\
+            Q: How can I contact staff?\n\
+            A: Make a ticket with `/ticket` in any channel.")
+            
+
+        await sendChannel.send(embed=initialEmbed)
+        await sendChannel.send(embed=staffEmbed)
+        await sendChannel.send(embed=generalEmbed)
+        await sendChannel.send(embed=levelsEmbed)
+        await sendChannel.send(embed=faqEmbed)
+        await interaction.response.send_message("Sent successfully!", ephemeral=True)
+    @app_commands.command(name="genshin-information", description="This command sends the genshin information into a specified channel.")
+    @app_commands.checks.has_any_role("Management Team")
+    async def genshinInformation(self, interaction: discord.Interaction, channel: discord.TextChannel):
+        sendChannel = interaction.client.get_channel(channel.id)
+        initialEmbed = discord.Embed(color=config.color, description="\
+            Hello and welcome genshin community to A Weeb's hangout.\n\n\
+                I hope you like our Genshin Impact area of the server! We have lots of things that\
+                you can use here as well as lots of announcements from the official Genshin Impact server. If you have any questions regarding things related\
+            feel free to make a ticket using `/ticket` or ask a staff member and they should be able to help you, though if your question is related\
+                to genshin I would probably ask someone that has the Genshin Impact role.")
+        genshinEmbed = discord.Embed(color=config.color, description="World levels and Adventure rank 60:\n\
             <@&1036071298272604291> - Users who are Adventurer Rank 60\n\
             <@&1036071227376271390> - Users who have world level 8\n\
             <@&1036071267444461641> - Users who have world level 7\n\
@@ -54,13 +83,10 @@ class weebs(commands.Cog):
             <@&1036071279737982996> - Users who have world level 4\n\
             <@&1036071285404487720> - Users who have world level 3\n\
             <@&1036071289925931008> - Users who have world level 2\n")
-            
-
+        
         await sendChannel.send(embed=initialEmbed)
-        await sendChannel.send(embed=staffEmbed)
-        await sendChannel.send(embed=generalEmbed)
-        await sendChannel.send(embed=levelsEmbed)
-        #await sendChannel.send(embed=genshinEmbed)
+        await sendChannel.send(embed=genshinEmbed)
+        await interaction.response.send_message("Sent successfully!", ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(weebs(bot), guilds=[discord.Object(id=config.weebsHangout)])

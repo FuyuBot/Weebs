@@ -10,6 +10,7 @@ import os
 intents = discord.Intents.all()
 intents.message_content = True
 intents.auto_moderation_configuration = True
+intents.reactions = True
 bot = commands.Bot(command_prefix='.', intents=intents)
 
 
