@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import requests
 import config
+import json
 
 #API https://otakugifs.xyz/api
 
@@ -15,6 +16,7 @@ class anime(commands.Cog):
     async def on_ready(self):
         print('LOADED: `anime.py`')
 
+# OTAKU GIFS API
     @app_commands.command(name='airkiss', description="Blow an airkiss to someone")
     async def airkiss(self, interaction: discord.Interaction, user: discord.Member):
         animeUrl = "https://api.otakugifs.xyz/gif?reaction=airkiss"

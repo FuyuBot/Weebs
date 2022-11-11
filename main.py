@@ -1,6 +1,6 @@
 import discord
 import asyncio
-import config
+import config.py
 from discord.ext import commands
 from discord import app_commands
 import os
