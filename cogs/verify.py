@@ -30,7 +30,7 @@ class verfiy(commands.Cog):
             )
             logsEmbed.set_footer(text=f"ID: {user.id}")
             embed = discord.Embed(
-                title=f'You were forcibly verified by an Administrator of the server. However, welcome to the server.',
+                title=f'You were forcibly verified by an Administrator of the server. Welcome to the server.',
                 color=0x2699C6,
                 description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
             )
