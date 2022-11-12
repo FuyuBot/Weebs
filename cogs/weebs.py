@@ -45,7 +45,7 @@ class weebs(commands.Cog):
             <@&865430631944290334> - 100,00 Messages\n\
             <@&865727060172603433> - 50,000 Messages\n\
             <@&865727060861386792> - 10,000 Messages\n")
-        faqEmbed = discord.Embed(color=config.color, description="Frequently asked Questions:\
+        faqEmbed = discord.Embed(color=config.color, description="Frequently asked Questions:\n\
             Q: How can I apply to become a staff member?\n\
             A: `/apply` in any channel.\n\n\
             Q: Who can see my application?\n\

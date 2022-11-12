@@ -29,7 +29,7 @@ class economy(commands.Cog):
     
     @app_commands.command(name='balance', description="Check your balance.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
-    async def balance(self, interaction: discord.Interaction , member: discord.Member=None):
+    async def balance(self, interaction: discord.Interaction, member: discord.Member=None):
         try:
             if member == None:
                 cursor.execute(f"SELECT id FROM economy WHERE id = {interaction.user.id}")
@@ -328,7 +328,6 @@ class economy(commands.Cog):
             print(e)
     
     @app_commands.command(name="steal", description="Attempt to steal money from someone!")
-    @app_commands.checks.has_any_role(managementTeam)
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def steal(self, interaction: discord.Interaction, member: discord.Member):
         try:
