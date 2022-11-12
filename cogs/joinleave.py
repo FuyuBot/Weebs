@@ -36,4 +36,4 @@ class joinleave(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(joinleave(bot))
+    await bot.add_cog(joinleave(bot), guilds=[discord.Object(id=860752406551461909)])

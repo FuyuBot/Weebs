@@ -809,6 +809,5 @@ class anime(commands.Cog):
         embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} agrees", embed=embed)
 
-
 async def setup(bot):
     await bot.add_cog(anime(bot))

@@ -8,6 +8,7 @@ import os
 
 
 intents = discord.Intents.all()
+intents.members = True
 intents.message_content = True
 intents.auto_moderation_configuration = True
 intents.reactions = True

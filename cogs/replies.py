@@ -1,0 +1,25 @@
+import discord
+from discord.ext import commands
+import config
+
+seniorstaff = 865054271857885225
+managementTeam = 860758013731274762
+staffTeam = 860758014386896926
+member = 860757567566774322
+
+class replies(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("LOADED: `replies.py`")
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        messageLogs = self.bot.get_channel(865073643553423360)
+        if message.content == "<>":
+            await message.channel.send("Test") 
+
+async def setup(bot):
+    await bot.add_cog(replies(bot), guilds=[discord.Object(id=config.weebsHangout)])
