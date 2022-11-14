@@ -21,7 +21,7 @@ class weebs(commands.Cog):
         initialEmbed = discord.Embed(title='Information', color=config.color,description="Hello and welcome to A Weeb's Hangout!\n\n\
             Hey, Jacob here would like to personally welcome everyone to this server and I really hope you enjoy being in the server. I want this to\
                 be a place where everyone can talk about their anime interests and whatever else they want to talk about.")
-        staffEmbed = discord.Embed(color=config.color, description="\
+        staffEmbed = discord.Embed(title=f"Staff Team Roles",color=config.color, description="\
             <@&860758013731274762> - This role is given to all of the people managing the server keeping it updated and running smoothly.\n\
             <@&860757939618316298> - This role is given to the Owner of the server.\n\
             <@&860757995171610628> - This role is given to the Managers on the server managing the area they have been assigned to.\n\
@@ -32,8 +32,14 @@ class weebs(commands.Cog):
             <@&860758015959498763> - This role is given to our Moderators and they deal with most of the moderating on the server.\n\
             <@&860758016618266624><@&860758016764936193> - These roles are given to our Trial Helpers and Helpers and they help with\
                 managing the chats on the server.\n\
-            <@&895490315174178857> - Users with this role are extremely close with the Management team and help with testing new features for the server.")
-        generalEmbed = discord.Embed(color=config.color, description="\
+            <@&895490315174178857> - Users with this role are extremely close with the management team and help with testing new features for the server.\n\
+            <@&1041796871892516874> - Stream/channel moderators of <@920797181034778655>'s channels.")
+        twitchEmbed = discord.Embed(title=f"Twitch Roles", color=config.color, description="\
+            <@&1041791871913046137> - This role is given to those who subscribe to <@920797181034778655> on twitch.\n\
+            <@&1041791871913046138> - This role is given if you subscribed at tier one.\n\
+            <@&1041791871913046139> - This role is given if you subscribed at tier two.\n\
+            <@&1041791871913046140> - This role is given if you subscribed at tier three.\n")
+        generalEmbed = discord.Embed(title=f"General Roles",color=config.color, description="\
             <@&860757567566774322> - This the role everyone will have.\n\
             <@&865727063327768618> - People wanted a role saying they are not a weeb.\n\
             <@&910929581605789718> - Gives you access to all of the Genshin Impact channels here on the server.\n\

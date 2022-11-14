@@ -15,7 +15,7 @@ class verfiy(commands.Cog):
     @app_commands.checks.has_any_role("unverified")
     async def verify(self, interaction:discord.Interaction):
         await interaction.response.send_modal(VerifyModal())
-    
+
     @app_commands.command(name='force-verify', description='Allows Administrators to forcibly verify someone.')
     @app_commands.checks.has_any_role("Administrator", "Management Team")
     async def forceverify(self, interaction:discord.Interaction, user: discord.Member):
@@ -23,22 +23,29 @@ class verfiy(commands.Cog):
         if unverified  in user.roles:
             verified = discord.utils.get(user.guild.roles, name="Member")
             logsChannel = interaction.client.get_channel(865073673668526080)
+            welcomeChannel = interaction.client.get_channel(865056995295625256)
 
             logsEmbed = discord.Embed(
                 title=f'{user} Verified.',
                 color=0x2699C6
             )
             logsEmbed.set_footer(text=f"ID: {user.id}")
-            embed = discord.Embed(
+            DMembed = discord.Embed(
                 title=f'You were forcibly verified by an Administrator of the server. Welcome to the server.',
                 color=0x2699C6,
                 description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
+            )
+            embed = discord.Embed(
+            title=f'Welcome {user} to the server.',
+            color=0x2699C6,
+            description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
             )
 
             await user.add_roles(verified)
             await user.remove_roles(unverified)
             await logsChannel.send(embed=logsEmbed)
-            await user.send(embed=embed)
+            await user.send(embed=DMembed)
+            await welcomeChannel.send(embed=embed)
             await interaction.response.send_message(f"{user} was verified successfully.")
         else:
             await interaction.response.send_message(f"That user is already verified.")
