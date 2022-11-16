@@ -52,46 +52,50 @@ class acceptdeny(commands.Cog):
         discord.app_commands.Choice(name= 'Not enough time.', value="no_time")
     ])
     async def deny(self, interaction: discord.Interaction, user: discord.Member , reason: discord.app_commands.Choice[str]):
-        
-        val1 = "Unfortunately, your application has been denied.\nPer Discord's TOS, we can not accept any applications of anyone under the age of 13.\nFind more details at: https://discord.com/terms#2."
-        val2 = "Unfortunately, your application has been denied.\nWe have decided that your application doesn't meet our criteria. If you still wish to apply, try using more detail in your responses."
-        val3 = "Unfortunately, your application has been denied.\nWe have concluded that the amount of time you can contribute does not meet the required amount of time needed.\nIf you believe we can make a compromise, please make a ticket so we can reevaluate your application."
-            
-        cursor.execute(f"SELECT id FROM applicants WHERE id = {user.id}")
-        checkDB = cursor.fetchall()
+        try:
+            val1 = "Unfortunately, your application has been denied.\nPer Discord's TOS, we can not accept any applications of anyone under the age of 13.\nFind more details at: https://discord.com/terms#2."
+            val2 = "Unfortunately, your application has been denied.\nWe have decided that your application doesn't meet our criteria. If you still wish to apply, try using more detail in your responses."
+            val3 = "Unfortunately, your application has been denied.\nWe have concluded that the amount of time you can contribute does not meet the required amount of time needed.\nIf you believe we can make a compromise, please make a ticket so we can reevaluate your application."
+                
+            cursor.execute(f"SELECT id FROM applicants WHERE id = {user.id}")
+            checkDB = cursor.fetchall()
 
-        if checkDB == []:
-            await interaction.response.send_message(f"{user} is not an applicant.", ephemeral= True)
-        else:
-            for row in checkDB:
-                playerRow = row[0]
-                if playerRow == checkDB[0][0]:
-                    cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
-                    mydb.commit()
+            if checkDB == []:
+                await interaction.response.send_message(f"{user} is not an applicant.", ephemeral= True)
+            else:
+                for row in checkDB:
+                    playerRow = row[0]
+                    if playerRow == checkDB[0][0]:
+                        cursor.execute(f"DELETE FROM applicants WHERE id = {user.id}")
+                        
+                        if reason.value == "under_aged":
+                            try:
+                                await user.send(val1)
+                                await interaction.response.send_message("Denial message `Under aged` sent.")
+                            except Exception as e:
+                                print(e)
+                                await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+                            mydb.commit()
 
-                    if reason.value == "under_age":
-                        try:
-                            await user.send(val1)
-                            await interaction.response.send_message("Denial message `Under aged` sent.")
-                        except Exception as e:
-                            print(e)
-                            await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+                        elif reason.value == "not_detailed":
+                            try:
+                                await user.send(val2)
+                                await interaction.response.send_message("Denial message `Not enough detail` sent.")
+                            except Exception as e:
+                                print(e)
+                                await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+                            mydb.commit()
 
-                    elif reason.value == "not_detailed":
-                        try:
-                            await user.send(val2)
-                            await interaction.response.send_message("Denial message `Not enough detail` sent.")
-                        except Exception as e:
-                            print(e)
-                            await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
-
-                    elif reason.value == "no_time":
-                        try:
-                            await user.send(val3)
-                            await interaction.response.send_message("Denial message `Not enough time` sent.")
-                        except Exception as e:
-                            print(e)
-                            await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+                        elif reason.value == "no_time":
+                            try:
+                                await user.send(val3)
+                                await interaction.response.send_message("Denial message `Not enough time` sent.")
+                            except Exception as e:
+                                print(e)
+                                await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
+                            mydb.commit()
+        except Exception as e:
+            print(e)
 
 async def setup(bot):
     await bot.add_cog(acceptdeny(bot), guilds=[discord.Object(id=860752406551461909)])

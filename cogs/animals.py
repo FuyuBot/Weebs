@@ -24,7 +24,7 @@ class animals(commands.Cog):
         for x in json_data:
             catPicture = x['url']
         embed = discord.Embed(
-            color=0x2699C6
+            color=config.color
         )
         embed.set_image(url=catPicture)
         embed.set_footer(text=config.footer)
@@ -37,12 +37,36 @@ class animals(commands.Cog):
         dogGet = requests.get(dogUrl)
         dogPicture = dogGet.json()['message']
         embed = discord.Embed(
-            color=0x2699C6
+            color=config.color
         )
         embed.set_image(url=dogPicture)
         embed.set_footer(text=config.footer)
         await interaction.response.send_message(f"{interaction.user.mention} here is your dog picture.", embed=embed)
+    
+    @app_commands.command(name="duck", description="Sends a random picture of a duck.")
+    async def duck(self, interaction: discord.Interaction):
+        duckUrl = "https://random-d.uk/api/random"
+        duckGet = requests.get(duckUrl)
+        duckPicture = duckGet.json()['url']
 
+        embed = discord.Embed(
+            color=config.color
+        )
+        embed.set_image(url=duckPicture)
+        embed.set_footer(text=config.footer)
+        await interaction.response.send_message(f"{interaction.user.mention} here is your duck picture.", embed=embed)
+
+    @app_commands.command(name="fox", description="Sends a random picture of a fox.")
+    async def fox(self, interaction: discord.Interaction):
+        foxUrl = "https://randomfox.ca/floof/?ref=publicapis.dev"
+        foxGet = requests.get(foxUrl)
+        foxPicture = foxGet.json()['image']
+        embed = discord.Embed(
+            color=config.color
+        )
+        embed.set_image(url=foxPicture)
+        embed.set_footer(text=config.footer)
+        await interaction.response.send_message(f"{interaction.user.mention} here is your fox picture.", embed=embed)
 
 async def setup(bot):
     await bot.add_cog(animals(bot))

@@ -35,7 +35,6 @@ class punishments(commands.Cog):
         print("LOADED: 'punishments.py'")
 
 ######## Ban
-
     @app_commands.command(name='ban' , description="A Weebs Hangout: Ban Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def ban(self, interaction: discord.Interaction, user: discord.Member, reason: str = None):
