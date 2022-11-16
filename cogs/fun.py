@@ -12,6 +12,7 @@ class fun(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print('LOADED: `fun.py`')
+
     
     @app_commands.command(name="lucifer-quote", description="Sends a quote from the show Lucifer.")
     async def lucifer(self, interaction: discord.Interaction):

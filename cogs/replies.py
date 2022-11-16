@@ -18,8 +18,10 @@ class replies(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         messageLogs = self.bot.get_channel(865073643553423360)
-        if message.content == "<>":
-            await message.channel.send("Test") 
-
+        try:
+            if message.channel.id == 865755491303817216 and message.author.id is not 926163269503299695:
+                await discord.Message.delete(message)
+        except Exception as e:
+            print(e)
 async def setup(bot):
     await bot.add_cog(replies(bot), guilds=[discord.Object(id=config.weebsHangout)])

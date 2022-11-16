@@ -13,4 +13,4 @@ password='YyZdusOTR8sOw8fk0@ks'
 db='customer_249998_fuyu'
 
 
-color=0x2699C6
+color=0xFC90F7

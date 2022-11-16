@@ -1,9 +1,11 @@
-import discord
-from discord.ext import commands
-from discord import app_commands
-import requests
-import config
 import json
+
+import discord
+import requests
+from discord import app_commands
+from discord.ext import commands
+
+import config
 
 #API https://otakugifs.xyz/api
 
