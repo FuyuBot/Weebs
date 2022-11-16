@@ -62,14 +62,13 @@ class RequestModal(discord.ui.Modal, title="Request to join Form"):
             channel = interaction.client.get_channel(865681786877378630)
             user = interaction.user
 
-            embed = discord.Embed(color=config.color, title=f"{user} is requesting to join a world.")
+            embed = discord.Embed(color=config.color, title=f"{user}")
             embed.add_field(name="__Genshin Name:__", value=self.genshinName, inline=True)
             embed.add_field(name="__World Level:__", value=self.worldLevel, inline=True)
             embed.add_field(name="__Requesting:__", value=self.reason, inline=False)
             print(self.genshinName)
             print(self.worldLevel)
             print(self.reason)
-            print(self.reasonExplained)
 
             await interaction.response.send_message("Successfully opened the request-to-join form.", ephemeral=True)
             await channel.send(embed=embed)
