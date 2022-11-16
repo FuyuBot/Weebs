@@ -8,7 +8,7 @@ from config import host, user, password, db
 from datetime import datetime
 
 now = datetime.now()
-dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+dt_string = now.strftime("%m/%d/%Y %H:%M:%S")
 
 mydb = mysql.connector.connect(
 host = host,
