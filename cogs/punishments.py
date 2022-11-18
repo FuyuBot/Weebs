@@ -42,6 +42,9 @@ class punishments(commands.Cog):
         player = user.id
         staff = interaction.user.id
         reason = str(reason)
+        
+        cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
+        punishDB = cursor.fetchone()
         cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
         checkDB = cursor.fetchall()
         isStaff = str(user.top_role)
@@ -60,9 +63,16 @@ class punishments(commands.Cog):
         if reason == None:
             reason = "Ha, what a nerd!"
 
+        if punishDB == []:
+            cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 1, 0, 0)")
+            mydb.commit()
+            mydb.reconnect()
+        
+            
         if checkDB == []:
             sql = "INSERT INTO bans (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
             val = (player, staff, reason)
+            
 
             try:
                 cursor.execute(sql, val)
@@ -88,8 +98,13 @@ class punishments(commands.Cog):
                     await interaction.response.send_message(f"<@{player}> is already banned.")
                     return
                 else:
+                    for pun in punishDB:
+                        punishRow = int(pun[0])
+                        punishRow = 1 + punishRow
+                        cursor.execute(f"UPDATE punishments SET bans = {punishRow} WHERE player = {player}")
                     sql = "INSERT INTO bans (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
                     val = (player, staff, reason)
+                    cursor.execute(f"UPDATE")
 
                     try:
                         cursor.execute(sql, val)
@@ -287,7 +302,7 @@ class punishments(commands.Cog):
                         print(e)
                     if durType in durations:
                         if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
-                            if duration > 1 : durType = "minutes"
+                            if duration > 1: durType = "minutes"
                             else: durType = "minute"
                             duration *= 60
                             await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
@@ -380,13 +395,6 @@ class punishments(commands.Cog):
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def remove_timeout(self, interaction: discord.Interaction, user: discord.Member):
         await self.bot.remove_timeout()
-        player = user.id
-        cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
-        checkDB = cursor.fetchall()
-        for row in checkDB:
-            playerRow = row[0]
-            playerRow -= 1
-            #UPDATE THE DB NOW
         embed = discord.Embed(
             title= f"{user} is no longer in timeout.",
             color= discord.Color.green()
@@ -401,6 +409,8 @@ class punishments(commands.Cog):
         player = user.id
         staff = interaction.user.id
         reason = str(reason)
+        cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
+        punishDB = cursor.fetchone()
         cursor.execute(f"SELECT player FROM warns WHERE player = {player}")
         checkDB = cursor.fetchall()
         isStaff = str(user.top_role)
@@ -419,6 +429,10 @@ class punishments(commands.Cog):
         if reason == None:
             reason = "No reason was provided."
 
+        if punishDB == []:
+                    cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 1, 0, 0)")
+                    mydb.commit()
+                    mydb.reconnect()
         if not checkDB:
             sql = "INSERT INTO warns (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
             val = (player, staff, reason)
@@ -448,6 +462,12 @@ class punishments(commands.Cog):
             await interaction.response.send_message(embed=embed)
             await user.send(embed=playerEmbed)
         else:
+            
+            for pun in punishDB:
+                punishRow = int(pun[0])
+                punishRow = 1 + punishRow
+            
+            cursor.execute(f"UPDATE punishments SET bans = {punishRow} WHERE player = {player}")
             sql = "INSERT INTO warns (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
             val = (player, staff, reason)
             try:
