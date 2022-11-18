@@ -99,6 +99,10 @@ class leveling(commands.Cog):
                 embed.add_field(name="__Level__", value=level)
                 embed.add_field(name="__XP__", value=f"{xp}/100")
                 return await interaction.response.send_message(embed=embed)
+    
+    @app_commands.command(name="leaderboard", description="Displays the leveling leaderboard for everyone in the server.")
+    async def leaderboard(self, interaction: discord.Interaction):
+        cursor.execute(f"SELECT player, MAX(level) AS highScore FROM leveling GROUP BY player")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -153,6 +157,7 @@ class leveling(commands.Cog):
                 except Exception as e:
                     print(e)
             mydb.commit()
+    
 
 async def setup(bot):
     await bot.add_cog(leveling(bot), guilds=[discord.Object(id=860752406551461909)])
