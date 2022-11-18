@@ -22,6 +22,7 @@ helper = 860758016618266624
 moderator = 860758015959498763
 seniormoderator = 860758015585812480
 seniorstaff = 865054271857885225
+staffteam = 860758014386896926
 #################
 cursor = mydb.cursor()
 
@@ -152,14 +153,13 @@ class punishments(commands.Cog):
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
     async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: int, durationtype: str, reason: str):
         try:
-            if user.is_timed_out == True:
-                print(user.is_timed_out)
+            if user.is_timed_out is True:
                 return await interaction.response.send_message("That user is already in timeout.")
-            print("1")
             staff = interaction.user.id
             player = user.id
             originaldur = duration
             duration = int(duration)
+            print(duration)
             cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
             checkDB = cursor.fetchall()
             durations = [
@@ -183,14 +183,12 @@ class punishments(commands.Cog):
             elif 926163269503299695 == player:
                 await interaction.response.send_message("You cannot put me in timeout.")
                 return
-            print("2")
             if checkDB == []:
-                print("3")
                 if durType in durations:
                     if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
-                        duration *= 60
                         if duration > 1: durType = "minutes"
                         else: durType = "minute"
+                        duration *= 60
                         await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                         logs = self.bot.get_channel(865078390109634590)
                         timeoutEmbed = discord.Embed(
@@ -203,9 +201,9 @@ class punishments(commands.Cog):
                         await interaction.response.send_message(embed=timeoutEmbed)
                         await logs.send(embed=timeoutEmbed)
                     elif durType == "hour" or durType == "hours" or durType == "h" and duration <= 672:
-                        duration *= 3600
-                        if duration >= 2: durType = "hours"
+                        if duration > 1: durType = "hours"
                         else: durType = "hour"
+                        duration *= 3600
                         await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                         logs = self.bot.get_channel(865078390109634590)
                         timeoutEmbed = discord.Embed(
@@ -218,9 +216,9 @@ class punishments(commands.Cog):
                         await interaction.response.send_message(embed=timeoutEmbed)
                         await logs.send(embed=timeoutEmbed)
                     elif durType == "day" or durType == "days" or durType == "d" and duration <= 28:
-                        duration *= 86400
-                        if duration >= 2: durType = "days"
+                        if duration > 1: durType = "days"
                         else: durType = "day"
+                        duration *= 86400
                         await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                         logs = self.bot.get_channel(865078390109634590)
                         timeoutEmbed = discord.Embed(
@@ -233,9 +231,9 @@ class punishments(commands.Cog):
                         await interaction.response.send_message(embed=timeoutEmbed)
                         await logs.send(embed=timeoutEmbed)
                     elif durType == "week" or durType == "weeks" or durType == "w" and duration <= 4:
-                        duration *= 604800
-                        if duration >= 2: durType = "weeks"
+                        if duration > 1: durType = "weeks"
                         else: durType = "week"
+                        duration *= 604800
                         await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                         logs = self.bot.get_channel(865078390109634590)
                         timeoutEmbed = discord.Embed(
@@ -273,25 +271,25 @@ class punishments(commands.Cog):
                             color= discord.Color.red()
                         )
                     await interaction.response.send_message(embed=embed, ephemeral=True)
-                
-                sql = "INSERT INTO punishments (player, bans, timeouts, warns) VALUES (%s, 0, 0, 1)"
-                val = (player)
                 try:
-                    cursor.execute(sql, val)
+                    cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 0, 0, 1)")
                     mydb.commit()
-                except:
-                    await interaction.response.send_message('Did not send to the DB!')
+                except Exception as e:
+                    print(e)
             else:
-                print("4")
                 for row in checkDB:
-                    print("5")
-                    playerRow = row[0]
-                    print("6")
+                    playerRow = int(row[0])
+                    playerRow = 1 + playerRow
+                    try:
+                        cursor.execute(f"UPDATE punishments SET timeouts = {playerRow} WHERE player = {player}")
+                        mydb.commit()
+                    except Exception as e:
+                        print(e)
                     if durType in durations:
                         if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320:
-                            duration *= 60
-                            if duration >=2 : durType = "minutes"
+                            if duration > 1 : durType = "minutes"
                             else: durType = "minute"
+                            duration *= 60
                             await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                             logs = self.bot.get_channel(865078390109634590)
                             timeoutEmbed = discord.Embed(
@@ -304,9 +302,9 @@ class punishments(commands.Cog):
                             await interaction.response.send_message(embed=timeoutEmbed)
                             await logs.send(embed=timeoutEmbed)
                         elif durType == "hour" or durType == "hours" or durType == "h" and duration <= 672:
-                            duration *= 3600
-                            if duration >= 2: durType = "hours"
+                            if duration > 1: durType = "hours"
                             else: durType = "hour"
+                            duration *= 3600
                             await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                             logs = self.bot.get_channel(865078390109634590)
                             timeoutEmbed = discord.Embed(
@@ -319,10 +317,9 @@ class punishments(commands.Cog):
                             await interaction.response.send_message(embed=timeoutEmbed)
                             await logs.send(embed=timeoutEmbed)
                         elif durType == "day" or durType == "days" or durType == "d" and duration <= 28:
-                            duration *= 86400
-                            if duration >= 2: 
-                                durType = "days"
+                            if duration > 1: durType = "days"
                             else: durType = "day"
+                            duration *= 86400
                             await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                             logs = self.bot.get_channel(865078390109634590)
                             timeoutEmbed = discord.Embed(
@@ -335,10 +332,9 @@ class punishments(commands.Cog):
                             await interaction.response.send_message(embed=timeoutEmbed)
                             await logs.send(embed=timeoutEmbed)
                         elif durType == "week" or durType == "weeks" or durType == "w" and duration <= 4:
-                            duration *= 604800
-                            if duration >= 2: 
-                                durType = "weeks"
+                            if duration > 1: durType = "weeks"
                             else: durType = "week"
+                            duration *= 604800
                             await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                             logs = self.bot.get_channel(865078390109634590)
                             timeoutEmbed = discord.Embed(
@@ -376,14 +372,6 @@ class punishments(commands.Cog):
                                 color= discord.Color.red()
                             )
                         await interaction.response.send_message(embed=embed, ephemeral=True)
-                        playerRow += 1
-                    sql = f"UPDATE punishments SET timeouts = {playerRow} WHERE player = 920797181034778655"
-                    val = (player)
-                    try:
-                        cursor.execute(sql, val)
-                        mydb.commit()
-                    except:
-                        await interaction.response.send_message('Did not send to the DB!')
         except Exception as e:
             print(e)
 
@@ -496,7 +484,9 @@ class punishments(commands.Cog):
     # get all users punishments from warns and bans
     # display all there
     @app_commands.command(name="logs", description="Check how many punishments a user has.")
-    @app_commands.checks.has_any_role
+    @app_commands.checks.has_any_role(staffteam, seniorstaff)
+    async def logs(self, interaction: discord.Interaction, user: discord.Member):
+        return
 
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])
