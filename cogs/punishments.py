@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord import utils
 from datetime import datetime, date, timedelta, time
 import mysql.connector
-from config import host, user, password, db
+from config import host, user, password, db, color, footer
 from datetime import datetime
 
 now = datetime.now()
@@ -430,7 +430,7 @@ class punishments(commands.Cog):
             reason = "No reason was provided."
 
         if punishDB == []:
-                    cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 1, 0, 0)")
+                    cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 0, 1, 0)")
                     mydb.commit()
                     mydb.reconnect()
         if not checkDB:
@@ -462,7 +462,6 @@ class punishments(commands.Cog):
             await interaction.response.send_message(embed=embed)
             await user.send(embed=playerEmbed)
         else:
-            
             for pun in punishDB:
                 punishRow = int(pun[0])
                 punishRow = 1 + punishRow
@@ -498,15 +497,30 @@ class punishments(commands.Cog):
             await user.send(embed=playerEmbed)
             logs = self.bot.get_channel(865078390109634590)
             await logs.send(embed=embed)
-    
 
-    # LOGS
-    # get all users punishments from warns and bans
-    # display all there
     @app_commands.command(name="logs", description="Check how many punishments a user has.")
     @app_commands.checks.has_any_role(staffteam, seniorstaff)
     async def logs(self, interaction: discord.Interaction, user: discord.Member):
-        return
+        player = user.id
+        cursor.execute(f"SELECT * FROM punishments WHERE player = {player}")
+        punishDB = cursor.fetchone()
+
+        if punishDB == []:
+            cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 0, 0, 0)")
+            mydb.commit()
+            return await interaction.response.send_message(f"That user does not have any punishments.")
+        else:
+            for row in punishDB:
+                bansRow = int(row[1])
+                warnsRow = int(row[2])
+                timeoutRow = int(row[3])
+
+                embed = discord.Embed(color=color, title=f"{user}'s Punishments")
+                embed.add_field(name="Bans", value=bansRow, inline=True)
+                embed.add_field(name="Warns", value=warnsRow, inline=True)
+                embed.add_field(name="Timeouts", value=timeoutRow, inline=True)
+                embed.set_footer(text=footer)
+                await interaction.response.send_message(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])
