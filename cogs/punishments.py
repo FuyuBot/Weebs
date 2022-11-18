@@ -43,7 +43,7 @@ class punishments(commands.Cog):
         staff = interaction.user.id
         reason = str(reason)
         
-        cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
+        cursor.execute(f"SELECT bans FROM punishments WHERE player = {player}")
         punishDB = cursor.fetchone()
         cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
         checkDB = cursor.fetchall()
@@ -70,10 +70,12 @@ class punishments(commands.Cog):
         
             
         if checkDB == []:
+            punishRow = int(punishDB[0])
+            punishRow = 1 + punishRow
+            cursor.execute(f"UPDATE punishments SET bans = {punishRow} WHERE player = {player}")
             sql = "INSERT INTO bans (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
             val = (player, staff, reason)
             
-
             try:
                 cursor.execute(sql, val)
                 mydb.commit()
@@ -88,8 +90,19 @@ class punishments(commands.Cog):
             embed.add_field(name="Reason",value=f"{reason}")
             embed.add_field(name="Time", value=f"{dt_string}")
             embed.set_footer(text=f"ID: {player}")
+            
+            toUserEmbed = discord.Embed(color=discord.Color.red(), title=f"You have been banned from A Weeb's Hangout")
+            toUserEmbed.set_author(name=user, icon_url=user.avatar)
+            toUserEmbed.add_field(name="Reason", value=reason)
+            toUserEmbed.add_field(name="Time", value=dt_string)
+            toUserEmbed.add_field(name="Appeal at", value="https://forms.gle/Q71pTeFg6d1iQ2aaA")
+            toUserEmbed.set_footer(text=f"ID: {player}")
+
+            await user.send(embed=toUserEmbed)
             await interaction.response.send_message(embed=embed)
-            await interaction.guild.ban(user)
+            #await interaction.guild.ban(user)
+            logs = self.bot.get_channel(865078390109634590)
+            await logs.send(embed=embed)
 
         else:
             for row in checkDB:
@@ -98,10 +111,9 @@ class punishments(commands.Cog):
                     await interaction.response.send_message(f"<@{player}> is already banned.")
                     return
                 else:
-                    for pun in punishDB:
-                        punishRow = int(pun[0])
-                        punishRow = 1 + punishRow
-                        cursor.execute(f"UPDATE punishments SET bans = {punishRow} WHERE player = {player}")
+                    punishRow = int(punishDB[0])
+                    punishRow = 1 + punishRow
+                    cursor.execute(f"UPDATE punishments SET bans = {punishRow} WHERE player = {player}")
                     sql = "INSERT INTO bans (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
                     val = (player, staff, reason)
                     cursor.execute(f"UPDATE")
@@ -130,7 +142,7 @@ class punishments(commands.Cog):
 
                     await user.send(embed=toUserEmbed)
                     await interaction.response.send_message(embed=embed)
-                    await interaction.guild.ban(user)
+                    #await interaction.guild.ban(user)
                     logs = self.bot.get_channel(865078390109634590)
                     await logs.send(embed=embed)
 
@@ -142,9 +154,9 @@ class punishments(commands.Cog):
         cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
         checkDB = cursor.fetchall()
         if checkDB is None:
-            await interaction.response.send_message("Nobody has been banned yet.") #Message if no one has been banned yet.
+            await interaction.response.send_message("That user has not been banned yet.") #Message if no one has been banned yet.
         else:
-            cursor.execute(f"SELECT id FROM bans WHERE id = {player}")
+            cursor.execute(f"SELECT player FROM bans WHERE player = {player}")
             x = cursor.fetchone()
             try:
                 p = x[0]
@@ -409,7 +421,7 @@ class punishments(commands.Cog):
         player = user.id
         staff = interaction.user.id
         reason = str(reason)
-        cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
+        cursor.execute(f"SELECT warns FROM punishments WHERE player = {player}")
         punishDB = cursor.fetchone()
         cursor.execute(f"SELECT player FROM warns WHERE player = {player}")
         checkDB = cursor.fetchall()
@@ -434,8 +446,13 @@ class punishments(commands.Cog):
                     mydb.commit()
                     mydb.reconnect()
         if not checkDB:
+            punishRow = int(punishDB[0])
+            punishRow = 1 + punishRow
+            print(punishRow)
+            cursor.execute(f"UPDATE punishments SET warns = {punishRow} WHERE player = {player}")
             sql = "INSERT INTO warns (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
             val = (player, staff, reason)
+            
             try:
                 cursor.execute(sql, val)
                 mydb.commit()
@@ -462,11 +479,10 @@ class punishments(commands.Cog):
             await interaction.response.send_message(embed=embed)
             await user.send(embed=playerEmbed)
         else:
-            for pun in punishDB:
-                punishRow = int(pun[0])
-                punishRow = 1 + punishRow
-            
-            cursor.execute(f"UPDATE punishments SET bans = {punishRow} WHERE player = {player}")
+            punishRow = int(punishDB[0])
+            punishRow = 1 + punishRow
+            print(punishRow)
+            cursor.execute(f"UPDATE punishments SET warns = {punishRow} WHERE player = {player}")
             sql = "INSERT INTO warns (player, staff, reason, time) VALUES (%s, %s, %s, NOW())"
             val = (player, staff, reason)
             try:
@@ -501,19 +517,25 @@ class punishments(commands.Cog):
     @app_commands.command(name="logs", description="Check how many punishments a user has.")
     @app_commands.checks.has_any_role(staffteam, seniorstaff)
     async def logs(self, interaction: discord.Interaction, user: discord.Member):
-        player = user.id
-        cursor.execute(f"SELECT * FROM punishments WHERE player = {player}")
-        punishDB = cursor.fetchone()
-
-        if punishDB == []:
-            cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 0, 0, 0)")
-            mydb.commit()
-            return await interaction.response.send_message(f"That user does not have any punishments.")
-        else:
-            for row in punishDB:
-                bansRow = int(row[1])
-                warnsRow = int(row[2])
-                timeoutRow = int(row[3])
+        try:
+            player = user.id
+            cursor.execute(f"SELECT player FROM punishments WHERE player = {player}")
+            punishDB = cursor.fetchall()
+            
+            if punishDB == []:
+                cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 0, 0, 0)")
+                mydb.commit()
+                return await interaction.response.send_message(f"That user does not have any punishments.")
+            else:
+                cursor.execute(f"SELECT bans FROM punishments WHERE player = {player}")
+                bans = cursor.fetchone()
+                cursor.execute(f"SELECT warns FROM punishments WHERE player = {player}")
+                warns = cursor.fetchone()
+                cursor.execute(f"SELECT timeouts FROM punishments WHERE player = {player}")
+                timeouts = cursor.fetchone()
+                bansRow = int(bans[0])
+                warnsRow = int(warns[0])
+                timeoutRow = int(timeouts[0])
 
                 embed = discord.Embed(color=color, title=f"{user}'s Punishments")
                 embed.add_field(name="Bans", value=bansRow, inline=True)
@@ -521,6 +543,7 @@ class punishments(commands.Cog):
                 embed.add_field(name="Timeouts", value=timeoutRow, inline=True)
                 embed.set_footer(text=footer)
                 await interaction.response.send_message(embed=embed)
-
+        except Exception as e:
+            print(e)
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])
