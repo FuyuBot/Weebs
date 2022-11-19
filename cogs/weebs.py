@@ -94,7 +94,7 @@ class weebs(commands.Cog):
         await sendChannel.send(embed=genshinEmbed)
         await interaction.response.send_message("Sent successfully!", ephemeral=True)
 
-    @app_commands.command(name="RTJ-information", description="Sends the information regarding RTJ in the channel specified.")
+    @app_commands.command(name="rtj-information", description="Sends the information regarding RTJ in the channel specified.")
     @app_commands.checks.has_any_role("Management Team")
     async def rtjinformation(self, interaction: discord.Interaction, channel: discord.TextChannel):
         sendChannel = interaction.client.get_channel(channel.id)
