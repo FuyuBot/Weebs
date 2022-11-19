@@ -36,12 +36,18 @@ class verfiy(commands.Cog):
             DMembed = discord.Embed(
                 title=f'You were forcibly verified by an Administrator of the server. Welcome to the server.',
                 color=config.color,
-                description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
+                description=":loudspeaker: Please follow all the rules and have a great time here.\n\
+                In order to get DM's from our bot <@926163269503299695> please allow DM's on this server.\n\n\
+                Check out <#892554752175517756> to get as many roles as you would want.\n\
+                <#915078396990603296> has a lot of the information for the server."
             )
             embed = discord.Embed(
             title=f'Welcome {user} to the server.',
             color=config.color,
-            description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
+            description=":loudspeaker: Please follow all the rules and have a great time here.\n\
+                In order to get DM's from our bot <@926163269503299695> please allow DM's on this server.\n\n\
+                Check out <#892554752175517756> to get as many roles as you would want.\n\
+                <#915078396990603296> has a lot of the information for the server."
             )
 
             await user.add_roles(verified)
@@ -71,8 +77,11 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
         embed = discord.Embed(
             title=f'Welcome {user} to the server.',
             color=config.color,
-            description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
-        )
+            description=":loudspeaker: Please follow all the rules and have a great time here.\n\
+                In order to get DM's from our bot <@926163269503299695> please allow DM's on this server.\n\n\
+                Check out <#892554752175517756> to get as many roles as you would want.\n\
+                <#915078396990603296> has a lot of the information for the server."
+            )
         
         if str(user) == str(userName):
             await interaction.response.send_message("Success, Welcome to A Weeb's Hangout!", ephemeral= True)

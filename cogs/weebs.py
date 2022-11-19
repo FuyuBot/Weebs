@@ -100,9 +100,10 @@ class weebs(commands.Cog):
         sendChannel = interaction.client.get_channel(channel.id)
         embed=discord.Embed(color=config.color,description=f'`/request-to-join` to get started.\n\n\
             This command will prompt you to put your genshin name, world level, and finally why you are requesting to join.\n\
-            The reasons to request to join could be things like "Nahida\'s flowers" or "Shimenawa Domain" just please make it clear of\
+            The reasons to request to join could be things like "Nahida\'s flowers", "Shimenawa Domain", etc just please make it clear of\
             what you are requesting.')
         
-        return await sendChannel.send(embed=embed)
+        await sendChannel.send(embed=embed)
+        await interaction.response.send_message(f"Sent successfully", ephemeral=True)
 async def setup(bot):
     await bot.add_cog(weebs(bot), guilds=[discord.Object(id=config.weebsHangout)])
