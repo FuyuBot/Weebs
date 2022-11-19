@@ -102,61 +102,79 @@ class leveling(commands.Cog):
     
     @app_commands.command(name="leaderboard", description="Displays the leveling leaderboard for everyone in the server.")
     async def leaderboard(self, interaction: discord.Interaction):
-        cursor.execute(f"SELECT player, MAX(level) AS highScore FROM leveling GROUP BY player")
+        try:
+            cursor.execute(f"SELECT player, level, xp FROM levels ORDER BY level DESC, xp DESC LIMIT 10")
+            data = cursor.fetchall()
+            if data:
+                embed = discord.Embed(title="Leaderboard", color=color)
+                count = 0
+                for table in data:
+                    count += 1
+                    user = self.bot.get_user(int(table[0]))
+                    embed.add_field(name=f"{count}. {user.name}", value=f"Level: **{table[1]}** | XP: {table[2]}*", inline=False)
 
+                    
+                return await interaction.response.send_message(embed=embed)
+            else:
+                return await interaction.response.send_message("There is no users stored in the database.")
+        except Exception as e:
+            print(e)
     @commands.Cog.listener()
     async def on_message(self, message):
-        badChannels = [892573395273789520,942934115609608213,865107660624756775] #Counting, PokeTwo, Bots
-        if message.author.bot:
-            return
-        if message.channel in badChannels:
-            return
-        player = message.author.id
-        cursor.execute(f"SELECT player FROM levels WHERE player = {player}")
-        playerDB = cursor.fetchall()
-        cursor.execute(f"SELECT xp FROM levels WHERE player = {player}")
-        xp = cursor.fetchone()
-        cursor.execute(f"SELECT level FROM levels WHERE player = {player}")
-        level = cursor.fetchone()
+        try:
+            badChannels = [892573395273789520,942934115609608213,865107660624756775] #Counting, PokeTwo, Bots
+            if message.author.bot:
+                return
+            if message.channel in badChannels:
+                return
+            player = message.author.id
+            cursor.execute(f"SELECT player FROM levels WHERE player = {player}")
+            playerDB = cursor.fetchall()
+            cursor.execute(f"SELECT xp FROM levels WHERE player = {player}")
+            xp = cursor.fetchone()
+            cursor.execute(f"SELECT level FROM levels WHERE player = {player}")
+            level = cursor.fetchone()
 
-        if playerDB == []:
-            cursor.execute(f"INSERT INTO levels (player, level, xp) VALUES ({player}, 0, 0)")
-            mydb.commit()
-        else:
-            if xp == None or level == None:
+            if playerDB == []:
+                cursor.execute(f"INSERT INTO levels (player, level, xp) VALUES ({player}, 0, 0)")
+                mydb.commit()
+            else:
+                if xp == None or level == None:
+                    try:
+                        
+                        cursor.execute(f"INSERT INTO levels (player, level, xp) VALUES ({player}, 0, 0)")
+                        mydb.commit()
+                        return
+                    except:
+                        await message.channel.send('Did not send to the DB, contact staff please.')
                 try:
-                    
-                    cursor.execute(f"INSERT INTO levels (player, level, xp) VALUES ({player}, 0, 0)")
-                    mydb.commit()
-                    return
-                except:
-                    await message.channel.send('Did not send to the DB, contact staff please.')
-            try:
-                xp = xp[0]
-                level = level[0]
-            except TypeError:
-                xp = 0
-                level = 0
-            xp += random.uniform(1, 3)
-            xpROUND = round(xp, 2)
-            cursor.execute(f"UPDATE levels SET xp = {xpROUND} WHERE player = {player}")
-            mydb.commit()
-            if xp >= 100:
-                try:
-                    level += 1
+                    xp = xp[0]
+                    level = level[0]
+                except TypeError:
                     xp = 0
-                    cursor.execute(f"SELECT wallet FROM economy WHERE id = {message.author.id}")
-                    wallet = cursor.fetchone()
-                    earnings = 10
-                    amount = earnings + float(wallet[0])
-                    cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {message.author.id}")
-                    cursor.execute(f"UPDATE levels SET level = {level} WHERE player = {player}")
-                    cursor.execute(f"UPDATE levels SET xp = {xp} WHERE player = {player}")
-                    mydb.commit()
-                    await message.channel.send(f'<@{player}> has leveled up to level **{level}**!')
-                except Exception as e:
-                    print(e)
-            mydb.commit()
+                    level = 0
+                xp += random.uniform(1, 3)
+                xpROUND = round(xp, 2)
+                cursor.execute(f"UPDATE levels SET xp = {xpROUND} WHERE player = {player}")
+                mydb.commit()
+                if xp >= 100:
+                    try:
+                        level += 1
+                        xp = 0
+                        cursor.execute(f"SELECT wallet FROM economy WHERE id = {message.author.id}")
+                        wallet = cursor.fetchone()
+                        earnings = 10
+                        amount = earnings + float(wallet[0])
+                        cursor.execute(f"UPDATE economy SET wallet = {amount} WHERE id = {message.author.id}")
+                        cursor.execute(f"UPDATE levels SET level = {level} WHERE player = {player}")
+                        cursor.execute(f"UPDATE levels SET xp = {xp} WHERE player = {player}")
+                        mydb.commit()
+                        await message.channel.send(f'<@{player}> has leveled up to level **{level}**!')
+                    except Exception as e:
+                        print(e)
+                mydb.commit()
+        except Exception as e:
+            print(e)
     
 
 async def setup(bot):
