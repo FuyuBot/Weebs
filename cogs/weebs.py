@@ -94,5 +94,15 @@ class weebs(commands.Cog):
         await sendChannel.send(embed=genshinEmbed)
         await interaction.response.send_message("Sent successfully!", ephemeral=True)
 
+    @app_commands.command(name="RTJ-information", description="Sends the information regarding RTJ in the channel specified.")
+    @app_commands.checks.has_any_role("Management Team")
+    async def rtjinformation(self, interaction: discord.Interaction, channel: discord.TextChannel):
+        sendChannel = interaction.client.get_channel(channel.id)
+        embed=discord.Embed(color=config.color,description=f'`/request-to-join` to get started.\n\n\
+            This command will prompt you to put your genshin name, world level, and finally why you are requesting to join.\n\
+            The reasons to request to join could be things like "Nahida\'s flowers" or "Shimenawa Domain" just please make it clear of\
+            what you are requesting.')
+        
+        return await sendChannel.send(embed=embed)
 async def setup(bot):
     await bot.add_cog(weebs(bot), guilds=[discord.Object(id=config.weebsHangout)])

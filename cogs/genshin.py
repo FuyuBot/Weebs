@@ -56,7 +56,7 @@ class RequestModal(discord.ui.Modal, title="Request to join Form"):
         discord.SelectOption(label="Fishing", description="If you would like to fish in someone else's world.")
     ]
     reason = discord.ui.Select(options=menu, max_values=1)'''
-    reason = discord.ui.TextInput(label="Why would you like to join?", placeholder="Domains, Materials, Bosses, Fishing", required=True)
+    reason = discord.ui.TextInput(label="Why would you like to join?", placeholder="Electro Regisvine, Pryo Hypostasis, etc", required=True)
     async def on_submit(self, interaction: discord.Interaction):
         try:
             channel = interaction.client.get_channel(865681786877378630)
@@ -66,9 +66,6 @@ class RequestModal(discord.ui.Modal, title="Request to join Form"):
             embed.add_field(name="__Genshin Name:__", value=self.genshinName, inline=True)
             embed.add_field(name="__World Level:__", value=self.worldLevel, inline=True)
             embed.add_field(name="__Requesting:__", value=self.reason, inline=False)
-            print(self.genshinName)
-            print(self.worldLevel)
-            print(self.reason)
 
             await interaction.response.send_message("Successfully opened the request-to-join form.", ephemeral=True)
             await channel.send(embed=embed)

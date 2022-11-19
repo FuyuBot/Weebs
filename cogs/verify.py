@@ -14,7 +14,10 @@ class verfiy(commands.Cog):
     @app_commands.command(name='verify', description='Verify that you are a human.')
     @app_commands.checks.has_any_role("unverified")
     async def verify(self, interaction:discord.Interaction):
-        await interaction.response.send_modal(VerifyModal())
+        try:
+            await interaction.response.send_modal(VerifyModal())
+        except Exception as e:
+            print(e)
 
     @app_commands.command(name='force-verify', description='Allows Administrators to forcibly verify someone.')
     @app_commands.checks.has_any_role("Administrator", "Management Team")
@@ -27,17 +30,17 @@ class verfiy(commands.Cog):
 
             logsEmbed = discord.Embed(
                 title=f'{user} Verified.',
-                color=0x2699C6
+                color=config.color
             )
             logsEmbed.set_footer(text=f"ID: {user.id}")
             DMembed = discord.Embed(
                 title=f'You were forcibly verified by an Administrator of the server. Welcome to the server.',
-                color=0x2699C6,
+                color=config.color,
                 description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
             )
             embed = discord.Embed(
             title=f'Welcome {user} to the server.',
-            color=0x2699C6,
+            color=config.color,
             description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
             )
 
@@ -62,12 +65,12 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
         
         logsEmbed = discord.Embed(
             title=f'{user} Verified.',
-            color=0x2699C6
+            color=config.color
         )
         logsEmbed.set_footer(text=f"ID: {user.id}")
         embed = discord.Embed(
             title=f'Welcome {user} to the server.',
-            color=0x2699C6,
+            color=config.color,
             description=":loudspeaker: Please follow all the rules and have a great time here.\nIn order to get DM's from our bot <@926163269503299695> please allow DM's on this server."
         )
         
