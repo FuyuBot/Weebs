@@ -100,7 +100,7 @@ class punishments(commands.Cog):
 
             await user.send(embed=toUserEmbed)
             await interaction.response.send_message(embed=embed)
-            #await interaction.guild.ban(user)
+            await interaction.guild.ban(user)
             logs = self.bot.get_channel(865078390109634590)
             await logs.send(embed=embed)
 
@@ -142,7 +142,7 @@ class punishments(commands.Cog):
 
                     await user.send(embed=toUserEmbed)
                     await interaction.response.send_message(embed=embed)
-                    #await interaction.guild.ban(user)
+                    await interaction.guild.ban(user)
                     logs = self.bot.get_channel(865078390109634590)
                     await logs.send(embed=embed)
 
