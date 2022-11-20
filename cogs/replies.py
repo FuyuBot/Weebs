@@ -17,7 +17,6 @@ class replies(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        messageLogs = self.bot.get_channel(865073643553423360)
         try:
             if message.channel.id == 865755491303817216 and message.author.id is not 926163269503299695:
                 await discord.Message.delete(message)
