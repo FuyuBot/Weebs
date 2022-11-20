@@ -23,6 +23,7 @@ moderator = 860758015959498763
 seniormoderator = 860758015585812480
 seniorstaff = 865054271857885225
 staffteam = 860758014386896926
+managementTeam = 860758013731274762
 #################
 cursor = mydb.cursor()
 
@@ -522,6 +523,8 @@ class punishments(commands.Cog):
             cursor.execute(f"SELECT player FROM punishments WHERE player = {player}")
             punishDB = cursor.fetchall()
             
+            
+
             if punishDB == []:
                 cursor.execute(f"INSERT INTO punishments (player, bans, warns, timeouts) VALUES ({player}, 0, 0, 0)")
                 mydb.commit()
@@ -541,9 +544,50 @@ class punishments(commands.Cog):
                 embed.add_field(name="Bans", value=bansRow, inline=True)
                 embed.add_field(name="Warns", value=warnsRow, inline=True)
                 embed.add_field(name="Timeouts", value=timeoutRow, inline=True)
+                cursor.execute(f"SELECT player, staff, note FROM notes WHERE player = {player}")
+                notesDB = cursor.fetchall()
+                count = 0
+                if notesDB == []:
+                    note = "User has no notes."
+                    embed.add_field(name="Notes", value=f"{note}")
+                else:
+                    for table in notesDB:
+                        count += 1
+                        note = table[2]
+                        staff = self.bot.get_user(int(table[1]))
+                        embed.add_field(name=f"Note #{count}. | By: {staff.name}", value=f"{note}", inline=False)
                 embed.set_footer(text=footer)
                 await interaction.response.send_message(embed=embed)
         except Exception as e:
             print(e)
+    
+    @app_commands.command(name="set-note", description="Set a note on a user.")
+    @app_commands.checks.has_any_role(staffteam, seniorstaff)
+    async def setNote(self, interaction: discord.Interaction, user: discord.Member, note: str):
+        try:
+            player = user.id
+            staff = interaction.user.id
+            cursor.execute(f"SELECT player, staff, note FROM notes WHERE player = {player}")
+            notesDB = cursor.fetchall()
+            cursor.execute(f'INSERT INTO notes (player, staff, note) VALUES ({player}, {staff}, "{note}")')
+            mydb.commit()
+            return await interaction.response.send_message("Note added successfully.")
+        except Exception as e:
+            print(e)
+    
+    '''
+    @app_commands.command(name="remove-note", description="Removes a note on a user.")
+    @app_commands.checks.has_any_role(managementTeam)
+    async def removeNote(self, interaction: discord.Interaction, user: discord.Member, number: int=None):
+        player = user.id
+        cursor.execute(f"SELECT player, staff, note FROM notes WHERE player = {player}")
+        notesDB = cursor.fetchall()
+        if notesDB == []:
+            return await interaction.response.send_message("That user does not have any notes.")
+        else:
+            for table in notesDB:
+                return'''
+
+
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])
