@@ -111,9 +111,7 @@ class leveling(commands.Cog):
                 for table in data:
                     count += 1
                     user = self.bot.get_user(int(table[0]))
-                    embed.add_field(name=f"{count}. {user.name}", value=f"Level: **{table[1]}** | XP: {table[2]}*", inline=False)
-
-                    
+                    embed.add_field(name=f"{count}. {user.name}", value=f"Level: **{table[1]}** | XP: {table[2]}*", inline=False) 
                 return await interaction.response.send_message(embed=embed)
             else:
                 return await interaction.response.send_message("There is no users stored in the database.")
