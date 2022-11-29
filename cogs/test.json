@@ -1,0 +1,22 @@
+{ 
+    "_id": "",
+    "info": {
+        "name": "",
+        "tag": "",
+        "joined": "",
+        "applied": false
+    },
+    "levels": {
+        "level": 0,
+        "xp": 0
+    },
+    "economy": {
+        "wallet": 0,
+        "bank": 0
+    },
+    "punishments": {
+        "bans": {},
+        "timeouts": {},
+        "warns": {}
+    }
+}

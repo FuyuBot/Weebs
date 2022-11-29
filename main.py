@@ -4,6 +4,7 @@ import config
 from discord.ext import commands
 from discord import app_commands
 import os
+import pymongo
 
 
 
@@ -30,9 +31,7 @@ async def load():
             
 async def main():
     await load()
-    game = discord.Game("A Weeb's Hangout")
-    #await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="A Weeb's Hangout"))
-    #await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="A Weeb's Hangout"))
     await bot.start(config.token)
+
 
 asyncio.run(main())

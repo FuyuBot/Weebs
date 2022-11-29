@@ -12,5 +12,7 @@ user='customer_249998_fuyu'
 password='YyZdusOTR8sOw8fk0@ks'
 db='customer_249998_fuyu'
 
+mongoDB = "mongodb+srv://bot:bc2v5zDu@cluster0.uch3p.mongodb.net"
+
 
 color=0xFC90F7
