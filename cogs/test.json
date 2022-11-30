@@ -4,7 +4,8 @@
         "name": "",
         "tag": "",
         "joined": "",
-        "applied": false
+        "applied": false,
+        "currently_banned": false
     },
     "levels": {
         "level": 0,

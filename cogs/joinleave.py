@@ -38,7 +38,8 @@ class joinleave(commands.Cog):
                 "name": f"{member.name}",
                 "tag": f"{member.discriminator}",
                 "joined": f"{member.joined_at}",
-                "applied": False
+                "applied": False,
+                "currently_banned": False
             },
             "levels": {
                 "level": 0,
@@ -67,7 +68,8 @@ class joinleave(commands.Cog):
                     "name": f"{member.name}",
                     "tag": f"{member.discriminator}",
                     "joined": member.joined_at,
-                    "applied": False
+                    "applied": False,
+                    "currently_banned": False
                 },
                 "levels": {
                     "level": 0,
@@ -78,9 +80,9 @@ class joinleave(commands.Cog):
                     "bank": 0
                 },
                 "punishments": {
-                    "bans": {},
-                    "timeouts": {},
-                    "warns": {}
+                    "bans": [],
+                    "timeouts": [],
+                    "warns": []
                 }
             }
         
@@ -90,34 +92,6 @@ class joinleave(commands.Cog):
         except Exception as e:
             print(e)
 
-    @app_commands.command(name="test-db", description="Sends a test join to test the database.")
-    @app_commands.checks.has_any_role("Management Team")
-    async def test_db(self, interaction: discord.Interaction, member: discord.Member):
-        try:
-            mycol = mydb['user_info']
-
-            # The data
-            mydict = {"_id": member.id}
-
-            
-            x = mycol.find_one(mydict)
-
-            mycol.update_one({"levels": {'level': x['levels']['level']}}, {"$inc": {"level": 3}})
-
-            await interaction.response.send_message("Success!")
-        except Exception as e:
-            print(e)
-
-    @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        logsChannel = self.bot.get_channel(865073673668526080)
-        embed = discord.Embed(
-            title=f'{member} has left the server.',
-            color=discord.Color.green()
-        )
-        embed.set_footer(text=f"ID: {member.id}")
-        embed.set_footer(text=f"ID: {member.id}")
-        await logsChannel.send(embed=embed)
 
 
 async def setup(bot):

@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from discord import utils
-from datetime import datetime, date, timedelta, time
+from datetime import datetime, timedelta
 import mysql.connector
 from config import host, user, password, db, color, footer
 from datetime import datetime
@@ -176,6 +176,7 @@ class punishments(commands.Cog):
                 await interaction.guild.unban(user)
                 logs = self.bot.get_channel(865078390109634590)
                 await logs.send(embed=embed)
+
 ######## Timeout
     @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
@@ -198,7 +199,6 @@ class punishments(commands.Cog):
                 'month', 'm'
             ]
             durType = durationtype.lower()
-            player = user.id
             isStaff = str(user.top_role)
             if staff == player:
                 await interaction.response.send_message("You cannot timeout yourself.",  ephemeral=True)
@@ -471,6 +471,7 @@ class punishments(commands.Cog):
             embed.set_footer(text=f"ID: {player}")
 
             playerEmbed = discord.Embed(
+                
                 title="You have been warned in A Weeb's Hangout",
                 color=discord.Color.red()
             )
