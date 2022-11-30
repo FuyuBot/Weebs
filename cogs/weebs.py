@@ -2,6 +2,11 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import config
+import pymongo
+
+myclient = pymongo.MongoClient(config.mongoDB)
+mydb = myclient['WeebsHangout']
+mycol = mydb['user_info']
 
 class weebs(commands.Cog):
     def __init__(self, bot):
@@ -105,5 +110,35 @@ class weebs(commands.Cog):
         
         await sendChannel.send(embed=embed)
         await interaction.response.send_message(f"Sent successfully", ephemeral=True)
+    
+    @app_commands.command(name="staff", description="Sets the user as a staff member in the database.")
+    @app_commands.checks.has_any_role("Management Team")
+    async def staff(self, interaction: discord.Interaction, user: discord.Member):
+        player = user.id
+        playerDB = mycol.find_one({"_id": player})
+
+        if playerDB['info']['Staff'] == True:
+            mycol.update_one({'_id': player}, {"$set": {"info.staff": False}})
+            await interaction.response.send_message(f"Successfully removed {user} as staff member.", ephemeral=True)
+        else:
+            mycol.update_one({'_id': player}, {"$set": {"info.staff": True}})
+            await interaction.response.send_message(f"Successfully added {user} as staff member.", ephemeral=True)
+
+    
+    @app_commands.command(name="manager", description="Sets the user as a manager in the database.")
+    @app_commands.checks.has_any_role("Owner")
+    async def manager(self, interaction: discord.Interaction, user: discord.Member):
+        player = user.id
+        playerDB = mycol.find_one({"_id": player})
+
+        try:
+            if playerDB['info']['Staff'] == True:
+                mycol.update_one({'_id': player}, {"$set": {"info.management": False}})
+                await interaction.response.send_message(f"Successfully removed {user} as management.", ephemeral=True)
+            else:
+                mycol.update_one({'_id': player}, {"$set": {"info.management": True}})
+                await interaction.response.send_message(f"Successfully added {user} to management.", ephemeral=True)
+        except Exception as e:
+            print(e)
 async def setup(bot):
     await bot.add_cog(weebs(bot), guilds=[discord.Object(id=config.weebsHangout)])

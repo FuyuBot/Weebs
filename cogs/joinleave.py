@@ -39,7 +39,9 @@ class joinleave(commands.Cog):
                 "tag": f"{member.discriminator}",
                 "joined": f"{member.joined_at}",
                 "applied": False,
-                "currently_banned": False
+                "currently_banned": False,
+                "Staff": False,
+                "Management": False
             },
             "levels": {
                 "level": 0,
@@ -50,9 +52,10 @@ class joinleave(commands.Cog):
                 "bank": 0
             },
             "punishments": {
-                "bans": {},
-                "timeouts": {},
-                "warns": {}
+                "bans": [],
+                "timeouts": [],
+                "warns": [],
+                "notes": []
             }
         }
         
@@ -69,7 +72,9 @@ class joinleave(commands.Cog):
                     "tag": f"{member.discriminator}",
                     "joined": member.joined_at,
                     "applied": False,
-                    "currently_banned": False
+                    "currently_banned": False,
+                    "Staff": False,
+                    "Management": False
                 },
                 "levels": {
                     "level": 0,
@@ -82,7 +87,8 @@ class joinleave(commands.Cog):
                 "punishments": {
                     "bans": [],
                     "timeouts": [],
-                    "warns": []
+                    "warns": [],
+                    "notes": []
                 }
             }
         
