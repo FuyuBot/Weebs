@@ -2,16 +2,12 @@ import discord
 import config
 from discord import app_commands, utils
 from discord.ext import commands
-import mysql.connector
-from config import host, user, password, db
+import pymongo
+import config
 
-mydb = mysql.connector.connect(
-host = host,
-user = user,
-password = password,
-database = db
-)
-cursor = mydb.cursor()
+myclient = pymongo.MongoClient(config.mongoDB)
+mydb = myclient["WeebsHangout"]
+mycol = mydb["user_info"]
 
 ######### Roles ###########
 trialhelper = 860758016764936193
@@ -65,9 +61,9 @@ class SelectMenu(discord.ui.Select):
             reportCategory = discord.utils.get(interaction.guild.categories, id= 1022942452585340928)
             category = discord.utils.get(interaction.guild.categories, id= 1022942720391647330)
             if self.values[0] == "Staff App":
-                cursor.execute(f"SELECT id FROM applicants WHERE id = {interaction.user.id}")
-                checkDB = cursor.fetchall()
-                if checkDB == []:
+                player = interaction.user.id
+                playerDB = mycol.find_one({"_id": player})
+                if playerDB['info']['applied'] == False:
                     channelStaffApps = await interaction.guild.create_text_channel(\
                         name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}"\
                             , overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}"\
@@ -81,18 +77,15 @@ class SelectMenu(discord.ui.Select):
                     embed.add_field(name="Staff Application Submitted:", value="❎")
                     await channelStaffApps.send(f"<@&{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
                 else:
-                    for row in checkDB:
-                        playerRow = row[0]
-                        if playerRow == checkDB[0][0]:
-                            channelStaffApps = await interaction.guild.create_text_channel(name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}", category= staffCategory)
-                            await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
-                            embed = discord.Embed(
-                                title= f"{interaction.user}",
-                                color=0x2699C6
-                            )
-                            embed.add_field(name="Staff Application Submitted:", value="✅")
-                            embed.set_footer(text= f"User's ID: {interaction.user.id}")
-                            await channelStaffApps.send(f"<@&{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
+                    channelStaffApps = await interaction.guild.create_text_channel(name=f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesStaff, reason=f"Staff App ticket for {interaction.user}", category= staffCategory)
+                    await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
+                    embed = discord.Embed(
+                        title= f"{interaction.user}",
+                        color=0x2699C6
+                    )
+                    embed.add_field(name="Staff Application Submitted:", value="✅")
+                    embed.set_footer(text= f"User's ID: {interaction.user.id}")
+                    await channelStaffApps.send(f"<@&{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
                 
             elif self.values[0] == "Report":
                 channelReason = await interaction.guild.create_text_channel(name=f"report-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesReport, reason=f"Report ticket for {interaction.user}", category= reportCategory)
