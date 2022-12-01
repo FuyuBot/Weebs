@@ -73,8 +73,8 @@ class joinleave(commands.Cog):
                     "joined": member.joined_at,
                     "applied": False,
                     "currently_banned": False,
-                    "Staff": False,
-                    "Management": False
+                    "staff": False,
+                    "manager": False
                 },
                 "levels": {
                     "level": 0,

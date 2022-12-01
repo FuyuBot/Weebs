@@ -274,12 +274,11 @@ class punishments(commands.Cog):
         player = user.id
         staff = interaction.user.id
         playerDB = mycol.find_one({"_id": player})
-
-        if staff == player:
+        if staff == player:#Checks to see if you are trying to punish yourself
             await interaction.response.send_message("You cannot warn yourself.",  ephemeral=True)
             return
-        elif playerDB['info']['Staff'] == True:
-            if playerDB['info']['Management'] ==  True:
+        elif playerDB['info']['staff'] == True:#Checking if the user is a staff member.
+            if playerDB['info']['manager'] ==  True:#Checking if the user is a manager.
                 await user.send(f"{interaction.user} tried to warn you just letting you know 🕵️‍♂️")
             await interaction.response.send_message("That user is a staff member you can't warn them!", ephemeral=True)
             return
@@ -314,6 +313,29 @@ class punishments(commands.Cog):
         await logs.send(embed=embed)
         mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": warnList}})
 
+####Set note
+    @app_commands.command(name="set-note", description="Set a note on a user.")
+    @app_commands.checks.has_any_role(staffteam, seniorstaff)
+    async def setNote(self, interaction: discord.Interaction, user: discord.Member, note: str):
+        try:
+            player = user.id
+            staff = interaction.user.id
+            playerDB = mycol.find_one({"_id": player})
+            noteList = playerDB['punishments']['notes']
+            noteList.append(({f"{timeFormat}": {"Staff": interaction.user.id, "Note": note}}))
+            mycol.update_one({'_id': player}, {"$set": {"punishments.notes": noteList}})
+        except Exception as e:
+            print(e)
+
+####Logs
+    @app_commands.command(name="logs", description="Check how many punishments a user has.")
+    @app_commands.checks.has_any_role(staffteam, seniorstaff)
+    async def logs(self, interaction: discord.Interaction, user: discord.Member):
+        try:
+            player = user.id
+            playerDB = mycol.find_one({"_id": player})
+        except Exception as e:
+            print(e)
 
 
 async def setup(bot):

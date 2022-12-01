@@ -117,7 +117,7 @@ class weebs(commands.Cog):
         player = user.id
         playerDB = mycol.find_one({"_id": player})
 
-        if playerDB['info']['Staff'] == True:
+        if playerDB['info']['staff'] == True:
             mycol.update_one({'_id': player}, {"$set": {"info.staff": False}})
             await interaction.response.send_message(f"Successfully removed {user} as staff member.", ephemeral=True)
         else:
@@ -130,14 +130,13 @@ class weebs(commands.Cog):
     async def manager(self, interaction: discord.Interaction, user: discord.Member):
         player = user.id
         playerDB = mycol.find_one({"_id": player})
-
         try:
-            if playerDB['info']['Staff'] == True:
-                mycol.update_one({'_id': player}, {"$set": {"info.management": False}})
-                await interaction.response.send_message(f"Successfully removed {user} as management.", ephemeral=True)
+            if playerDB['info']['manager'] == True:
+                mycol.update_one({'_id': player}, {"$set": {"info.manager": False}})
+                await interaction.response.send_message(f"Successfully removed {user} as a manager.", ephemeral=True)
             else:
-                mycol.update_one({'_id': player}, {"$set": {"info.management": True}})
-                await interaction.response.send_message(f"Successfully added {user} to management.", ephemeral=True)
+                mycol.update_one({'_id': player}, {"$set": {"info.manager": True}})
+                await interaction.response.send_message(f"Successfully added {user} as a manager.", ephemeral=True)
         except Exception as e:
             print(e)
 async def setup(bot):
