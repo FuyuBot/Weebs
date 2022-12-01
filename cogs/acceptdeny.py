@@ -55,26 +55,24 @@ class acceptdeny(commands.Cog):
             if playerDB['info']['applied'] == False:
                 await interaction.response.send_message(f"{user} is not an applicant.", ephemeral= True)
             else:
-                mycol.update_one({'_id': player}, {"$set": {"info.applied" : False}})
-                mycol.update_one({'_id': player}, {"$set": {"info.staff" : True}})
                 if reason.value == "under_aged":
                     try:
                         await user.send(val1)
+                        await user.send("A message from the bot: \n\n`You have been restricted from applying due to your age. Once you meet discords TOS, please make a staff app ticket in the discord server with /ticket.`")
                         await interaction.response.send_message("Denial message `Under aged` sent.")
                     except Exception as e:
                         print(e)
                         await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
-                    mydb.commit()
 
                 elif reason.value == "not_detailed":
                     try:
                         await user.send(val2)
                         await interaction.response.send_message("Denial message `Not enough detail` sent.")
+                        mycol.update_one({'_id': player}, {"$set": {"info.applied" : False}})
                     except Exception as e:
                         print(e)
                         await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
-                    mydb.commit()
-
+                    mycol.update_one({'_id': player}, {"$set": {"info.applied" : False}})
                 elif reason.value == "no_time":
                     try:
                         await user.send(val3)
@@ -82,7 +80,7 @@ class acceptdeny(commands.Cog):
                     except Exception as e:
                         print(e)
                         await interaction.response.send_message(f"Message did not send.\n{user} may have their DM's disabled.")
-                    mydb.commit()
+                    mycol.update_one({'_id': player}, {"$set": {"info.applied" : False}})
         except Exception as e:
             print(e)
 
