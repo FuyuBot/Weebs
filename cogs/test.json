@@ -6,8 +6,8 @@
         "joined": "",
         "applied": false,
         "currently_banned": false,
-        "Staff": false,
-        "Management": false
+        "staff": false,
+        "anagement": false
     },
     "levels": {
         "level": 0,

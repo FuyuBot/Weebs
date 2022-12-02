@@ -37,11 +37,9 @@ class joinleave(commands.Cog):
             "info": {
                 "name": f"{member.name}",
                 "tag": f"{member.discriminator}",
-                "joined": f"{member.joined_at}",
+                "joined": member.joined_at,
                 "applied": False,
-                "currently_banned": False,
-                "Staff": False,
-                "Management": False
+                "currently_banned": False
             },
             "levels": {
                 "level": 0,
@@ -72,9 +70,7 @@ class joinleave(commands.Cog):
                     "tag": f"{member.discriminator}",
                     "joined": member.joined_at,
                     "applied": False,
-                    "currently_banned": False,
-                    "staff": False,
-                    "manager": False
+                    "currently_banned": False
                 },
                 "levels": {
                     "level": 0,

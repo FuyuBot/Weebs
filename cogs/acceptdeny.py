@@ -58,7 +58,7 @@ class acceptdeny(commands.Cog):
                 if reason.value == "under_aged":
                     try:
                         await user.send(val1)
-                        await user.send("A message from the bot: \n\n`You have been restricted from applying due to your age. Once you meet discords TOS, please make a staff app ticket in the discord server with /ticket.`")
+                        await user.send("You have been restricted from applying due to your age. Once you meet discords TOS, please make a staff app ticket in the discord server with /ticket.")
                         await interaction.response.send_message("Denial message `Under aged` sent.")
                     except Exception as e:
                         print(e)
