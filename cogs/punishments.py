@@ -77,14 +77,13 @@ class punishments(commands.Cog):
                     toUserEmbed.set_author(name=user, icon_url=user.avatar)
                     toUserEmbed.add_field(name="Reason", value=reason)
                     toUserEmbed.add_field(name="Time", value=dt_string)
-                    toUserEmbed.add_field(name="Appeal at", value="https://forms.gle/Q71pTeFg6d1iQ2aaA")
-                    toUserEmbed.set_footer(text=f"ID: {player}")
+                    toUserEmbed.set_footer(text=f"ID: {player} | Appeal at: https://forms.gle/Q71pTeFg6d1iQ2aaA")
 
                     await user.send(embed=toUserEmbed)
                     await interaction.response.send_message(embed=embed)
-                    #await interaction.guild.ban(user)
+                    await interaction.guild.ban(user)
                     logs = self.bot.get_channel(865078390109634590)
-                    #await logs.send(embed=embed)
+                    await logs.send(embed=embed)
                     mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : True}})
 
                     bansList = playerDB['punishments']['bans']
@@ -314,7 +313,7 @@ class punishments(commands.Cog):
         await logs.send(embed=embed)
         mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnList}})
 
-####Set note
+####Set Note
     @app_commands.command(name="set-note", description="Set a note on a user.")
     @app_commands.checks.has_any_role(staffteam, seniorstaff)
     async def setNote(self, interaction: discord.Interaction, user: discord.Member, note: str):
@@ -328,6 +327,70 @@ class punishments(commands.Cog):
             await interaction.response.send_message("Successfully set a note.")
         except Exception as e:
             print(e)
+
+####Remove Note
+    @app_commands.command(name="remove-note", description="Remove a note from a user")
+    @app_commands.checks.has_any_role(seniorstaff)
+    async def removeNote(self, interaction: discord.Interaction, user: discord.Member, notenumber: int):
+        player = user.id
+        playerDB = mycol.find_one({"_id": player})
+        noteList = playerDB['punishments']['notes']
+        if playerDB == []:
+            return await interaction.response.send_message("That user does not have any notes.") 
+        if notenumber == 0:
+            return await interaction.response.send_message("How can you delete note number 0 when the notes start at 1?")
+        notenumber -= 1
+        noteList.pop(notenumber)
+        mycol.update_one({'_id': player}, {"$set": {"punishments.notes": noteList}})
+        await interaction.response.send_message(f"Successfully removed the note from <@{player}>.", ephemeral=True)
+
+####Remove Ban
+    @app_commands.command(name="remove-ban", description="Remove a ban from a user's punishment history.")
+    @app_commands.checks.has_any_role(seniorstaff)
+    async def removeBan(self, interaction: discord.Interaction, user: discord.Member, bannumber: int):
+        player = user.id
+        playerDB = mycol.find_one({"_id": player})
+        banList = playerDB['punishments']['bans']
+        if playerDB == []:
+            return await interaction.response.send_message("That user does not have any bans.") 
+        if bannumber == 0:
+            return await interaction.response.send_message("How can you delete ban number 0 when the notes start at 1?")
+        bannumber -= 1
+        banList.pop(bannumber)
+        mycol.update_one({'_id': player}, {"$set": {"punishments.bans": banList}})
+        await interaction.response.send_message(f"Successfully removed the ban from <@{player}>.", ephemeral=True)
+
+####Remove Timeout
+    @app_commands.command(name="remove-timeout-punishment", description="Remove a timeout from a user's punishment history.")
+    @app_commands.checks.has_any_role(seniorstaff)
+    async def removeTimeout(self, interaction: discord.Interaction, user: discord.Member, timeoutnumber: int):
+        player = user.id
+        playerDB = mycol.find_one({"_id": player})
+        timeoutList = playerDB['punishments']['timeouts']
+        if playerDB == []:
+            return await interaction.response.send_message("That user does not have any timeouts.") 
+        if timeoutnumber == 0:
+            return await interaction.response.send_message("How can you delete timeout number 0 when the notes start at 1?")
+        timeoutnumber -= 1
+        timeoutList.pop(timeoutnumber)
+        mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutnumber}})
+        await interaction.response.send_message(f"Successfully removed the timeout from <@{player}>.", ephemeral=True)
+
+###Remove Warn
+    @app_commands.command(name="remove-warn", description="Remove a warn from a user's punishment history.")
+    @app_commands.checks.has_any_role(seniorstaff)
+    async def removeWarn(self, interaction: discord.Interaction, user: discord.Member, warnnumber: int):
+        player = user.id
+        playerDB = mycol.find_one({"_id": player})
+        warnList = playerDB['punishments']['warns']
+        if playerDB == []:
+            return await interaction.response.send_message("That user does not have any timeouts.") 
+        if warnnumber == 0:
+            return await interaction.response.send_message("How can you delete timeout number 0 when the notes start at 1?")
+        warnnumber -= 1
+        warnList.pop(warnnumber)
+        mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnnumber}})
+        await interaction.response.send_message(f"Successfully removed the warn from <@{player}>.", ephemeral=True)
 
 ####Punishment Logs
     @app_commands.command(name="punishments", description="Check how many punishments a user has.")
@@ -362,7 +425,7 @@ class punishments(commands.Cog):
                 banValues = f"{note[0]['date']}\n Staff: <@{note[0]['staff']}>\nNote: {note[0]['note']}"
                 embed.add_field(name=f"Note {noteNum}", value=banValues, inline= False)
                 noteNum += 1
-            await interaction.response.send_message(embed=embed)    
+            await interaction.response.send_message(embed=embed, ephemeral=True)    
 
         except Exception as e:
             print(e)
