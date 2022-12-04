@@ -31,7 +31,7 @@ class economy(commands.Cog):
                 playerDB = mycol.find_one({"_id": player})
                 wallet = playerDB['economy']['wallet']
                 bank = playerDB['economy']['bank']
-                embed=discord.Embed(title="Your bank balance", color=0x2699C6)
+                embed=discord.Embed(title="Your bank balance", color=config.color)
                 embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                 embed.add_field(name="Wallet Balance:", value=f"{wallet:,.2f}", inline=True)
                 embed.add_field(name="Bank Ballance", value=f"{bank:,.2f}")
@@ -44,7 +44,7 @@ class economy(commands.Cog):
                     playerDB = mycol.find_one({"_id": player})
                     wallet = playerDB['economy']['wallet']
                     bank = playerDB['economy']['bank']
-                    embed=discord.Embed(title="Your bank balance", color=0x2699C6)
+                    embed=discord.Embed(title=f"{user.name}'s bank balance", color=config.color)
                     embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                     embed.add_field(name="Wallet Balance:", value=f"{wallet:,.2f}", inline=True)
                     embed.add_field(name="Bank Ballance", value=f"{bank:,.2f}")
@@ -66,14 +66,14 @@ class economy(commands.Cog):
                 earnings = random.randint(1, 16)
                 amount = earnings + wallet
                 mycol.update_one({'_id': player}, {"$set": {"economy.wallet": amount}})
-                embed=discord.Embed(description=f"You earned ${earnings} from working!", color=0x2699C6)
+                embed=discord.Embed(description=f"You earned ${earnings} from working!", color=config.color)
                 embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                 await interaction.response.send_message(embed=embed)
             else:
                 earnings = random.randint(20, 30)
                 amount = earnings + wallet
                 mycol.update_one({'_id': player}, {"$set": {"economy.wallet": amount}})
-                embed=discord.Embed(description=f"You earned ${earnings} from working!", color=0x2699C6)
+                embed=discord.Embed(description=f"You earned ${earnings} from working!", color=config.color)
                 embed.set_author(name=f"{interaction.user.name}", icon_url=f"{interaction.user.avatar}")
                 await interaction.response.send_message(embed=embed)
         except Exception as e:
@@ -163,15 +163,15 @@ class economy(commands.Cog):
             if where.name == "Wallet":
                 removeAmount = wallet - amount
                 mycol.update_one({'_id': player}, {"$set": {"economy.wallet": removeAmount}})
-                await interaction.response.send_message(f"Removed ${amount} from {member.name}'s wallet.")
+                await interaction.response.send_message(f"Removed ${amount} from {user.name}'s wallet.")
             elif where.name == "Bank":
                 removeAmount = bank - amount
                 mycol.update_one({'_id': player}, {"$set": {"economy.bank": removeAmount}})
-                await interaction.response.send_message(f"Removed ${amount} from {member.name}'s bank.")
+                await interaction.response.send_message(f"Removed ${amount} from {user.name}'s bank.")
             elif where.name == "All":
                 mycol.update_one({'_id': player}, {"$set": {"economy.wallet": 0}})
                 mycol.update_one({'_id': player}, {"$set": {"economy.bank": 0}})
-                await interaction.response.send_message(f"Removed all money from {member.name}.")
+                await interaction.response.send_message(f"Removed all money from {user.name}.")
             else:
                 return await interaction.response.send_message("That was not one of the options.")
         except Exception as e:
@@ -196,7 +196,7 @@ class economy(commands.Cog):
                 addAmount = memberWallet + amount
                 mycol.update_one({'_id': author}, {"$set": {"economy.wallet": removeAmount}})
                 mycol.update_one({'_id': member}, {"$set": {"economy.wallet": addAmount}})
-                return await interaction.response.send_message(f"You have payed {member.mention} ${amount}.")
+                return await interaction.response.send_message(f"You have payed {user.mention} ${amount}.")
         except Exception as e:
             print(e)
     
