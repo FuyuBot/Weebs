@@ -25,7 +25,9 @@ class weebs(commands.Cog):
         sendChannel = interaction.client.get_channel(channel.id)
         initialEmbed = discord.Embed(title='Information', color=config.color,description="Hello and welcome to A Weeb's Hangout!\n\n\
             Hey, Jacob here would like to personally welcome everyone to this server and I really hope you enjoy being in the server. I want this to\
-                be a place where everyone can talk about their anime interests and whatever else they want to talk about.")
+                be a place where everyone can talk about their anime interests and whatever else they want to talk about. If you have any questions regarding anything about the server\
+            feel free to make a ticket using `/ticket` or ask a staff member and they should be able to help you, though if your question is related\
+                to genshin I would probably ask someone that has the Genshin Impact role.")
         staffEmbed = discord.Embed(title=f"Staff Team Roles",color=config.color, description="\
             <@&860758013731274762> - This role is given to all of the people managing the server keeping it updated and running smoothly.\n\
             <@&860757939618316298> - This role is given to the Owner of the server.\n\
@@ -82,7 +84,7 @@ class weebs(commands.Cog):
         initialEmbed = discord.Embed(color=config.color, description="\
             Hello and welcome genshin community to A Weeb's hangout.\n\n\
                 I hope you like our Genshin Impact area of the server! We have lots of things that\
-                you can use here as well as lots of announcements from the official Genshin Impact server. If you have any questions regarding things related\
+                you can use here as well as lots of announcements from the official Genshin Impact server. If you have any questions regarding anything about the server\
             feel free to make a ticket using `/ticket` or ask a staff member and they should be able to help you, though if your question is related\
                 to genshin I would probably ask someone that has the Genshin Impact role.")
         genshinEmbed = discord.Embed(color=config.color, description="World levels and Adventure rank 60:\n\
