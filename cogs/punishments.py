@@ -338,7 +338,7 @@ class punishments(commands.Cog):
         if playerDB == []:
             return await interaction.response.send_message("That user does not have any notes.") 
         if notenumber == 0:
-            return await interaction.response.send_message("How can you delete note number 0 when the notes start at 1?")
+            return await interaction.response.send_message("You can't delete what doesn't exist.")
         notenumber -= 1
         noteList.pop(notenumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.notes": noteList}})
@@ -354,7 +354,7 @@ class punishments(commands.Cog):
         if playerDB == []:
             return await interaction.response.send_message("That user does not have any bans.") 
         if bannumber == 0:
-            return await interaction.response.send_message("How can you delete ban number 0 when the notes start at 1?")
+            return await interaction.response.send_message("You can't delete what doesn't exist.")
         bannumber -= 1
         banList.pop(bannumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.bans": banList}})
@@ -370,7 +370,7 @@ class punishments(commands.Cog):
         if playerDB == []:
             return await interaction.response.send_message("That user does not have any timeouts.") 
         if timeoutnumber == 0:
-            return await interaction.response.send_message("How can you delete timeout number 0 when the notes start at 1?")
+            return await interaction.response.send_message("You can't delete what doesn't exist.")
         timeoutnumber -= 1
         timeoutList.pop(timeoutnumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutnumber}})
@@ -386,7 +386,7 @@ class punishments(commands.Cog):
         if playerDB == []:
             return await interaction.response.send_message("That user does not have any timeouts.") 
         if warnnumber == 0:
-            return await interaction.response.send_message("How can you delete timeout number 0 when the notes start at 1?")
+            return await interaction.response.send_message("You can't delete what doesn't exist.")
         warnnumber -= 1
         warnList.pop(warnnumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnnumber}})

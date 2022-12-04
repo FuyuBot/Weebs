@@ -4,7 +4,6 @@ import config
 from discord.ext import commands
 from discord import app_commands
 import os
-import pymongo
 
 
 
