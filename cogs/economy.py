@@ -59,7 +59,7 @@ class economy(commands.Cog):
         player = interaction.user.id
         playerDB = mycol.find_one({"_id": player})
         wallet = playerDB['economy']['wallet']
-        jobs = ['programmer', 'programmer','programmer','sales associate', 'cashier', 'sales associate', 'cashier', 'sales associate', 'cashier', 'sales associate', 'cashier', 'sales associate', 'cashier']
+        jobs = ['programmer', 'sales associate', 'cashier']
         try:
             job = random.choice(jobs)
             if job == 'sales associate' or job == 'cashier':
