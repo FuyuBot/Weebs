@@ -14,6 +14,7 @@ intents.auto_moderation_configuration = True
 intents.reactions = True
 bot = commands.Bot(command_prefix='.', intents=intents)
 status = discord.Status.online
+bot.remove_command('help')
 
 
 
