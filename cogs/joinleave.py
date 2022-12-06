@@ -35,6 +35,8 @@ class joinleave(commands.Cog):
         mydict = { 
             "_id": member.id,
             "info": {
+                "name": member.name,
+                "tag": member.discriminator,
                 "joined": member.joined_at,
                 "applied": False,
                 "currently_banned": False
@@ -64,6 +66,8 @@ class joinleave(commands.Cog):
             mydict = { 
                 "_id": member.id,
                 "info": {
+                    "name": member.name,
+                    "tag": member.discriminator,
                     "joined": member.joined_at,
                     "applied": False,
                     "currently_banned": False

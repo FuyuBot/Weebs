@@ -87,7 +87,7 @@ class punishments(commands.Cog):
                     mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : True}})
 
                     bansList = playerDB['punishments']['bans']
-                    bansList.append([{"date": f"{timeFormat}", "staff": interaction.user.id, "reason": reason}])
+                    bansList.append({"date": f"{timeFormat}", "staff": interaction.user.id, "reason": reason})
                     mycol.update_one({'_id': player}, {"$set": {"punishments.bans": bansList}})
         except Exception as e:
             print(e)
@@ -159,7 +159,7 @@ class punishments(commands.Cog):
                     else: durType = "minute"
                     duration *= 60
                     timeoutList = playerDB['punishments']['timeouts']
-                    timeoutList.append([{"date": f"{timeFormat}", "staff": staff, "length": f"{originaldur} {durType}", "reason": reason}])
+                    timeoutList.append({"date": f"{timeFormat}", "staff": staff, "length": f"{originaldur} {durType}", "reason": reason})
                     await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
@@ -177,7 +177,7 @@ class punishments(commands.Cog):
                     else: durType = "hour"
                     duration *= 3600
                     timeoutList = playerDB['punishments']['timeouts']
-                    timeoutList.append([{"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason}])
+                    timeoutList.append({"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason})
                     await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
@@ -195,7 +195,7 @@ class punishments(commands.Cog):
                     else: durType = "day"
                     duration *= 86400
                     timeoutList = playerDB['punishments']['timeouts']
-                    timeoutList.append([{"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason}])
+                    timeoutList.append({"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason})
                     await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
@@ -213,7 +213,7 @@ class punishments(commands.Cog):
                     else: durType = "week"
                     duration *= 604800
                     timeoutList = playerDB['punishments']['timeouts']
-                    timeoutList.append([{"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason}])
+                    timeoutList.append({"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason})
                     await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
@@ -230,7 +230,7 @@ class punishments(commands.Cog):
                     duration = 2.419e+6
                     durType = "month"
                     timeoutList = playerDB['punishments']['timeouts']
-                    timeoutList.append([{"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason}])
+                    timeoutList.append({"date": f"{timeFormat}", "staff": staff,"length": f"{originaldur} {durType}", "reason": reason})
                     await user.timeout(discord.utils.utcnow() + timedelta(seconds= duration), reason= reason)
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
@@ -294,7 +294,7 @@ class punishments(commands.Cog):
             reason = "No reason was provided."
 
         warnList = playerDB['punishments']['warns']
-        warnList.append([{"date": f"{timeFormat}", "staff": staff, "reason": reason}])
+        warnList.append({"date": f"{timeFormat}", "staff": staff, "reason": reason})
         embed = discord.Embed(
             title=f"{user} was warned",
             color=discord.Color.red()
@@ -327,7 +327,7 @@ class punishments(commands.Cog):
             staff = interaction.user.id
             playerDB = mycol.find_one({"_id": player})
             noteList = playerDB['punishments']['notes']
-            noteList.append([{"date": f"{timeFormat}", "staff": staff, "note": note}])
+            noteList.append({"date": f"{timeFormat}", "staff": staff, "note": note})
             mycol.update_one({'_id': player}, {"$set": {"punishments.notes": noteList}})
             await interaction.response.send_message("Successfully set a note.")
         except Exception as e:
@@ -403,7 +403,6 @@ class punishments(commands.Cog):
     async def punishments(self, interaction: discord.Interaction, user: discord.Member):
         try:
             player = user.id
-            staff = interaction.user.id
             playerDB = mycol.find_one({"_id": player})
             banList = playerDB['punishments']['bans']
             toList = playerDB['punishments']['timeouts']
@@ -415,19 +414,19 @@ class punishments(commands.Cog):
             noteNum = 1
             embed = discord.Embed(color=config.color, title=f"{user}'s Punishments")
             for ban in banList:
-                banValues = f"{ban[0]['date']}\n Staff: <@{ban[0]['staff']}>\nReason: {ban[0]['reason']}"
+                banValues = f"{ban['date']}\n Staff: <@{ban['staff']}>\nReason: {ban['reason']}"
                 embed.add_field(name=f"Ban {banNum}", value=banValues, inline= False)
                 banNum += 1
             for to in toList:
-                toValues = f"{to[0]['date']}\n Staff: <@{to[0]['staff']}>\nDuration: {to[0]['length']}\nReason: {to[0]['reason']}"
+                toValues = f"{to['date']}\n Staff: <@{to['staff']}>\nDuration: {to['length']}\nReason: {to['reason']}"
                 embed.add_field(name=f"Timeout {toNum}", value=toValues, inline= False)
                 toNum += 1
             for warn in warnList:
-                warnValues = f"{warn[0]['date']}\n Staff: <@{warn[0]['staff']}>\nReason: {warn[0]['reason']}"
+                warnValues = f"{warn['date']}\n Staff: <@{warn['staff']}>\nReason: {warn['reason']}"
                 embed.add_field(name=f"Warn {warnNum}", value=warnValues, inline= False)
                 warnNum += 1
             for note in noteList:
-                banValues = f"{note[0]['date']}\n Staff: <@{note[0]['staff']}>\nNote: {note[0]['note']}"
+                banValues = f"{note[0]['date']}\n Staff: <@{note['staff']}>\nNote: {note['note']}"
                 embed.add_field(name=f"Note {noteNum}", value=banValues, inline= False)
                 noteNum += 1
             await interaction.response.send_message(embed=embed, ephemeral=True)   
@@ -445,22 +444,17 @@ class punishments(commands.Cog):
     async def fixPunishment(self, interaction: discord.Interaction, user: discord.Member, type: discord.app_commands.Choice[str], number: int, reason: str):
         try:
             player = user.id
-            originialNUM = number
             number -= 1
             if type.value == "timeout":
-                playerDB = mycol.find_one({"_id": player})
-                timeoutList = playerDB['punishments']['timeouts']
+                mycol.update_one({'_id': player}, {"$set": {f"punishments.timeouts.{number}.reason": reason}})
+                await interaction.response.send_message("Successfully updated the timeout reason.")
                 
             elif type.value == "ban":
-                playerDB = mycol.find_one({"_id": player})
-                banList = playerDB['punishments']['bans']
+                mycol.update_one({'_id': player}, {"$set": {f"punishments.bans.{number}.reason": reason}})
+                await interaction.response.send_message("Successfully updated the ban reason.")
             elif type.value == "warn":
-                playerDB = mycol.find_one({"_id": player})
-                warnList = playerDB['punishments']['warns']
-                
-                print(warnList[number])
                 mycol.update_one({'_id': player}, {"$set": {f"punishments.warns.{number}.reason": reason}})
-                await interaction.response.send_message("It worked.")
+                await interaction.response.send_message("Successfully updated the warn reason.")
             else:
                 return await interaction.response.send_message("Failed, please check the code.")
         except Exception as e:
