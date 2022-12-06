@@ -2,6 +2,11 @@ import discord
 import config
 from discord import app_commands
 from discord.ext import commands
+import pymongo
+
+myclient = pymongo.MongoClient(config.mongoDB)
+mydb = myclient['WeebsHangout']
+mycol = mydb['user_info']
 
 class verfiy(commands.Cog):
     def __init__(self, bot):
@@ -49,6 +54,30 @@ class verfiy(commands.Cog):
                 Check out <#892554752175517756> to get as many roles as you would want.\n\
                 <#915078396990603296> has a lot of the information for the server."
             )
+            mydict = { 
+                "_id": interaction.user.id,
+                "info": {
+                    "joined": interaction.user.joined_at,
+                    "applied": False,
+                    "currently_banned": False
+                },
+                "levels": {
+                    "level": 0,
+                    "xp": 0
+                },
+                "economy": {
+                    "wallet": 0,
+                    "bank": 0
+                },
+                "punishments": {
+                    "bans": [],
+                    "timeouts": [],
+                    "warns": [],
+                    "notes": []
+                }
+            }
+            
+            mycol.insert_one(mydict)
 
             await user.add_roles(verified)
             await user.remove_roles(unverified)
@@ -84,11 +113,37 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
             )
         
         if str(user) == str(userName):
+            mydict = { 
+                "_id": interaction.user.id,
+                "info": {
+                    "joined": interaction.user.joined_at,
+                    "applied": False,
+                    "currently_banned": False
+                },
+                "levels": {
+                    "level": 0,
+                    "xp": 0
+                },
+                "economy": {
+                    "wallet": 0,
+                    "bank": 0
+                },
+                "punishments": {
+                    "bans": [],
+                    "timeouts": [],
+                    "warns": [],
+                    "notes": []
+                }
+            }
+            
+            mycol.insert_one(mydict)
+            
             await interaction.response.send_message("Success, Welcome to A Weeb's Hangout!", ephemeral= True)
             await user.add_roles(verified)
             await user.remove_roles(unverified)
             await logsChannel.send(embed=logsEmbed)
             await welcomeChannel.send(embed=embed)
+            
         else:
             await interaction.response.send_message("'/verify' and enter your discord name and tag. e.g. Name#1234", ephemeral= True)
             

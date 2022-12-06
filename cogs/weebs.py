@@ -110,34 +110,5 @@ class weebs(commands.Cog):
         
         await sendChannel.send(embed=embed)
         await interaction.response.send_message(f"Sent successfully", ephemeral=True)
-    
-    @app_commands.command(name="staff", description="Sets the user as a staff member in the database.")
-    @app_commands.checks.has_any_role("Management Team")
-    async def staff(self, interaction: discord.Interaction, user: discord.Member):
-        player = user.id
-        playerDB = mycol.find_one({"_id": player})
-
-        if playerDB['info']['staff'] == True:
-            mycol.update_one({'_id': player}, {"$set": {"info.staff": False}})
-            await interaction.response.send_message(f"Successfully removed {user} as staff member.", ephemeral=True)
-        else:
-            mycol.update_one({'_id': player}, {"$set": {"info.staff": True}})
-            await interaction.response.send_message(f"Successfully added {user} as staff member.", ephemeral=True)
-
-    
-    @app_commands.command(name="manager", description="Sets the user as a manager in the database.")
-    @app_commands.checks.has_any_role("Owner")
-    async def manager(self, interaction: discord.Interaction, user: discord.Member):
-        player = user.id
-        playerDB = mycol.find_one({"_id": player})
-        try:
-            if playerDB['info']['manager'] == True:
-                mycol.update_one({'_id': player}, {"$set": {"info.manager": False}})
-                await interaction.response.send_message(f"Successfully removed {user} as a manager.", ephemeral=True)
-            else:
-                mycol.update_one({'_id': player}, {"$set": {"info.manager": True}})
-                await interaction.response.send_message(f"Successfully added {user} as a manager.", ephemeral=True)
-        except Exception as e:
-            print(e)
 async def setup(bot):
     await bot.add_cog(weebs(bot), guilds=[discord.Object(id=config.weebsHangout)])

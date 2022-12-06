@@ -93,28 +93,33 @@ class punishments(commands.Cog):
             print(e)
 
 ####Unban
-    @app_commands.command(name='unban' , description="A Weebs Hangout: Ban Command")
+    @app_commands.command(name='unban' , description="A Weebs Hangout: Unban Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def unban(self, interaction: discord.Interaction, user: discord.Member):
         logs = self.bot.get_channel(865078390109634590)
         player = user.id
-
+        bannedUsers = interaction.guild.bans()
         playerDB = mycol.find_one({"_id": player})
 
         if playerDB['info']['currently_banned'] == False: # Checks to see if a user is currently banned.
             await interaction.response.send_message(f"{user} is not banned.",  ephemeral=True)
             return
         else:
-            await interaction.guild.unban(user)
-
-            embed = discord.Embed(
-                        title=f'{user} was unbanned.',
-                        color=discord.Color.green()
-                    )
-            await interaction.response.send_message(embed=embed)
-            await logs.send(embed=embed)
-            mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : False}})
-
+            try:
+                for ban_entry in bannedUsers:
+                    bannedUser = ban_entry.user
+                    if user.id == bannedUser.id:
+                        print(user)
+                        await interaction.guild.unban(user)
+                        embed = discord.Embed(
+                                    title=f'<@{user}> was unbanned.',
+                                    color=discord.Color.green()
+                                )
+                        await interaction.response.send_message(embed=embed)
+                        await logs.send(embed=embed)
+                        mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : False}})
+            except Exception as e:
+                print(e)
 ####Timeout
     @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)

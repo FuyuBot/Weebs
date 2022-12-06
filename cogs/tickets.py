@@ -22,6 +22,7 @@ class SelectMenu(discord.ui.Select):
     def __init__(self):
         menu = [
             discord.SelectOption(label="Staff App", description="If you have any questions related to the staff application."),
+            discord.SelectOption(label="Giveaway", description="If you would like to start a giveaway."),
             discord.SelectOption(label="Report", description="Report someone for breaking one of our server rules."),
             discord.SelectOption(label="Ticket", description="Use this if you want to make a ticket regarding anything else.")
         ]
@@ -29,15 +30,24 @@ class SelectMenu(discord.ui.Select):
 
     async def callback(self, interaction: discord.Interaction):
         staffAppTicket = utils.get(interaction.guild.text_channels, name = f"staffapp-{interaction.user.name.lower()}{interaction.user.discriminator}")
+        giveawayTicket = utils.get(interaction.guild.text_channels, name = f"report-{interaction.user.name.lower()}{interaction.user.discriminator}")
         reportTicket = utils.get(interaction.guild.text_channels, name = f"report-{interaction.user.name.lower()}{interaction.user.discriminator}")
         otherTicket = utils.get(interaction.guild.text_channels, name = f"ticket-{interaction.user.name.lower()}{interaction.user.discriminator}")
         if staffAppTicket is not None: await interaction.response.send_message(f"You already have a staff app ticket open at {staffAppTicket.mention}.", ephemeral=True)
+        elif giveawayTicket is not None: await interaction.response.send_message(f"You already have a ticket open at {giveawayTicket.mention}.", ephemeral=True)
         elif reportTicket is not None: await interaction.response.send_message(f"You already have a report ticket open at {reportTicket.mention}.", ephemeral=True)
         elif otherTicket is not None: await interaction.response.send_message(f"You already have a ticket open at {otherTicket.mention}.", ephemeral=True)
         else:
             overwritesStaff = {
                 interaction.guild.default_role: discord.PermissionOverwrite(view_channel = False),
                 interaction.guild.get_role(managementTeam): discord.PermissionOverwrite(view_channel = True, send_messages = True, attach_files = True, embed_links = True, read_message_history = True),
+                interaction.user: discord.PermissionOverwrite(view_channel = True, send_messages = True, attach_files = True, embed_links = True),
+                interaction.guild.me: discord.PermissionOverwrite(view_channel = True, send_messages = True, read_message_history = True)
+            }
+            overwritesGiveaway = {
+                interaction.guild.default_role: discord.PermissionOverwrite(view_channel = False),
+                interaction.guild.get_role(seniormoderator): discord.PermissionOverwrite(view_channel = True, send_messages = True, attach_files = True, embed_links = True, read_message_history = True),
+                interaction.guild.get_role(seniorstaff): discord.PermissionOverwrite(view_channel = True, send_messages = True, attach_files = True, embed_links = True, read_message_history = True),
                 interaction.user: discord.PermissionOverwrite(view_channel = True, send_messages = True, attach_files = True, embed_links = True),
                 interaction.guild.me: discord.PermissionOverwrite(view_channel = True, send_messages = True, read_message_history = True)
             }
@@ -58,6 +68,7 @@ class SelectMenu(discord.ui.Select):
             }
             
             staffCategory = discord.utils.get(interaction.guild.categories, id= 1022942174058397806)
+            giveawayCategory = discord.utils.get(interaction.guild.categories, id= 1022942452585340928)
             reportCategory = discord.utils.get(interaction.guild.categories, id= 1022942452585340928)
             category = discord.utils.get(interaction.guild.categories, id= 1022942720391647330)
             if self.values[0] == "Staff App":
@@ -87,6 +98,10 @@ class SelectMenu(discord.ui.Select):
                     embed.set_footer(text= f"User's ID: {interaction.user.id}")
                     await channelStaffApps.send(f"<@&{managementTeam}>, {interaction.user.mention} has created a ticket.",embed=embed)
                 
+            elif self.values[0] == "Giveaway":
+                channelReason = await interaction.guild.create_text_channel(name=f"giveaway-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesGiveaway, reason=f"Giveaway ticket for {interaction.user}", category= giveawayCategory)
+                await channelReason.send(f"<@&{seniormoderator}><@&{seniorstaff}>,\n{interaction.user.mention} has created a ticket.\n\nFeel free to explain further.")
+                await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
             elif self.values[0] == "Report":
                 channelReason = await interaction.guild.create_text_channel(name=f"report-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesReport, reason=f"Report ticket for {interaction.user}", category= reportCategory)
                 await channelReason.send(f"<@&{staffTeam}<@&{seniorstaff}>,\n{interaction.user.mention} has created a ticket.\n\nWhat would you like to report?")
@@ -122,7 +137,7 @@ class tickets(commands.Cog):
     @app_commands.command(name='close', description="Close the ticket!, this will also send a transcript to Management.")
     @app_commands.checks.has_any_role(staffTeam, seniorstaff)
     async def close(self, interaction: discord.Interaction):
-        if "staffapp-" in interaction.channel.name or "report-" in interaction.channel.name or "ticket-" in interaction.channel.name:
+        if "staffapp-" in interaction.channel.name or "report-" in interaction.channel.name or "ticket-" in interaction.channel.name or "giveaway-" in interaction.channel.name:
             embed = discord.Embed(title="Are you sure you want to close this ticket?", color=0x2699C6)
             await interaction.response.send_message(embed=embed, view=Confirm(), ephemeral=True)
         else: await interaction.response.send_message("This isn't a ticket!", ephemeral=True)

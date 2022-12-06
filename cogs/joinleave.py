@@ -86,7 +86,7 @@ class joinleave(commands.Cog):
         
             mycol.insert_one(mydict)
 
-            await interaction.response.send_message("Success!")
+            await interaction.response.send_message("Success!", ephemeral=True)
         except Exception as e:
             print(e)
 

@@ -56,12 +56,16 @@ class levels(commands.Cog):
     @app_commands.checks.has_any_role(managementTeam)
     async def setMemberLevel(self, interaction: discord.Interaction, user: discord.Member, level: int):
         player = user.id
+        if level < 1:
+            return await interaction.response.send_message("The number must be greater than 0")
+        limit = [150.0, 225.0, 337.5, 506.25, 759.38, 1139.06, 1708.59, 2562.89, 3844.34, 5766.5, 8649.76, 12974.63, 19461.95, 29192.93, 43789.39, 65684.08, 98526.13, 147789.19, 221683.78, 332525.67]
         mycol.update_one({'_id': player}, {"$set": {"levels.level": level}})
+        mycol.update_one({'_id': player}, {"$set": {"levels.xp": limit[level - 1]}})
         await interaction.response.send_message("Level set.")
 
     @app_commands.command(name='level', description="Check what level you are.")
     async def level(self, interaction: discord.Interaction, user: discord.Member=None):
-        if member == None:
+        if user == None:
             player = interaction.user.id
             playerDB = mycol.find_one({"_id": player})
             xp = playerDB['levels']['xp']
@@ -110,23 +114,22 @@ class levels(commands.Cog):
             playerDB = mycol.find_one({"_id": player})
             xp = playerDB['levels']['xp']
             level = playerDB['levels']['level']
-            xp += random.randint(1, 3)
+            xp += random.uniform(1, 3)
             xpROUND = round(xp, 2)
             
             limit = [150.0, 225.0, 337.5, 506.25, 759.38, 1139.06, 1708.59, 2562.89, 3844.34, 5766.5, 8649.76, 12974.63, 19461.95, 29192.93, 43789.39, 65684.08, 98526.13, 147789.19, 221683.78, 332525.67]
-
-            for points in limit:
-                if xp == points:
-                    level += 1
-                    wallet =  playerDB['economy']['wallet']
-                    earnings = level * 10
-                    amount = earnings + float(wallet)
-                    mycol.update_one({'_id': player}, {"$set": {"economy.wallet": amount}})
-                    mycol.update_one({'_id': player}, {"$set": {"levels.level": level}})
-                    mycol.update_one({'_id': player}, {"$set": {"levels.xp": xp}})
-                    await message.channel.send(f'<@{player}> has leveled up to level **{level}**!')
-                else:
-                    mycol.update_one({'_id': player}, {"$set": {"levels.xp": xpROUND}})
+            
+            if xp >= limit[level]:
+                level += 1
+                wallet =  playerDB['economy']['wallet']
+                earnings = level * 10
+                amount = earnings + float(wallet)
+                mycol.update_one({'_id': player}, {"$set": {"economy.wallet": amount}})
+                mycol.update_one({'_id': player}, {"$set": {"levels.level": level}})
+                mycol.update_one({'_id': player}, {"$set": {"levels.xp": xp}})
+                await message.channel.send(f'<@{player}> has leveled up to level **{level}**!')
+            else:
+                mycol.update_one({'_id': player}, {"$set": {"levels.xp": xpROUND}})
         except Exception as e:
             print(e)
 

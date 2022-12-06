@@ -11,10 +11,6 @@ class help(commands.Cog):
     async def on_ready(self):
         print("LOADED: `help.py`")
     
-    @commands.command()
-    async def help(self, ctx):
-        ctx.send("Please use the slash command /help.")
-    
     @app_commands.command(name="help", )
     async def help(self, interaction: discord.Interaction, category: str):
         return

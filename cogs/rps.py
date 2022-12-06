@@ -16,7 +16,7 @@ async def rockButton_callback(interaction):
     if x == 1: #1 rock, 2 paper, 3 scissors
         embed = discord.Embed(
             title="Tie.",
-            description=":robot:>  :rock: | :rock:  <:neutral_face:\n\nChoose your choice with one of the button.",
+            description=":robot:>  :rock: | :rock:  <:neutral_face:\n\nChoose your choice with one of the buttons.",
             color=0x2699C6
         )
         embed.set_footer(text=config.footer)
@@ -65,7 +65,7 @@ async def paperButton_callback(interaction):
     elif x == 2:
         embed = discord.Embed(
             title="Tie.",
-            description=":robot:>  :newspaper: | :newspaper:  <:neutral_face:\n\nChoose your choice with one of the button.",
+            description=":robot:>  :newspaper: | :newspaper:  <:neutral_face:\n\nChoose your choice with one of the buttons.",
             color=0x2699C6
         )
         embed.set_footer(text=config.footer)
@@ -114,7 +114,7 @@ async def scissorsButton_callback(interaction):
     elif x == 3:
         embed = discord.Embed(
             title="Tie.",
-            description=":robot:>  :scissors: | :scissors:  <:neutral_face:\n\nChoose your choice with one of the button.",
+            description=":robot:>  :scissors: | :scissors:  <:neutral_face:\n\nChoose your choice with one of the buttons.",
             color=0x2699C6
         )
         embed.set_footer(text=config.footer)
