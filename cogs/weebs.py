@@ -61,12 +61,16 @@ class weebs(commands.Cog):
             A: `/apply` in any channel.\n\n\
             Q: Who can see my application?\n\
             A: Only members of the Management Team.\n\n\
+            Q: If I have a question about the application/application process what do I do?\n\
+            A: Make a staff app ticket with `/ticket` in any channel.\n\n\
             Q: How can I get more roles on the server?\n\
             A: <#892554752175517756>\n\n\
             Q: How do I report someone?\n\
-            A: Make a ticket with `/ticket` in any channel.\n\n\
+            A: Make a report ticket with `/ticket` in any channel.\n\n\
             Q: How can I contact staff?\n\
-            A: Make a ticket with `/ticket` in any channel.")
+            A: Make a ticket with `/ticket` in any channel.\n\n\
+            Q: How can I fund/start a giveaway?\n\
+            A: Make a giveaway ticket with `/ticket` in any channel.")
             
 
         await sendChannel.send(embed=initialEmbed)

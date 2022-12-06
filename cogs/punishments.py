@@ -378,12 +378,12 @@ class punishments(commands.Cog):
             return await interaction.response.send_message("You can't delete what doesn't exist.")
         timeoutnumber -= 1
         timeoutList.pop(timeoutnumber)
-        mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutnumber}})
+        mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
         await interaction.response.send_message(f"Successfully removed the timeout from <@{player}>.", ephemeral=True)
 
 ###Remove Warn
     @app_commands.command(name="remove-warn", description="Remove a warn from a user's punishment history.")
-    @app_commands.checks.has_any_role(seniorstaff)
+    @app_commands.checks.has_any_role(seniorstaff, seniormoderator)
     async def removeWarn(self, interaction: discord.Interaction, user: discord.Member, warnnumber: int):
         player = user.id
         playerDB = mycol.find_one({"_id": player})
@@ -394,7 +394,7 @@ class punishments(commands.Cog):
             return await interaction.response.send_message("You can't delete what doesn't exist.")
         warnnumber -= 1
         warnList.pop(warnnumber)
-        mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnnumber}})
+        mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnList}})
         await interaction.response.send_message(f"Successfully removed the warn from <@{player}>.", ephemeral=True)
 
 ####Punishment Logs
@@ -430,11 +430,40 @@ class punishments(commands.Cog):
                 banValues = f"{note[0]['date']}\n Staff: <@{note[0]['staff']}>\nNote: {note[0]['note']}"
                 embed.add_field(name=f"Note {noteNum}", value=banValues, inline= False)
                 noteNum += 1
-            await interaction.response.send_message(embed=embed, ephemeral=True)    
-
+            await interaction.response.send_message(embed=embed, ephemeral=True)   
         except Exception as e:
             print(e)
-
-
+    
+    @app_commands.command(name="fix-punishment", description="Fix a punishment's reason that has been giving out.")
+    @app_commands.checks.has_any_role(seniormoderator, seniorstaff)
+    @app_commands.describe(type='What is the punishment type?')
+    @app_commands.choices(type=[
+        discord.app_commands.Choice(name= 'Timeout', value="timeout"),
+        discord.app_commands.Choice(name= 'Ban', value="ban"),
+        discord.app_commands.Choice(name= 'Warn', value="warn")
+    ])
+    async def fixPunishment(self, interaction: discord.Interaction, user: discord.Member, type: discord.app_commands.Choice[str], number: int, reason: str):
+        try:
+            player = user.id
+            originialNUM = number
+            number -= 1
+            if type.value == "timeout":
+                playerDB = mycol.find_one({"_id": player})
+                timeoutList = playerDB['punishments']['timeouts']
+                
+            elif type.value == "ban":
+                playerDB = mycol.find_one({"_id": player})
+                banList = playerDB['punishments']['bans']
+            elif type.value == "warn":
+                playerDB = mycol.find_one({"_id": player})
+                warnList = playerDB['punishments']['warns']
+                
+                print(warnList[number])
+                mycol.update_one({'_id': player}, {"$set": {f"punishments.warns.{number}.reason": reason}})
+                await interaction.response.send_message("It worked.")
+            else:
+                return await interaction.response.send_message("Failed, please check the code.")
+        except Exception as e:
+            print(e)    
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])
