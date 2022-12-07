@@ -58,6 +58,8 @@ class verfiy(commands.Cog):
                 mydict = { 
                     "_id": user.id,
                     "info": {
+                        "name": user.name,
+                        "tag": user.discriminator,
                         "joined": user.joined_at,
                         "applied": False,
                         "currently_banned": False
