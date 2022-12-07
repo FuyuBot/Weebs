@@ -131,13 +131,13 @@ class logs(commands.Cog):
             if len(before.roles) < len(after.roles):
                 newRole = next(role for role in after.roles if role not in before.roles)
                 embed = discord.Embed(color=config.color, title="Role Added", description=newRole.mention, timestamp=datetime.now())
-                embed.set_author(name=before, icon_url=before.guild_avatar)
+                embed.set_author(name=before, icon_url=before.avatar)
                 embed.set_footer(text=f"ID: {before.id}")
                 await memberLog.send(embed=embed)
             if len(before.roles) > len(after.roles):
                 oldRole = next(role for role in before.roles if role not in after.roles)
                 embed = discord.Embed(color=config.color, title="Role Removed", description=oldRole.mention, timestamp=datetime.now())
-                embed.set_author(name=before, icon_url=before.guild_avatar)
+                embed.set_author(name=before, icon_url=before.avatar)
                 embed.set_footer(text=f"ID: {before.id}")
                 await memberLog.send(embed=embed)
         except Exception as e:    
