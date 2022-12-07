@@ -92,6 +92,16 @@ class punishments(commands.Cog):
             print(e)
 
 ####Unban
+    @commands.Cog.listener()
+    async def on_member_unban(self, guild: discord.Guild, user: discord.User):
+        logs = self.bot.get_channel(865078390109634590)
+        player = user.id
+        mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : False}})
+        embed = discord.Embed(
+            title=f'<@{user}> was unbanned.',
+            color=discord.Color.green()
+        )
+        await logs.send(embed=embed)
     @app_commands.command(name='unban' , description="A Weebs Hangout: Unban Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def unban(self, interaction: discord.Interaction, user: discord.Member):
@@ -99,16 +109,15 @@ class punishments(commands.Cog):
         player = user.id
         bannedUsers = interaction.guild.bans()
         playerDB = mycol.find_one({"_id": player})
-
         if playerDB['info']['currently_banned'] == False: # Checks to see if a user is currently banned.
-            await interaction.response.send_message(f"{user} is not banned.",  ephemeral=True)
+            await interaction.response.send_message(f"{user.name} is not banned.",  ephemeral=True)
             return
         else:
+            member_name, member_discriminator = user.split('#')
             try:
                 for ban_entry in bannedUsers:
                     bannedUser = ban_entry.user
-                    if user.id == bannedUser.id:
-                        print(user)
+                    if (bannedUser.name, bannedUser.discriminator) == (member_name, member_discriminator):
                         await interaction.guild.unban(user)
                         embed = discord.Embed(
                                     title=f'<@{user}> was unbanned.',

@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
-import requests
 import config
 import pymongo
+from datetime import datetime
 
 moderatorLogs = 865078390109634590
 otherLogs = 865073269811052621
@@ -29,18 +29,15 @@ class logs(commands.Cog):
 ################################
 ######## MESSAGE EVENTS ########
 ################################
-# create
 # delete
 # edit
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        if self.bot.guild.id != 860752406551461909:
-            return 
         try:
-            embed = discord.Embed(color=0x2699C6)
+            embed = discord.Embed(color=config.color)
             embed.set_author(name=message.author, icon_url=message.author.avatar)
             embed.add_field(name=f'Messaged Deleted in #{message.channel.name}', value=message.content)
-            embed.set_footer(text=f"User's ID: {message.author.id}, Created at: {message.created_at}")
+            embed.set_footer(text=f"ID: {message.author.id}")
             messageLogsChannel = self.bot.get_channel(messageLogs)
             await messageLogsChannel.send(embed=embed)
         except Exception as e:
@@ -48,32 +45,29 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_bulk_message_delete(self, messages):
-        if self.bot.guild.id != 860752406551461909:
-            return
         try:
             for msg in messages:
-                embed = discord.Embed(color=0x2699C6)
+                embed = discord.Embed(color=config.color)
                 embed.set_author(name=messages.author, icon_url=messages.author.avatar)
                 embed.add_field(name=f'Messaged Deleted in #{messages.channel.name}', value=msg.content)
-                embed.set_footer(text=f"User's ID: {messages.author.id}, Created at:{messages.created_at}")
+                embed.set_footer(text=f"ID: {messages.author.id}")
                 messageLogsChannel = self.bot.get_channel(messageLogs)
                 await messageLogsChannel.send(embed=embed)
         except Exception as e:
             print(e)
     
     @commands.Cog.listener()
-    async def on_message_edit(self, before, after):
-        if self.bot.guild.id != 860752406551461909:
-            return
+    async def on_message_edit(self, before: discord.Message, after: discord.Message):
         try:
-            embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=0x2699C6, description=f"**Before:** {before.content}\n**+After:** {after.content}")
+            embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=config.color, description=f"**Before:** {before.content}\n**+After:** {after.content}")
             embed.set_author(name=before.author, icon_url=before.author.avatar)
-            embed.set_footer(text=f"User's ID: {before.author.id}")
+            embed.set_footer(text=f"ID: {before.author.id}")
             messageLogsChannel = self.bot.get_channel(messageLogs)
             await messageLogsChannel.send(embed=embed)
         except Exception as e:
             print(e)
     
+#### UPDATE DB
     @commands.Cog.listener()
     async def on_user_update(self, before: discord.User, after: discord.User):
         player = before.id
@@ -87,6 +81,70 @@ class logs(commands.Cog):
         else:
             mycol.update_one({'_id': player}, {"$set": {"info.name": nameAfter}})
 
+#### User upadte
+    @commands.Cog.listener()
+    async def on_user_update(self, before: discord.User, after: discord.User):
+        memberLog = self.bot.get_channel(memberLogs)
+        try:
+            if after.name != before.name:
+                embed = discord.Embed(color=config.color, title="Username has changed", description=before.mention, timestamp=datetime.now())
+                embed.add_field(name="Before", value=before.name, inline=True)
+                embed.add_field(name="After", value=after.name, inline=True)
+                embed.set_author(name=before, icon_url=before.avatar)
+                embed.set_footer(text=f"ID: {before.id}")
+                await memberLog.send(embed=embed)
+            if after.discriminator != before.discriminator:
+                embed = discord.Embed(color=config.color, title="Discriminator has changed", description=before.mention, timestamp=datetime.now())
+                embed.add_field(name="Before", value=before.discriminator, inline=True)
+                embed.add_field(name="After", value=after.discriminator, inline=True)
+                embed.set_author(name=before, icon_url=before.avatar)
+                embed.set_footer(text=f"ID: {before.id}")
+                await memberLog.send(embed=embed)
+            if after.avatar != before.avatar:
+                embed = discord.Embed(color=config.color, title="Avatar has changed", description=before.mention, timestamp=datetime.now())
+                embed.set_thumbnail(url=after.avatar)
+                embed.set_author(name=before, icon_url=before.avatar)
+                embed.set_footer(text=f"ID: {before.id}")
+                await memberLog.send(embed=embed)
+        except Exception as e:
+            print(e)
+            print("Error: on_user_update")
+
+#### Member Update
+    @commands.Cog.listener()
+    async def on_member_update(self, before: discord.Member, after: discord.Member):
+        memberLog = self.bot.get_channel(memberLogs)
+        try:
+            if after.nick != before.nick:
+                embed = discord.Embed(color=config.color, title="Username has changed", description=before.mention, timestamp=datetime.now())
+                embed.add_field(name="Before", value=before.nick, inline=True)
+                embed.add_field(name="After", value=after.nick, inline=True)
+                embed.set_author(name=before, icon_url=before.avatar)
+                embed.set_footer(text=f"ID: {before.id}")
+            if after.guild_avatar != before.guild_avatar:
+                embed = discord.Embed(color=config.color, title="Guild Avatar has changed", description=before.mention, timestamp=datetime.now())
+                embed.set_thumbnail(url=after.guild_avatar)
+                embed.set_author(name=before, icon_url=before.guild_avatar)
+                embed.set_footer(text=f"ID: {before.id}")
+                await memberLog.send(embed=embed)
+            #print(before.roles)
+            if len(before.roles) < len(after.roles):
+                newRole = next(role for role in after.roles if role not in before.roles)
+                embed = discord.Embed(color=config.color, title="Role Added", description=before.mention, timestamp=datetime.now())
+                embed.add_field(name="Role Added", value=newRole, inline=True)
+                embed.set_footer(text=f"ID: {before.id}")
+                await memberLog.send(embed=embed)
+            if len(before.roles) > len(after.roles):
+                oldRole = next(role for role in before.roles if role not in after.roles)
+                embed = discord.Embed(color=config.color, title="Role Removed", description=before.mention, timestamp=datetime.now())
+                embed.add_field(name="Role Removed", value=oldRole, inline=True)
+                embed.set_footer(text=f"ID: {before.id}")
+                await memberLog.send(embed=embed)
+        except Exception as e:    
+            print(e)
+            print("Error: on_member_update")
+
+#### 
 
 
 async def setup(bot):

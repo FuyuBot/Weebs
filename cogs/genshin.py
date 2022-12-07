@@ -169,6 +169,18 @@ class genshin(commands.Cog):
         await sendChannel.send(embed=summerBirthdays)
         await sendChannel.send(embed=fallBirthdays)
         await sendChannel.send(embed=winterBirthdays)
+    
+    @app_commands.command(name="genshin-code", description="Send a genshin code in the genshin codes channel.")
+    @app_commands.checks.has_any_role("Senior Moderator", "Senior Staff", "Genshin Codes")
+    async def genshinCodes(self, interaction: discord.Interaction, code: str):
+        try:
+            channel = interaction.client.get_channel(1050114033564520539)
+            embed = discord.Embed(title=f"`{code}`", color=0x26c662)
+            embed.set_author(icon_url=interaction.user.avatar, name=interaction.user)
+            await channel.send("<@&910929581605789718>", embed=embed)
+            return await interaction.response.send_message("Sent successfully.", ephemeral=True)
+        except Exception as e:
+            print(e)
 
 
 async def setup(bot):
