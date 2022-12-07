@@ -1,6 +1,5 @@
 import discord
 import pymongo
-import requests
 import config
 from datetime import timedelta
 from datetime import datetime as dt

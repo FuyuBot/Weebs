@@ -18,6 +18,7 @@ class applications(commands.Cog):
         print('LOADED: `applications.py`')
 
     @app_commands.command(name='apply', description= "Apply to be staff on A Weeb's Hangout.")
+    @app_commands.checks.cooldown(1, 604800, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.checks.has_any_role("Member")
     async def apply(self, interaction:discord.Interaction):
         player = interaction.user.id
@@ -29,6 +30,11 @@ class applications(commands.Cog):
                 await interaction.response.send_modal(ApplicationModal())
         except Exception as e:
             print(e)
+    
+    @apply.error
+    async def on_work_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            return await interaction.response.send_message(str(error), ephemeral=True)
 
 class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Hangout"):
     age = discord.ui.TextInput(label= "How old are you?", max_length= 2, required= True)
@@ -38,42 +44,44 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
     timeDedicate = discord.ui.TextInput(label= "How much time can you lend to the server?", style= TextStyle.long, required= True)
     #send at the end of the message saying we will contact them, and a confirmation message saying it was sent in the channel to close the modal.
     async def on_submit(self, interaction: discord.Interaction):
-        userName = interaction.user.name
-        userID = interaction.user.id
-        applicationLogs = interaction.client.get_channel(1022658693977870377)
-        ageToStr = str(self.age) 
-        ageToInt = int(ageToStr)
-        mycol.update_one({'_id': userID}, {"$set": {"info.applied" : True}})
-        if ageToInt < 13:
-            embed = discord.Embed(
-                title=f"{userName}'s application",
-                color=discord.Color.red()
-            )
-            embed.add_field(name= self.age.label, value= self.age)
-            embed.add_field(name= self.languages.label, value= self.languages)
-            embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
-            embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
-            embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
-            embed.set_footer(text= f"Applicant's ID: {userID}")
-            
+        try:
+            userName = interaction.user.name
+            userID = interaction.user.id
+            applicationForum = interaction.client.get_channel(1047376618051620984)
+            ageToStr = str(self.age) 
+            ageToInt = int(ageToStr)
+            mycol.update_one({'_id': userID}, {"$set": {"info.applied" : True}})
+            if ageToInt < 13:
+                embed = discord.Embed(
+                    title=f"{userName}'s application",
+                    color=discord.Color.red()
+                )
+                embed.add_field(name= self.age.label, value= self.age)
+                embed.add_field(name= self.languages.label, value= self.languages)
+                embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
+                embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
+                embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
+                embed.set_footer(text= f"Applicant's ID: {userID}")
+                
 
-            await applicationLogs.send(embed=embed)
-            await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
-        else:
-            embed = discord.Embed(
-                title=f"{userName}'s application",
-                color=0x2699C6
-            )
-            embed.add_field(name= self.age.label, value= self.age)
-            embed.add_field(name= self.languages.label, value= self.languages)
-            embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
-            embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
-            embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
-            embed.set_footer(text= f"Applicant's ID: {userID}")
+                await applicationForum.create_thread(name=f"{userName}'s application", embed=embed)
+                await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
+            else:
+                embed = discord.Embed(
+                    title=f"{userName}'s application",
+                    color=0x2699C6
+                )
+                embed.add_field(name= self.age.label, value= self.age)
+                embed.add_field(name= self.languages.label, value= self.languages)
+                embed.add_field(name= self.whyStaff.label, value= self.whyStaff)
+                embed.add_field(name= self.pastExperiences.label, value= self.pastExperiences)
+                embed.add_field(name= self.timeDedicate.label, value= self.timeDedicate)
+                embed.set_footer(text= f"Applicant's ID: {userID}")
 
-            await applicationLogs.send(embed=embed)
-            await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
-    
+                await applicationForum.create_thread(name=f"{userName}'s application", embed=embed)
+                await interaction.response.send_message("Application submitted.\nYou will be contacted soon. Makes sure your privacy settings for direct messages are turned on for A Weeb's Hangout.", ephemeral= True)
+        except Exception as e:
+            print(e)
     
 async def setup(bot):
     await bot.add_cog(applications(bot), guilds=[discord.Object(id=860752406551461909)])

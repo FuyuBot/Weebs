@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import requests
+import config
+import pymongo
 
 moderatorLogs = 865078390109634590
 otherLogs = 865073269811052621
@@ -12,6 +14,10 @@ imageLogs = 1023932277442490458
 joinLeaveLogs = 865073673668526080
 ticketLogs = 1022980124909518898
 eventLogs = 1024365047633424404
+
+myclient = pymongo.MongoClient(config.mongoDB)
+mydb = myclient["WeebsHangout"]
+mycol = mydb["user_info"]
 
 class logs(commands.Cog):
     def __init__(self, bot):
@@ -67,6 +73,23 @@ class logs(commands.Cog):
             await messageLogsChannel.send(embed=embed)
         except Exception as e:
             print(e)
+    
+    @commands.Cog.listener()
+    async def on_user_update(self, before: discord.User, after: discord.User):
+        player = before.id
+        nameBefore = before.name
+        tagBefore = before.discriminator
+        nameAfter = after.name
+        tagAfter = after.discriminator
+        playerDB = mycol.find_one({"_id": player})
+        tag = playerDB['info']['tag']
+        if tag != tagAfter:
+            mycol.update_one({'_id': player}, {"$set": {"info.name": nameAfter}})
+            mycol.update_one({'_id': player}, {"$set": {"info.tag": tagAfter}})
+        else:
+            mycol.update_one({'_id': player}, {"$set": {"info.name": nameAfter}})
+
+
 
 async def setup(bot):
     await bot.add_cog(logs(bot), guilds=[discord.Object(id=860752406551461909)])

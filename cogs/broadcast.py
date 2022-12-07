@@ -25,4 +25,4 @@ class broadcast(commands.Cog):
         await interaction.response.send_message(f"Message sent to {channel}.", ephemeral=True)
 
 async def setup(bot):
-    await bot.add_cog(broadcast(bot))
+    await bot.add_cog(broadcast(bot), guilds=[discord.Object(id=860752406551461909)])

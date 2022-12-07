@@ -5,9 +5,7 @@
         "tag": "",
         "joined": "",
         "applied": false,
-        "currently_banned": false,
-        "staff": false,
-        "anagement": false
+        "currently_banned": false
     },
     "levels": {
         "level": 0,
