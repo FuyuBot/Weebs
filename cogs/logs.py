@@ -77,8 +77,6 @@ class logs(commands.Cog):
     @commands.Cog.listener()
     async def on_user_update(self, before: discord.User, after: discord.User):
         player = before.id
-        nameBefore = before.name
-        tagBefore = before.discriminator
         nameAfter = after.name
         tagAfter = after.discriminator
         playerDB = mycol.find_one({"_id": player})
