@@ -65,14 +65,14 @@ class punishments(commands.Cog):
                 else:
                     embed = discord.Embed(
                         title=f'{user} was banned.',
-                        color=discord.Color.red()
+                        color=discord.Color.red(), timestamp=dt.now()
                     )
                     embed.add_field(name="Staff",value=f"<@{staff}>")
                     embed.add_field(name="Reason",value=f"{reason}")
                     embed.add_field(name="Time", value=f"{dt_string}")
                     embed.set_footer(text=f"ID: {player}")
                     
-                    toUserEmbed = discord.Embed(color=discord.Color.red(), title=f"You have been banned from A Weeb's Hangout")
+                    toUserEmbed = discord.Embed(color=discord.Color.red(), title=f"You have been banned from A Weeb's Hangout", timestamp=dt.now())
                     toUserEmbed.set_author(name=user, icon_url=user.avatar)
                     toUserEmbed.add_field(name="Reason", value=reason)
                     toUserEmbed.add_field(name="Time", value=dt_string)
@@ -99,35 +99,10 @@ class punishments(commands.Cog):
         mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : False}})
         embed = discord.Embed(
             title=f'<@{user}> was unbanned.',
-            color=discord.Color.green()
+            color=discord.Color.green(), timestamp=dt.now()
         )
         await logs.send(embed=embed)
-    @app_commands.command(name='unban' , description="A Weebs Hangout: Unban Command")
-    @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
-    async def unban(self, interaction: discord.Interaction, user: discord.Member):
-        logs = self.bot.get_channel(865078390109634590)
-        player = user.id
-        bannedUsers = interaction.guild.bans()
-        playerDB = mycol.find_one({"_id": player})
-        if playerDB['info']['currently_banned'] == False: # Checks to see if a user is currently banned.
-            await interaction.response.send_message(f"{user.name} is not banned.",  ephemeral=True)
-            return
-        else:
-            member_name, member_discriminator = user.split('#')
-            try:
-                for ban_entry in bannedUsers:
-                    bannedUser = ban_entry.user
-                    if (bannedUser.name, bannedUser.discriminator) == (member_name, member_discriminator):
-                        await interaction.guild.unban(user)
-                        embed = discord.Embed(
-                                    title=f'<@{user}> was unbanned.',
-                                    color=discord.Color.green()
-                                )
-                        await interaction.response.send_message(embed=embed)
-                        await logs.send(embed=embed)
-                        mycol.update_one({'_id': player}, {"$set": {"info.currently_banned" : False}})
-            except Exception as e:
-                print(e)
+
 ####Timeout
     @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
@@ -172,7 +147,7 @@ class punishments(commands.Cog):
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
                         title=f"{user} was put in timeout",
-                        color=discord.Color.red()
+                        color=discord.Color.red(), timestamp=dt.now()
                     )
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
@@ -190,7 +165,7 @@ class punishments(commands.Cog):
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
                         title=f"{user} was put in timeout",
-                        color=discord.Color.red()
+                        color=discord.Color.red(), timestamp=dt.now()
                     )
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
@@ -208,7 +183,7 @@ class punishments(commands.Cog):
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
                         title=f"{user} was put in timeout",
-                        color=discord.Color.red()
+                        color=discord.Color.red(), timestamp=dt.now()
                     )
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
@@ -226,7 +201,7 @@ class punishments(commands.Cog):
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
                         title=f"{user} was put in timeout",
-                        color=discord.Color.red()
+                        color=discord.Color.red(), timestamp=dt.now()
                     )
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
@@ -243,7 +218,7 @@ class punishments(commands.Cog):
                     logs = self.bot.get_channel(865078390109634590)
                     timeoutEmbed = discord.Embed(
                         title=f"{user} was put in timeout",
-                        color=discord.Color.red()
+                        color=discord.Color.red(), timestamp=dt.now()
                     )
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)

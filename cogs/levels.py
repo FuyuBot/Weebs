@@ -21,7 +21,6 @@ class Confirm(discord.ui.View):
     @discord.ui.button(label= "Confirm", style= discord.ButtonStyle.red, custom_id= 'confirmmm')
     async def confirm_button2(self, interaction: discord.Interaction, button):
         try:
-            player = interaction.user.id
             playerDB = mycol.find()
             for x in playerDB:
                 mycol.update_one({'_id': x['_id']}, {"$set": {"levels.level": 0}})
@@ -86,10 +85,10 @@ class levels(commands.Cog):
             embed.add_field(name="__XP__", value=f"{xp:,.2f}")
             return await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(name="leaderboard", description="Displays the leveling leaderboard for everyone in the server.")
-    async def leaderboard(self, interaction: discord.Interaction):
+    @app_commands.command(name="level-leaderboard", description="Displays the leveling leaderboard for everyone in the server.")
+    async def levelLeaderboard(self, interaction: discord.Interaction):
         try:
-            embed = discord.Embed(title="Leaderboard", color=config.color)
+            embed = discord.Embed(title="Level Leaderboard", color=config.color)
             playerDB = mycol.find().sort([("levels.level", -1), ("levels.xp", -1)]).limit(10)
             count = 0
             for x in playerDB:

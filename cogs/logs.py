@@ -35,7 +35,7 @@ class logs(commands.Cog):
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         try:
-            embed = discord.Embed(color=config.color)
+            embed = discord.Embed(color=config.color, timestamp=datetime.now())
             embed.set_author(name=message.author, icon_url=message.author.avatar)
             embed.add_field(name=f'Messaged Deleted in #{message.channel.name}', value=message.content)
             embed.set_footer(text=f"ID: {message.author.id}")
@@ -49,7 +49,7 @@ class logs(commands.Cog):
     async def on_bulk_message_delete(self, messages):
         try:
             for msg in messages:
-                embed = discord.Embed(color=config.color)
+                embed = discord.Embed(color=config.color, timestamp=datetime.now())
                 embed.set_author(name=messages.author, icon_url=messages.author.avatar)
                 embed.add_field(name=f'Messaged Deleted in #{messages.channel.name}', value=msg.content)
                 embed.set_footer(text=f"ID: {messages.author.id}")
@@ -66,7 +66,7 @@ class logs(commands.Cog):
             return
         
         try:
-            embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=config.color, description=f"**Before:** {before.content}\n**+After:** {after.content}")
+            embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=config.color, description=f"**Before:** {before.content}\n**+After:** {after.content}", timestamp=datetime.now())
             embed.set_author(name=before.author, icon_url=before.author.avatar)
             embed.set_footer(text=f"ID: {before.author.id}")
             messageLogsChannel = self.bot.get_channel(messageLogs)
@@ -151,45 +151,5 @@ class logs(commands.Cog):
         except Exception as e:    
             print(e)
             print("Error in on_member_update")
-
-#### Role event things
-    @commands.Cog.listener()
-    async def on_guild_role_create(self, role: discord.Role):
-        serverLog = self.bot.get_channel(serverLogs)
-        try:
-            URL = f"https://www.thecolorapi.com/id?hex={role.color}"
-            COLORGET = requests.get(URL)
-            COLORIMAGE = COLORGET.json()['image']['named']
-
-            color = role.color #color
-            createdAt = role.created_at #datetime
-            hoist = role.hoist #bool
-            mentionable = role.mentionable #bool
-            name = role.name #str
-            roleID = role.id #int
-            embed = discord.Embed(color=config.color, title="Role was created")
-            embed.set_thumbnail(url=COLORIMAGE)
-            embed.add_field(name="HEX", value=color)
-            embed.add_field(name="Hoisted?", value=hoist)
-            embed.add_field(name="Mentionable?", value=mentionable)
-            embed.add_field(name="Name", value=name)
-            embed.add_field(name="Created At", value=createdAt)
-            embed.set_footer(text=f"ID: {roleID}")
-            return await serverLog.send(embed=embed)
-        except Exception as e:
-            print("Error in on_guild_role_create")
-            print(e)
-    
-    @commands.Cog.listener()
-    async def on_guild_role_delete(self, role: discord.Role):
-        try:
-            serverLog = self.bot.get_channel(serverLogs)
-            embed = discord.Embed(color=config.color, title="Role was deleted")
-            embed.add_field(name="Name", value=role.name)
-            embed.set_footer(text=f"ID: {role.id}")
-            return await serverLog.send(embed=embed)
-        except Exception as e:
-            print("Error in on_guild_role_delete")
-            print(e)
 async def setup(bot):
     await bot.add_cog(logs(bot), guilds=[discord.Object(id=860752406551461909)])

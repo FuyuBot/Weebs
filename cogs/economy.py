@@ -51,6 +51,30 @@ class economy(commands.Cog):
                     await interaction.response.send_message(embed=embed)
         except Exception as e:
             print(e)
+    
+    @app_commands.command(name="baltop", description="Displays the balance leaderboard for everyone in the server.")
+    async def baltop(self, interaction: discord.Interaction):
+        try:
+            x = mycol.find()
+            for player in x:
+                wallet = player['economy']['wallet']
+                bank = player['economy']['bank']
+                total = wallet + bank
+                user = player['_id']
+                mycol.update_one({"_id": user}, {"$set": {"economy.total": total}})
+
+            embed = discord.Embed(title="Balance Leaderboard", color=config.color)
+            playerDB = mycol.find().sort([("economy.total", -1)]).limit(10)
+            count = 0
+            for x in playerDB:
+                count += 1
+                wallet = x["_id"]
+                user = self.bot.get_user(int(x['_id']))
+                total = x['economy']['total']
+                embed.add_field(name=f"{count}. {user.name}", value=f"Total: **${total:,.2f}**", inline=False) 
+            return await interaction.response.send_message(embed=embed)
+        except Exception as e:
+            print(e)
 
     @app_commands.command(name='work', description="Earn money by working.")
     @app_commands.checks.cooldown(1, 28800, key=lambda i: (i.guild_id, i.user.id))
@@ -85,7 +109,7 @@ class economy(commands.Cog):
 
     @app_commands.command(name="deposit", description="Deposit money into your bank account.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
-    async def deposit(self, interaction: discord.Interaction, amount: int):
+    async def deposit(self, interaction: discord.Interaction, amount: float):
         try:
             player = interaction.user.id
             playerDB = mycol.find_one({"_id": player})
@@ -108,7 +132,7 @@ class economy(commands.Cog):
     
     @app_commands.command(name="withdraw", description="Withdraw money from your bank account.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
-    async def withdraw(self, interaction: discord.Interaction, amount: int):
+    async def withdraw(self, interaction: discord.Interaction, amount: float):
         try:
             player = interaction.user.id
             playerDB = mycol.find_one({"_id": player})
@@ -131,7 +155,7 @@ class economy(commands.Cog):
     
     @app_commands.command(name="add-money", description="Adds money to a user.")
     @app_commands.checks.has_role(managementTeam)
-    async def addMoney(self, interaction: discord.Interaction, user: discord.Member, amount: int):
+    async def addMoney(self, interaction: discord.Interaction, user: discord.Member, amount: float):
         try:
             player = user.id
             playerDB = mycol.find_one({"_id": player})
@@ -150,7 +174,7 @@ class economy(commands.Cog):
         discord.app_commands.Choice(name= 'Bank', value="2"),
         discord.app_commands.Choice(name= 'All', value="3")
     ])
-    async def removeMoney(self, interaction: discord.Interaction, user: discord.Member, where: discord.app_commands.Choice[str], amount: int=None):
+    async def removeMoney(self, interaction: discord.Interaction, user: discord.Member, where: discord.app_commands.Choice[str], amount: float=None):
         try:
             player = user.id
             playerDB = mycol.find_one({"_id": player})
