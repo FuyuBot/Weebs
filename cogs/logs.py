@@ -42,6 +42,7 @@ class logs(commands.Cog):
             messageLogsChannel = self.bot.get_channel(messageLogs)
             await messageLogsChannel.send(embed=embed)
         except Exception as e:
+            print("Error in on_message_delete")
             print(e)
     
     @commands.Cog.listener()
@@ -55,6 +56,7 @@ class logs(commands.Cog):
                 messageLogsChannel = self.bot.get_channel(messageLogs)
                 await messageLogsChannel.send(embed=embed)
         except Exception as e:
+            print("Error in on_bulk_message_delete")
             print(e)
     
     @commands.Cog.listener()
@@ -70,6 +72,7 @@ class logs(commands.Cog):
             messageLogsChannel = self.bot.get_channel(messageLogs)
             await messageLogsChannel.send(embed=embed)
         except Exception as e:
+            print("Error in on_message_edit")
             print(e)
     
 #### UPDATE DB
@@ -113,7 +116,7 @@ class logs(commands.Cog):
                 await memberLog.send(embed=embed)
         except Exception as e:
             print(e)
-            print("Error: on_user_update")
+            print("Error in on_user_update")
 
 #### Member Update
     @commands.Cog.listener()
@@ -147,7 +150,7 @@ class logs(commands.Cog):
                 await memberLog.send(embed=embed)
         except Exception as e:    
             print(e)
-            print("Error: on_member_update")
+            print("Error in on_member_update")
 
 #### Role event things
     @commands.Cog.listener()
@@ -174,15 +177,19 @@ class logs(commands.Cog):
             embed.set_footer(text=f"ID: {roleID}")
             return await serverLog.send(embed=embed)
         except Exception as e:
+            print("Error in on_guild_role_create")
             print(e)
     
     @commands.Cog.listener()
     async def on_guild_role_delete(self, role: discord.Role):
-        serverLog = self.bot.get_channel(serverLogs)
-        embed = discord.Embed(color=config.color, title="Role was deleted")
-        embed.add_field(name="Name", value=role.name)
-        embed.set_footer(text=f"ID: {role.id}")
-        return await serverLog.send(embed=embed)
-
+        try:
+            serverLog = self.bot.get_channel(serverLogs)
+            embed = discord.Embed(color=config.color, title="Role was deleted")
+            embed.add_field(name="Name", value=role.name)
+            embed.set_footer(text=f"ID: {role.id}")
+            return await serverLog.send(embed=embed)
+        except Exception as e:
+            print("Error in on_guild_role_delete")
+            print(e)
 async def setup(bot):
     await bot.add_cog(logs(bot), guilds=[discord.Object(id=860752406551461909)])
