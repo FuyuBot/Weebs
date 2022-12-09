@@ -50,7 +50,6 @@ class logs(commands.Cog):
         try:
             for msg in messages:
                 embed = discord.Embed(color=config.color, timestamp=datetime.now())
-                embed.set_author(name=messages.author, icon_url=messages.author.avatar)
                 embed.add_field(name=f'Messaged Deleted in #{messages.channel.name}', value=msg.content)
                 embed.set_footer(text=f"ID: {messages.author.id}")
                 messageLogsChannel = self.bot.get_channel(messageLogs)

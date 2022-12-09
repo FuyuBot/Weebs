@@ -105,7 +105,25 @@ class economy(commands.Cog):
     @work.error
     async def on_work_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
-            return await interaction.response.send_message(str(error), ephemeral=True)
+            err = f"{error}"
+            n = err[34:-4]
+            print(n)
+            n = int(n)
+
+            day = n // (24 * 3600)
+            
+            n = n % (24 * 3600)
+            hour = n // 3600
+
+            n %= 3600
+            minutes = n // 60
+
+            n %= 60
+            seconds = n
+            if minutes == 0 and hour == 0:
+                return await interaction.response.send_message(f"You are on cooldown. Try again in {seconds} seconds.", ephemeral=True)
+            
+            return await interaction.response.send_message(f"You are on cooldown. Try again in {hour}:{minutes}:{seconds}.", ephemeral=True)
 
     @app_commands.command(name="deposit", description="Deposit money into your bank account.")
     @app_commands.checks.has_any_role(member, staffTeam, seniorstaff, managementTeam)
@@ -258,7 +276,25 @@ class economy(commands.Cog):
     @steal.error
     async def on_steal_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
-            return await interaction.response.send_message(str(error), ephemeral=True)
+            err = f"{error}"
+            n = err[34:-4]
+            print(n)
+            n = int(n)
+
+            day = n // (24 * 3600)
+            
+            n = n % (24 * 3600)
+            hour = n // 3600
+
+            n %= 3600
+            minutes = n // 60
+
+            n %= 60
+            seconds = n
+            if minutes == 0 and hour == 0:
+                return await interaction.response.send_message(f"You are on cooldown. Try again in {seconds} seconds.", ephemeral=True)
+            
+            return await interaction.response.send_message(f"You are on cooldown. Try again in {hour}:{minutes}:{seconds}.", ephemeral=True)
     
     @app_commands.command(name="daily-income", description="Use this command to claim your daily income.")
     @app_commands.checks.has_any_role("Member")
@@ -277,7 +313,25 @@ class economy(commands.Cog):
     @dailyIncome.error
     async def on_dailyIncome_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
-            return await interaction.response.send_message(str(error), ephemeral=True)
+            err = f"{error}"
+            n = err[34:-4]
+            print(n)
+            n = int(n)
+
+            day = n // (24 * 3600)
+            
+            n = n % (24 * 3600)
+            hour = n // 3600
+
+            n %= 3600
+            minutes = n // 60
+
+            n %= 60
+            seconds = n
+            if minutes == 0 and hour == 0:
+                return await interaction.response.send_message(f"You are on cooldown. Try again in {seconds} seconds.", ephemeral=True)
+            
+            return await interaction.response.send_message(f"You are on cooldown. Try again in {hour}:{minutes}:{seconds}.", ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(economy(bot), guilds=[discord.Object(id=860752406551461909)])

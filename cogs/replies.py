@@ -18,7 +18,7 @@ class replies(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         try:
-            if message.channel.id == 865755491303817216 and message.author.id is not 926163269503299695:
+            if message.channel.id == 865755491303817216 and message.author.id != 926163269503299695:
                 await discord.Message.delete(message)
         except Exception as e:
             print(e)

@@ -97,19 +97,19 @@ class members(commands.Cog):
         
             if msgNum < roleReq[0]:
                 msgLeft = roleReq[0] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role1.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}** messages.\n\nYou need `{msgLeft} more messages to get {role1.mention}")
             elif msgNum > roleReq[0] and msgNum < roleReq[1]:
                 msgLeft = roleReq[1] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role2.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}** messages.\n\nYou need `{msgLeft} more messages to get {role2.mention}")
             elif msgNum > roleReq[1] and msgNum < roleReq[2]:
                 msgLeft = roleReq[2] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role3.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}** messages.\n\nYou need `{msgLeft} more messages to get {role3.mention}")
             elif msgNum > roleReq[2] and msgNum < roleReq[3]:
                 msgLeft = roleReq[3] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role4.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}** messages.\n\nYou need `{msgLeft} more messages to get {role4.mention}")
             elif msgNum > roleReq[3] and msgNum < roleReq[4]:
                 msgLeft = roleReq[4] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role5.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}** messages.\n\nYou need `{msgLeft} more messages to get {role5.mention}")
 
             return await interaction.response.send_message(embed=embed, ephemeral=True)
         else:
@@ -120,19 +120,19 @@ class members(commands.Cog):
         
             if msgNum < roleReq[0]:
                 msgLeft = roleReq[0] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role1.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"They currently have **{msgNum}** messages.")
             elif msgNum > roleReq[0] and msgNum < roleReq[1]:
                 msgLeft = roleReq[1] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role2.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"They currently have **{msgNum}** messages.")
             elif msgNum > roleReq[1] and msgNum < roleReq[2]:
                 msgLeft = roleReq[2] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role3.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"They currently have **{msgNum}** messages.")
             elif msgNum > roleReq[2] and msgNum < roleReq[3]:
                 msgLeft = roleReq[3] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role4.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"They currently have **{msgNum}** messages.")
             elif msgNum > roleReq[3] and msgNum < roleReq[4]:
                 msgLeft = roleReq[4] - msgNum
-                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"You currently have **{msgNum}**\n\nYou need `{msgLeft} more messages to get {role5.mention}")
+                embed = discord.Embed(color=config.color, title=f"{member}'s messages", description=f"They currently have **{msgNum}** messages.")
 
             return await interaction.response.send_message(embed=embed, ephemeral=True)
     
@@ -146,11 +146,11 @@ class members(commands.Cog):
                 count += 1
                 user = self.bot.get_user(int(x['_id']))
                 msgs = x['info']['messages']
-                embed.add_field(name=f"{count}. {user.name}", value=f"**{msgs:,.2f}** messages", inline=False) 
+                embed.add_field(name=f"{count}. {user.name}", value=f"**{msgs}** messages", inline=False) 
             return await interaction.response.send_message(embed=embed)
         except Exception as e:
             print(e)
 
 
 async def setup(bot):
-    await bot.add_cog(members(bot))
+    await bot.add_cog(members(bot), guilds=[discord.Object(id=860752406551461909)])

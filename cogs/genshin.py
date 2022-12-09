@@ -48,7 +48,6 @@ class genshin(commands.Cog):
     @requestToJoin.error
     async def on_request_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
-            #await interaction.response.send_message(str(error), ephemeral=True)
             err = f"{error}"
             n = err[34:-4]
             print(n)
@@ -67,10 +66,7 @@ class genshin(commands.Cog):
             if minutes == 0 and hour == 0:
                 return await interaction.response.send_message(f"You are on cooldown. Try again in {seconds} seconds.", ephemeral=True)
             
-            if hour != 0:
-                return await interaction.response.send_message(f"You are on cooldown. Try again in {hour} hours, {minutes} minute(s) and {seconds} seconds.", ephemeral=True)
-            elif hour == 1:
-                return await interaction.response.send_message(f"You are on cooldown. Try again in {hour} hour, {minutes} minute(s) and {seconds} seconds.", ephemeral=True)
+            return await interaction.response.send_message(f"You are on cooldown. Try again in {hour}:{minutes}:{seconds}.", ephemeral=True)
 
     @app_commands.command(name="genshin-birthdays", description="Sends the genshin birthdays")
     @app_commands.checks.has_any_role("Management Team")

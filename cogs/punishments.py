@@ -34,9 +34,9 @@ class punishments(commands.Cog):
         print("LOADED `punishments.py`")
     
 ####Ban
-    @app_commands.command(name='ban' , description="A Weebs Hangout: Ban Command")
+    @app_commands.command(name='ban' , description="Ban Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
-    async def ban(self, interaction: discord.Interaction, user: discord.Member, reason: str = None):
+    async def ban(self, interaction: discord.Interaction, user: discord.Member, reason: str, evidence: discord.Attachment):
         try:
             player = user.id
             staff = interaction.user.id
@@ -70,6 +70,7 @@ class punishments(commands.Cog):
                     embed.add_field(name="Staff",value=f"<@{staff}>")
                     embed.add_field(name="Reason",value=f"{reason}")
                     embed.add_field(name="Time", value=f"{dt_string}")
+                    embed.set_image(url=evidence)
                     embed.set_footer(text=f"ID: {player}")
                     
                     toUserEmbed = discord.Embed(color=discord.Color.red(), title=f"You have been banned from A Weeb's Hangout", timestamp=dt.now())
@@ -104,9 +105,9 @@ class punishments(commands.Cog):
         await logs.send(embed=embed)
 
 ####Timeout
-    @app_commands.command(name='timeout' , description="A Weebs Hangout: Timeout Command")
+    @app_commands.command(name='timeout' , description="Timeout Command")
     @app_commands.checks.has_any_role(helper, moderator, seniormoderator, seniorstaff)
-    async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: int, durationtype: str, reason: str):
+    async def timeout(self, interaction: discord.Interaction, user: discord.Member, duration: int, durationtype: str, reason: str, evidence: discord.Attachment):
         try:
             if user.is_timed_out() is True:
                 return await interaction.response.send_message("That user is already in timeout.", ephemeral=True)
@@ -152,6 +153,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
+                    timeoutEmbed.set_image(url=evidence)
                     await interaction.response.send_message(embed=timeoutEmbed)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
@@ -170,6 +172,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
+                    timeoutEmbed.set_image(url=evidence)
                     await interaction.response.send_message(embed=timeoutEmbed)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
@@ -188,6 +191,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
+                    timeoutEmbed.set_image(url=evidence)
                     await interaction.response.send_message(embed=timeoutEmbed)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
@@ -206,6 +210,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
+                    timeoutEmbed.set_image(url=evidence)
                     await interaction.response.send_message(embed=timeoutEmbed)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
@@ -223,6 +228,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Punished By:", value=f"<@{staff}>", inline= True)
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
+                    timeoutEmbed.set_image(url=evidence)
                     await interaction.response.send_message(embed=timeoutEmbed)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
@@ -242,7 +248,7 @@ class punishments(commands.Cog):
             print(e)
             
 ####Remove timeout
-    @app_commands.command(name='remove-timeout', description="A Weebs Hangout: Remove Timeout Command")
+    @app_commands.command(name='remove-timeout', description="Remove Timeout Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def remove_timeout(self, interaction: discord.Interaction, user: discord.Member):
         await self.bot.remove_timeout()
@@ -255,9 +261,9 @@ class punishments(commands.Cog):
         await logs.send(embed=embed)
 
 ####Warn
-    @app_commands.command(name='warn', description="A Weebs hangout: Warn a user with a given reason.")
+    @app_commands.command(name='warn', description="Warn a user with a given reason.")
     @app_commands.checks.has_any_role(trialhelper, helper, moderator, seniormoderator, seniorstaff)
-    async def warn(self, interaction: discord.Interaction, user: discord.Member, reason: str):
+    async def warn(self, interaction: discord.Interaction, user: discord.Member, reason: str, evidence: discord.Attachment):
         player = user.id
         staff = interaction.user.id
         playerDB = mycol.find_one({"_id": player})
@@ -273,8 +279,6 @@ class punishments(commands.Cog):
         elif 926163269503299695 == player:
             await interaction.response.send_message("You cannot warn me.")
             return
-        if reason == None:
-            reason = "No reason was provided."
 
         warnList = playerDB['punishments']['warns']
         warnList.append({"date": f"{timeFormat}", "staff": staff, "reason": reason})
@@ -285,6 +289,7 @@ class punishments(commands.Cog):
         embed.add_field(name="Staff", value=f"<@{staff}>")
         embed.add_field(name="Reason", value=f"{reason}")
         embed.add_field(name="Time", value=f"{dt_string}")
+        embed.set_image(url=evidence)
         embed.set_footer(text=f"ID: {player}")
 
         playerEmbed = discord.Embed(
@@ -445,13 +450,13 @@ class punishments(commands.Cog):
     
     @app_commands.command(name='purge', description="Remove a specified number of messages in a given channel.")
     @app_commands.checks.has_any_role(seniormoderator, seniorstaff)
-    async def purge(self, interaction: discord.Interaction, amount: int, user: discord.Member=None):
+    async def purge(self, interaction: discord.Interaction, amount: int):
             await interaction.channel.purge(limit=amount)
             if amount == 1:
                 await interaction.response.send_message(f"`{amount}` message deleted", ephemeral=True)
             elif amount > 1: 
                 await interaction.response.send_message(f"{amount} messages deleted", ephemeral=True)
             else:
-                await interaction.response.send_message(f"Must be more then 1.", ephemeral=True)
+                await interaction.response.send_message(f"Must be more than 1.", ephemeral=True)
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])

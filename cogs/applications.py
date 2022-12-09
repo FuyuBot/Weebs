@@ -34,7 +34,28 @@ class applications(commands.Cog):
     @apply.error
     async def on_work_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
-            return await interaction.response.send_message(str(error), ephemeral=True)
+            err = f"{error}"
+            n = err[34:-4]
+            print(n)
+            n = int(n)
+
+            day = n // (24 * 3600)
+            
+            n = n % (24 * 3600)
+            hour = n // 3600
+
+            n %= 3600
+            minutes = n // 60
+
+            n %= 60
+            seconds = n
+            if minutes == 0 and hour == 0:
+                return await interaction.response.send_message(f"You are on cooldown. Try again in {seconds} seconds.", ephemeral=True)
+            else:
+                if day != 0:
+                    return await interaction.response.send_message(f"You are on cooldown. Try again in {day} day(s) {hour}:{minutes}:{seconds}.", ephemeral=True)
+                else:
+                    return await interaction.response.send_message(f"You are on cooldown. Try again in {day} day(s) {hour}:{minutes}:{seconds}.", ephemeral=True)
 
 class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Hangout"):
     age = discord.ui.TextInput(label= "How old are you?", max_length= 2, required= True)
