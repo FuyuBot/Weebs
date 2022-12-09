@@ -183,5 +183,6 @@ class genshin(commands.Cog):
             print(e)
 
 
+        
 async def setup(bot):
     await bot.add_cog(genshin(bot), guilds=[discord.Object(id=config.weebsHangout)])

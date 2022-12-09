@@ -466,6 +466,17 @@ class punishments(commands.Cog):
             else:
                 return await interaction.response.send_message("Failed, please check the code.")
         except Exception as e:
-            print(e)    
+            print(e)
+    
+    @app_commands.command(name='purge', description="Remove a specified number of messages in a given channel.")
+    @app_commands.checks.has_any_role(seniormoderator, seniorstaff)
+    async def purge(self, interaction: discord.Interaction, amount: int, user: discord.Member=None):
+            await interaction.channel.purge(limit=amount)
+            if amount == 1:
+                await interaction.response.send_message(f"`{amount}` message deleted", ephemeral=True)
+            elif amount > 1: 
+                await interaction.response.send_message(f"{amount} messages deleted", ephemeral=True)
+            else:
+                await interaction.response.send_message(f"Must be more then 1.", ephemeral=True)
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])

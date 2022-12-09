@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import config
+import requests
 import pymongo
 from datetime import datetime
 
@@ -58,6 +59,10 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
+        botIDs = [926163269503299695,820031583419367425,774806286051049504,235148962103951360302050872383242240,294882584201003009,720351927581278219,356950275044671499,713586207119900693]
+        if before.author.id in botIDs:
+            return
+        
         try:
             embed = discord.Embed(title=f'Messaged edited in #{before.channel.name}',color=config.color, description=f"**Before:** {before.content}\n**+After:** {after.content}")
             embed.set_author(name=before.author, icon_url=before.author.avatar)
@@ -144,8 +149,40 @@ class logs(commands.Cog):
             print(e)
             print("Error: on_member_update")
 
-#### 
+#### Role event things
+    @commands.Cog.listener()
+    async def on_guild_role_create(self, role: discord.Role):
+        serverLog = self.bot.get_channel(serverLogs)
+        try:
+            URL = f"https://www.thecolorapi.com/id?hex={role.color}"
+            COLORGET = requests.get(URL)
+            COLORIMAGE = COLORGET.json()['image']['named']
 
+            color = role.color #color
+            createdAt = role.created_at #datetime
+            hoist = role.hoist #bool
+            mentionable = role.mentionable #bool
+            name = role.name #str
+            roleID = role.id #int
+            embed = discord.Embed(color=config.color, title="Role was created")
+            embed.set_thumbnail(url=COLORIMAGE)
+            embed.add_field(name="HEX", value=color)
+            embed.add_field(name="Hoisted?", value=hoist)
+            embed.add_field(name="Mentionable?", value=mentionable)
+            embed.add_field(name="Name", value=name)
+            embed.add_field(name="Created At", value=createdAt)
+            embed.set_footer(text=f"ID: {roleID}")
+            return await serverLog.send(embed=embed)
+        except Exception as e:
+            print(e)
+    
+    @commands.Cog.listener()
+    async def on_guild_role_delete(self, role: discord.Role):
+        serverLog = self.bot.get_channel(serverLogs)
+        embed = discord.Embed(color=config.color, title="Role was deleted")
+        embed.add_field(name="Name", value=role.name)
+        embed.set_footer(text=f"ID: {role.id}")
+        return await serverLog.send(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(logs(bot), guilds=[discord.Object(id=860752406551461909)])

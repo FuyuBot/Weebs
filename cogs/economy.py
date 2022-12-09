@@ -231,10 +231,29 @@ class economy(commands.Cog):
                     return await interaction.response.send_message("The attempt to steal money failed.")
         except Exception as e:
             print(e)
-    
     @steal.error
     async def on_steal_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             return await interaction.response.send_message(str(error), ephemeral=True)
+    
+    @app_commands.command(name="daily-income", description="Use this command to claim your daily income.")
+    @app_commands.checks.has_any_role("Member")
+    @app_commands.checks.cooldown(1, 86400, key=lambda i: (i.guild_id, i.user.id))
+    async def dailyIncome(self, interaction: discord.Interaction):
+        try:
+            player = interaction.user.id
+            playerDB = mycol.find_one({"_id": player})
+            wallet = playerDB['economy']['wallet']
+            earnings = 250
+            amount = wallet + earnings
+            mycol.update_one({'_id': player}, {"$set": {"economy.wallet": amount}})
+            return await interaction.response.send_message(f"You claimed your daily income, you can claim it again in 1 day!", ephemeral=True)
+        except Exception as e:
+            print(e)
+    @dailyIncome.error
+    async def on_dailyIncome_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            return await interaction.response.send_message(str(error), ephemeral=True)
+
 async def setup(bot):
     await bot.add_cog(economy(bot), guilds=[discord.Object(id=860752406551461909)])
