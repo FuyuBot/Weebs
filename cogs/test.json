@@ -20,5 +20,16 @@
         "timeouts": [],
         "warns": [],
         "notes": []
+    },
+    "roles": {
+        "green" : false,
+        "red": false,
+        "blue": false,
+        "yellow": false,
+        "ninja": false,
+        "orange": false,
+        "teal": false,
+        "purple": false,
+        "white": false
     }
 }

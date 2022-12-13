@@ -14,8 +14,30 @@ intents.auto_moderation_configuration = True
 intents.reactions = True
 bot = commands.Bot(command_prefix='.', intents=intents)
 status = discord.Status.online
-bot.remove_command('help')
 
+@bot.command()
+async def sync(ctx) -> None:
+    if ctx.author.id == 920797181034778655 or ctx.author.id == 155580061888675840:
+        try:
+            fmt = await ctx.bot.tree.sync()
+            print(f"Synced {len(fmt)} commands.")
+            return
+        except Exception as e:
+            print(e)
+    else:
+        print("Failed: not sean or jacob.")
+
+@bot.command()
+async def syncweebs(ctx) -> None:
+    if ctx.author.id == 920797181034778655 or ctx.author.id == 155580061888675840:
+        try:
+            fmt = await ctx.bot.tree.sync(guild=ctx.guild)
+            print(f"Synced {len(fmt)} commands.")
+            return
+        except Exception as e:
+            print(e)
+    else:
+        print("Failed: not sean or jacob.")
 
 
 @bot.event

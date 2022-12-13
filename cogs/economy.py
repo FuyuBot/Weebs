@@ -4,6 +4,7 @@ from discord.ext import commands
 import random
 import config
 import pymongo
+from datetime import datetime
 
 myclient = pymongo.MongoClient(config.mongoDB)
 mydb = myclient["WeebsHangout"]
@@ -13,6 +14,8 @@ seniorstaff = 865054271857885225
 managementTeam = 860758013731274762
 staffTeam = 860758014386896926
 member = 860757567566774322
+
+
 
 class economy(commands.Cog):
     def __init__(self, bot):
@@ -330,8 +333,8 @@ class economy(commands.Cog):
             seconds = n
             if minutes == 0 and hour == 0:
                 return await interaction.response.send_message(f"You are on cooldown. Try again in {seconds} seconds.", ephemeral=True)
-            
             return await interaction.response.send_message(f"You are on cooldown. Try again in {hour}:{minutes}:{seconds}.", ephemeral=True)
+
 
 async def setup(bot):
     await bot.add_cog(economy(bot), guilds=[discord.Object(id=860752406551461909)])
