@@ -30,6 +30,18 @@
         "orange": false,
         "teal": false,
         "purple": false,
-        "white": false
+        "white": false,
+        "genshin": false,
+        "streamannouncements": false,
+        "serverupdates": false,
+        "serverevets": false,
+        "notweeb": false,
+        "episodes": false,
+        "he-him": false,
+        "she-her": false,
+        "they-them": false,
+        "other": false,
+        "ask": false
+
     }
 }

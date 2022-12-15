@@ -54,6 +54,17 @@ class joinleave(commands.Cog):
                 "timeouts": [],
                 "warns": [],
                 "notes": []
+            },
+            "roles": {
+                "green" : False,
+                "red": False,
+                "blue": False,
+                "yellow": False,
+                "ninja": False,
+                "orange": False,
+                "teal": False,
+                "purple": False,
+                "white": False
             }
         }
         
@@ -85,6 +96,17 @@ class joinleave(commands.Cog):
                     "timeouts": [],
                     "warns": [],
                     "notes": []
+                },
+                "roles": {
+                    "green" : False,
+                    "red": False,
+                    "blue": False,
+                    "yellow": False,
+                    "ninja": False,
+                    "orange": False,
+                    "teal": False,
+                    "purple": False,
+                    "white": False
                 }
             }
         
