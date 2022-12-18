@@ -24,7 +24,7 @@ class SelectMenu(discord.ui.Select):
             discord.SelectOption(label="Staff App", description="If you have any questions related to the staff application."),
             discord.SelectOption(label="Giveaway", description="If you would like to start a giveaway."),
             discord.SelectOption(label="Report", description="Report someone for breaking one of our server rules."),
-            discord.SelectOption(label="Ticket", description="Use this if you want to make a ticket regarding anything else.")
+            discord.SelectOption(label="General", description="Use this if you want to make a ticket regarding anything else.")
         ]
         super().__init__(placeholder="Select your ticket.", max_values=1, min_values=1, options=menu)
 
@@ -106,8 +106,8 @@ class SelectMenu(discord.ui.Select):
                 channelReason = await interaction.guild.create_text_channel(name=f"report-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesReport, reason=f"Report ticket for {interaction.user}", category= reportCategory)
                 await channelReason.send(f"<@&{staffTeam}<@&{seniorstaff}>,\n{interaction.user.mention} has created a ticket.\n\nWhat would you like to report?")
                 await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
-            elif self.values[0] == "Ticket":
-                channelOther = await interaction.guild.create_text_channel(name=f"ticket-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesOther, reason=f"Ticket for {interaction.user}", category= category)
+            elif self.values[0] == "General":
+                channelOther = await interaction.guild.create_text_channel(name=f"general-{interaction.user.name.lower()}{interaction.user.discriminator}", overwrites=overwritesOther, reason=f"Ticket for {interaction.user}", category= category)
                 await channelOther.send(f"<@&{staffTeam}>,\n{interaction.user.mention} has created a ticket.\n\nHow can we help you today?")
                 await interaction.response.send_message(f"Your ticket has been created.", ephemeral=True)
 
@@ -137,7 +137,7 @@ class tickets(commands.Cog):
     @app_commands.command(name='close', description="Close the ticket!, this will also send a transcript to Management.")
     @app_commands.checks.has_any_role(staffTeam, seniorstaff)
     async def close(self, interaction: discord.Interaction):
-        if "staffapp-" in interaction.channel.name or "report-" in interaction.channel.name or "ticket-" in interaction.channel.name or "giveaway-" in interaction.channel.name:
+        if "staffapp-" in interaction.channel.name or "report-" in interaction.channel.name or "general-" in interaction.channel.name or "giveaway-" in interaction.channel.name:
             embed = discord.Embed(title="Are you sure you want to close this ticket?", color=0x2699C6)
             await interaction.response.send_message(embed=embed, view=Confirm(), ephemeral=True)
         else: await interaction.response.send_message("This isn't a ticket!", ephemeral=True)

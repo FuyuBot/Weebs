@@ -40,10 +40,7 @@ class weebs(commands.Cog):
             <@&895490315174178857> - Users with this role are extremely close with the management team and help test new features for the server.\n\
             <@&1041796871892516874> - Stream/channel moderators of <@920797181034778655>'s channels.")
         twitchEmbed = discord.Embed(title=f"Twitch Roles", color=config.color, description="\
-            <@&1041791871913046137> - This role is given to those who subscribe to <@920797181034778655> on twitch.\n\
-            <@&1041791871913046138> - This role is given if you subscribed at tier one.\n\
-            <@&1041791871913046139> - This role is given if you subscribed at tier two.\n\
-            <@&1041791871913046140> - This role is given if you subscribed at tier three.\n")
+            <@&1041791871913046137> - This role is given to those who subscribe to <@920797181034778655> on twitch. This role doesn't give any extra perks just a channel.")
         generalEmbed = discord.Embed(title=f"General Roles",color=config.color, description="\
             <@&860757567566774322> - This the default role everyone will have.\n\
             <@&865727063327768618> - People wanted a role saying they are not a weeb.\n\
@@ -64,7 +61,7 @@ class weebs(commands.Cog):
             Q: If I have a question about the application/application process what do I do?\n\
             A: Make a staff app ticket with `/ticket` in any channel.\n\n\
             Q: How can I get more roles on the server?\n\
-            A: <#892554752175517756>\n\n\
+            A: Use the command `/roles` in any channel.\n\n\
             Q: How do I report someone?\n\
             A: Make a report ticket with `/ticket` in any channel.\n\n\
             Q: How can I contact staff?\n\
@@ -75,6 +72,7 @@ class weebs(commands.Cog):
 
         await sendChannel.send(embed=initialEmbed)
         await sendChannel.send(embed=staffEmbed)
+        await sendChannel.send(embed=twitchEmbed)
         await sendChannel.send(embed=generalEmbed)
         await sendChannel.send(embed=levelsEmbed)
         await sendChannel.send(embed=faqEmbed)
@@ -88,7 +86,7 @@ class weebs(commands.Cog):
                 I hope you like our Genshin Impact area of the server! We have lots of things that\
                 you can use here as well as lots of announcements from the official Genshin Impact server. If you have any questions regarding things related\
             feel free to make a ticket using `/ticket` or ask a staff member and they should be able to help you. Although if your question is related\
-                to Genshin I would probably ask someone that has the Genshin Impact role.")
+                to Genshin I would probably ask someone that has the Genshin Impact role. If you are requesting the AR 60 roles please make a General ticket. with `/ticket`.")
         genshinEmbed = discord.Embed(color=config.color, description="World levels and Adventure Rank 60:\n\
             <@&1036071298272604291> - Users who are Adventurer Rank 60\n\
             <@&1036071227376271390> - Users who have world level 8\n\
@@ -98,6 +96,7 @@ class weebs(commands.Cog):
             <@&1036071279737982996> - Users who have world level 4\n\
             <@&1036071285404487720> - Users who have world level 3\n\
             <@&1036071289925931008> - Users who have world level 2\n")
+        genshinEmbed.set_footer(text="Obtain by doing `/genshin-roles`. ")
         
         await sendChannel.send(embed=initialEmbed)
         await sendChannel.send(embed=genshinEmbed)
