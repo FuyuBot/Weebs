@@ -7,6 +7,7 @@ import config
 myclient = pymongo.MongoClient(config.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
+botCol = mydb["bot_info"]
 
 
 class applications(commands.Cog):
@@ -16,6 +17,34 @@ class applications(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print('LOADED: `applications.py`')
+    
+    @app_commands.command(name='toggle-applications', description="Enable/Disable applications")
+    @app_commands.checks.has_any_role("Management Team")
+    @app_commands.describe(toggle='What would you like to toggle it to?')
+    @app_commands.choices(toggle=[
+        discord.app_commands.Choice(name= 'On', value="true"),
+        discord.app_commands.Choice(name= 'Off', value="false")
+    ])
+    async def toggleApps(self, interaction: discord.Interaction, toggle: discord.app_commands.Choice[str]):
+        try:
+            announcements = interaction.client.get_channel(865057220047798303)
+            botDB = botCol.find_one({"_id": 926163269503299695})
+            if toggle.value == "true":
+                if botDB['application-status'] == True:
+                    return await interaction.response.send_message("Applications are already enabled.", ephemeral=True)
+                else:
+                    botCol.update_one({"_id": 926163269503299695}, {"$set": {"application-status": True}})
+                    await interaction.response.send_message("Applications have been `Enabled`.")
+                    return await announcements.send("<@&865050483189219338>\n\nApplications have been `ENABLED` by the Management Team!")
+            else:
+                if botDB['application-status'] == False:
+                    return await interaction.response.send_message("Applications are already disabled.", ephemeral=True)
+                else:
+                    botCol.update_one({"_id": 926163269503299695}, {"$set": {"application-status": False}})
+                    await interaction.response.send_message("Applications have been `Disabled`.")
+                    return await announcements.send("<@&865050483189219338>\n\nApplications have been `DISABLED` by the Management Team, when they get enabled again there will be another announcement.")
+        except Exception as e:
+            print(e)
 
     @app_commands.command(name='apply', description= "Apply to be staff on A Weeb's Hangout.")
     @app_commands.checks.cooldown(1, 604800, key=lambda i: (i.guild_id, i.user.id))
@@ -24,10 +53,14 @@ class applications(commands.Cog):
         player = interaction.user.id
         try:
             playerDB = mycol.find_one({"_id": player})
+            botDB = botCol.find_one({"_id": 926163269503299695})
             if playerDB['info']['applied'] == True:
                 await interaction.response.send_message(f"{player} you have already applied.", ephemeral= True)
             else:
-                await interaction.response.send_modal(ApplicationModal())
+                if botDB['application-status'] == True:
+                    await interaction.response.send_modal(ApplicationModal())
+                else:
+                    await interaction.response.send_message("Unforuntely applications are currently disabled. There will be announcement in <#865057220047798303> when they are reenabled.", ephemeral=True)
         except Exception as e:
             print(e)
     
@@ -55,7 +88,7 @@ class applications(commands.Cog):
                 if day != 0:
                     return await interaction.response.send_message(f"You are on cooldown. Try again in {day} day(s) {hour}:{minutes}:{seconds}.", ephemeral=True)
                 else:
-                    return await interaction.response.send_message(f"You are on cooldown. Try again in {day} day(s) {hour}:{minutes}:{seconds}.", ephemeral=True)
+                    return await interaction.response.send_message(f"You are on cooldown. Try again in {hour}:{minutes}:{seconds}.", ephemeral=True)
 
 class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Hangout"):
     age = discord.ui.TextInput(label= "How old are you?", max_length= 2, required= True)

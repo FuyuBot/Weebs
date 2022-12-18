@@ -6,7 +6,7 @@ import pymongo
 
 myclient = pymongo.MongoClient(config.mongoDB)
 mydb = myclient['WeebsHangout']
-mycol = mydb['user_info']
+mycol = mydb["user_info"]
 
 class weebs(commands.Cog):
     def __init__(self, bot):
@@ -96,7 +96,7 @@ class weebs(commands.Cog):
             <@&1036071279737982996> - Users who have world level 4\n\
             <@&1036071285404487720> - Users who have world level 3\n\
             <@&1036071289925931008> - Users who have world level 2\n")
-        genshinEmbed.set_footer(text="Obtain by doing `/genshin-roles`. ")
+        genshinEmbed.set_footer(text="Obtain by doing /genshin-roles. ")
         
         await sendChannel.send(embed=initialEmbed)
         await sendChannel.send(embed=genshinEmbed)
