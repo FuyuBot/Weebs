@@ -123,7 +123,7 @@ class ApplicationModal(discord.ui.Modal, title= "Staff Application - A Weeb's Ha
             else:
                 embed = discord.Embed(
                     title=f"{userName}'s application",
-                    color=0x2699C6
+                    color=config.color
                 )
                 embed.add_field(name= self.age.label, value= self.age)
                 embed.add_field(name= self.languages.label, value= self.languages)

@@ -299,7 +299,7 @@ class roles(commands.Cog):
         elif roles.value == "rtj":
             view = View()
             view.add_item(requestToJoin)
-            embed=discord.Embed(color=config.color,title="Request to join",description=f'Please only get this role if you will allow users to join your world. This can be for a number of reasons, help with bosses, getting materials for characters/weapons/etc, domains, fishing, anything. Just make sure you are clear when responding to the user that needs help.')
+            embed=discord.Embed(color=config.color,title="Request to join",description=f'Please only get this role if you will allow users to join your world or you join their world. This can be for a number of reasons, help with bosses, getting materials for characters/weapons/etc, domains, fishing, anything. Just make sure you are clear when responding to the user that needs help.')
             await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
             requestToJoin.callback = requestToJoin_callback
         else:

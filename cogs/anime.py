@@ -1,5 +1,3 @@
-import json
-
 import discord
 import requests
 from discord import app_commands
