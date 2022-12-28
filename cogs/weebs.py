@@ -42,11 +42,15 @@ class weebs(commands.Cog):
         twitchEmbed = discord.Embed(title=f"Twitch Roles", color=config.color, description="\
             <@&1041791871913046137> - This role is given to those who subscribe to <@920797181034778655> on twitch. This role doesn't give any extra perks just a channel.")
         generalEmbed = discord.Embed(title=f"General Roles",color=config.color, description="\
-            <@&860757567566774322> - This the default role everyone will have.\n\
             <@&865727063327768618> - People wanted a role saying they are not a weeb.\n\
             <@&910929581605789718> - Gives you access to all of the Genshin Impact channels here on the server.\n\
+            <@&865050483189219338> - You can get this role to be pinged when we have announcements on the server.\n\
+            <@&865050484506886164> - You can get this role to be pinged when we are adding new things to the server.\n\
+            <@&1053016537994362890> - You can get this role to be pinged when we are doing events on the server.\n\
+            <@&927774106554884156> - You can get this role to gain access to <#1020393781117341716> which posts updates everyday about new anime episodes for that day.\n\
             <@&865430630987857921> - <@920797181034778655> does stream from time to time, if you want to be notifed when he is live feel free to get this role.\n\
             <@&1022724072792129547> - This role is given to the users that boost the server.")
+        generalEmbed.set_footer(text="Obtain by doing /roles in any channel.")
         levelsEmbed = discord.Embed(color=config.color, description="These are the message requirement roles on the server:\n\
             <@&1034276484556275742> - 1,000,000+ Messages\n\
             <@&1034276120876548126> - 500,000 Messages\n\
@@ -69,14 +73,16 @@ class weebs(commands.Cog):
             Q: How can I fund/start a giveaway?\n\
             A: Make a giveaway ticket with `/ticket` in any channel.")
             
-
-        await sendChannel.send(embed=initialEmbed)
-        await sendChannel.send(embed=staffEmbed)
-        await sendChannel.send(embed=twitchEmbed)
-        await sendChannel.send(embed=generalEmbed)
-        await sendChannel.send(embed=levelsEmbed)
-        await sendChannel.send(embed=faqEmbed)
-        await interaction.response.send_message("Sent successfully!", ephemeral=True)
+        try:
+            await sendChannel.send(embed=initialEmbed)
+            await sendChannel.send(embed=staffEmbed)
+            await sendChannel.send(embed=twitchEmbed)
+            await sendChannel.send(embed=generalEmbed)
+            await sendChannel.send(embed=levelsEmbed)
+            await sendChannel.send(embed=faqEmbed)
+            await interaction.response.send_message("Sent successfully!", ephemeral=True)
+        except Exception as e:
+            print(e)
     @app_commands.command(name="genshin-information", description="This command sends the Genshin information into a specified channel.")
     @app_commands.checks.has_any_role("Management Team")
     async def genshinInformation(self, interaction: discord.Interaction, channel: discord.TextChannel):

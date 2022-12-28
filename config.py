@@ -1,4 +1,5 @@
-token='OTI2MTYzMjY5NTAzMjk5Njk1.G5xucN.PuTzzRakq3seI5BztyJhbeWgmG1214AP9lGNL8'
+token='MTA0MTkxOTYzODM4NjI1NzkzMA.GLwTCA.kqRGjAETgS8k-x4d9rfdHyf89jb1d1sXIaQYdI' #fuyu
+#token='OTI2MTYzMjY5NTAzMjk5Njk1.G5xucN.PuTzzRakq3seI5BztyJhbeWgmG1214AP9lGNL8' #weebs
 truth='https://api.truthordarebot.xyz/v1/truth'
 dare='https://api.truthordarebot.xyz/v1/dare'
 wyr='https://api.truthordarebot.xyz/v1/wyr'
