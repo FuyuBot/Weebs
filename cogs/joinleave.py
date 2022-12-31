@@ -29,47 +29,7 @@ class joinleave(commands.Cog):
         unverified = discord.utils.get(member.guild.roles, name="unverified")
         await member.add_roles(unverified)
         await logsChannel.send(embed=logsEmbed)
-
-        
-        
-        mydict = { 
-            "_id": member.id,
-            "info": {
-                "name": member.name,
-                "tag": member.discriminator,
-                "joined": member.joined_at,
-                "applied": False,
-                "currently_banned": False
-            },
-            "levels": {
-                "level": 0,
-                "xp": 0
-            },
-            "economy": {
-                "wallet": 0,
-                "bank": 0
-            },
-            "punishments": {
-                "bans": [],
-                "timeouts": [],
-                "warns": [],
-                "notes": []
-            },
-            "roles": {
-                "green" : False,
-                "red": False,
-                "blue": False,
-                "yellow": False,
-                "ninja": False,
-                "orange": False,
-                "teal": False,
-                "purple": False,
-                "white": False
-            }
-        }
-        
-        mycol.insert_one(mydict)
-    
+   
     @app_commands.command(name="test-join", description="Sends a test join to test the database.")
     @app_commands.checks.has_any_role("Management Team")
     async def test_join(self, interaction: discord.Interaction, member: discord.Member):

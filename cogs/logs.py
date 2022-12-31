@@ -6,7 +6,7 @@ from datetime import datetime
 
 moderatorLogs = 865078390109634590
 otherLogs = 865073269811052621
-memberLogs = 865073582908768266
+memberLogs = 1058040014912634880
 serverLogs = 865073601832157214
 voiceLogs = 865073623073292369
 messageLogs = 865073643553423360
@@ -47,12 +47,10 @@ class logs(commands.Cog):
     @commands.Cog.listener()
     async def on_bulk_message_delete(self, messages):
         try:
-            for msg in messages:
-                embed = discord.Embed(color=config.color, timestamp=datetime.now())
-                embed.add_field(name=f'Messaged Deleted in #{messages.channel.name}', value=msg.content)
-                embed.set_footer(text=f"ID: {messages.author.id}")
-                messageLogsChannel = self.bot.get_channel(messageLogs)
-                await messageLogsChannel.send(embed=embed)
+            embed = discord.Embed(color=config.color, timestamp=datetime.now())
+            embed.add_field(name=f'Messaged Deleted', value=len(messages))
+            messageLogsChannel = self.bot.get_channel(messageLogs)
+            await messageLogsChannel.send(embed=embed)
         except Exception as e:
             print("Error in on_bulk_message_delete")
             print(e)
@@ -61,6 +59,8 @@ class logs(commands.Cog):
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
         botIDs = [926163269503299695,820031583419367425,774806286051049504,235148962103951360302050872383242240,294882584201003009,720351927581278219,356950275044671499,713586207119900693]
         if before.author.id in botIDs:
+            return
+        if before.channel.id == 865058528913784852:
             return
         
         try:

@@ -80,7 +80,7 @@ class punishments(commands.Cog):
                     toUserEmbed.set_footer(text=f"ID: {player} | Appeal at: https://forms.gle/Q71pTeFg6d1iQ2aaA")
 
                     await user.send(embed=toUserEmbed)
-                    await interaction.response.send_message(embed=embed)
+                    await interaction.response.send_message(embed=embed,  ephemeral=True)
                     await interaction.guild.ban(user)
                     logs = self.bot.get_channel(865078390109634590)
                     await logs.send(embed=embed)
@@ -154,7 +154,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
                     timeoutEmbed.set_image(url=evidence)
-                    await interaction.response.send_message(embed=timeoutEmbed)
+                    await interaction.response.send_message(embed=timeoutEmbed,  ephemeral=True)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
                 elif durType == "hour" or durType == "hours" or durType == "h" and duration <= 672:# It enters this if the duration type is hours.
@@ -192,7 +192,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
                     timeoutEmbed.set_image(url=evidence)
-                    await interaction.response.send_message(embed=timeoutEmbed)
+                    await interaction.response.send_message(embed=timeoutEmbed,  ephemeral=True)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
                 elif durType == "week" or durType == "weeks" or durType == "w" and duration <= 4:# It enters this if the duration type is weeks.
@@ -211,7 +211,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
                     timeoutEmbed.set_image(url=evidence)
-                    await interaction.response.send_message(embed=timeoutEmbed)
+                    await interaction.response.send_message(embed=timeoutEmbed,  ephemeral=True)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
                 elif durType == "month" or durType == "m" and duration == 1:# It enters this if the duration type is month.
@@ -229,7 +229,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
                     timeoutEmbed.set_image(url=evidence)
-                    await interaction.response.send_message(embed=timeoutEmbed)
+                    await interaction.response.send_message(embed=timeoutEmbed,  ephemeral=True)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
                 else:
@@ -251,12 +251,12 @@ class punishments(commands.Cog):
     @app_commands.command(name='remove-timeout', description="Remove Timeout Command")
     @app_commands.checks.has_any_role(moderator, seniormoderator, seniorstaff)
     async def remove_timeout(self, interaction: discord.Interaction, user: discord.Member):
-        await self.bot.remove_timeout()
+        await self.bot.remove_timeout(user)
         embed = discord.Embed(
             title= f"{user} is no longer in timeout.",
             color= discord.Color.green()
         )
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(embed=embed,  ephemeral=True)
         logs = self.bot.get_channel(865078390109634590)
         await logs.send(embed=embed)
 
@@ -301,7 +301,7 @@ class punishments(commands.Cog):
         playerEmbed.set_footer(text=f"Your discord ID: {player}")
 
         await interaction.response.send_message(embed=embed)
-        await user.send(embed=playerEmbed)
+        await user.send(embed=playerEmbed,  ephemeral=True)
         logs = self.bot.get_channel(865078390109634590)
         await logs.send(embed=embed)
         mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnList}})
@@ -317,7 +317,7 @@ class punishments(commands.Cog):
             noteList = playerDB['punishments']['notes']
             noteList.append({"date": f"{timeFormat}", "staff": staff, "note": note})
             mycol.update_one({'_id': player}, {"$set": {"punishments.notes": noteList}})
-            await interaction.response.send_message("Successfully set a note.")
+            await interaction.response.send_message("Successfully set a note.",  ephemeral=True)
         except Exception as e:
             print(e)
 
@@ -329,9 +329,9 @@ class punishments(commands.Cog):
         playerDB = mycol.find_one({"_id": player})
         noteList = playerDB['punishments']['notes']
         if playerDB == []:
-            return await interaction.response.send_message("That user does not have any notes.") 
+            return await interaction.response.send_message("That user does not have any notes.",  ephemeral=True) 
         if notenumber == 0:
-            return await interaction.response.send_message("You can't delete what doesn't exist.")
+            return await interaction.response.send_message("You can't delete what doesn't exist.",  ephemeral=True)
         notenumber -= 1
         noteList.pop(notenumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.notes": noteList}})
@@ -345,9 +345,9 @@ class punishments(commands.Cog):
         playerDB = mycol.find_one({"_id": player})
         banList = playerDB['punishments']['bans']
         if playerDB == []:
-            return await interaction.response.send_message("That user does not have any bans.") 
+            return await interaction.response.send_message("That user does not have any bans.",  ephemeral=True) 
         if bannumber == 0:
-            return await interaction.response.send_message("You can't delete what doesn't exist.")
+            return await interaction.response.send_message("You can't delete what doesn't exist.",  ephemeral=True)
         bannumber -= 1
         banList.pop(bannumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.bans": banList}})
@@ -361,9 +361,9 @@ class punishments(commands.Cog):
         playerDB = mycol.find_one({"_id": player})
         timeoutList = playerDB['punishments']['timeouts']
         if playerDB == []:
-            return await interaction.response.send_message("That user does not have any timeouts.") 
+            return await interaction.response.send_message("That user does not have any timeouts.",  ephemeral=True) 
         if timeoutnumber == 0:
-            return await interaction.response.send_message("You can't delete what doesn't exist.")
+            return await interaction.response.send_message("You can't delete what doesn't exist.",  ephemeral=True)
         timeoutnumber -= 1
         timeoutList.pop(timeoutnumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
@@ -377,9 +377,9 @@ class punishments(commands.Cog):
         playerDB = mycol.find_one({"_id": player})
         warnList = playerDB['punishments']['warns']
         if playerDB == []:
-            return await interaction.response.send_message("That user does not have any timeouts.") 
+            return await interaction.response.send_message("That user does not have any timeouts.",  ephemeral=True) 
         if warnnumber == 0:
-            return await interaction.response.send_message("You can't delete what doesn't exist.")
+            return await interaction.response.send_message("You can't delete what doesn't exist.",  ephemeral=True)
         warnnumber -= 1
         warnList.pop(warnnumber)
         mycol.update_one({'_id': player}, {"$set": {"punishments.warns": warnList}})
@@ -402,19 +402,19 @@ class punishments(commands.Cog):
             noteNum = 1
             embed = discord.Embed(color=config.color, title=f"{user}'s Punishments")
             for ban in banList:
-                banValues = f"{ban['date']}\n Staff: <@{ban['staff']}>\nReason: {ban['reason']}"
+                banValues = f"{ban['date']}\nStaff: <@{ban['staff']}>\nReason: {ban['reason']}"
                 embed.add_field(name=f"Ban {banNum}", value=banValues, inline= False)
                 banNum += 1
             for to in toList:
-                toValues = f"{to['date']}\n Staff: <@{to['staff']}>\nDuration: {to['length']}\nReason: {to['reason']}"
+                toValues = f"{to['date']}\nStaff: <@{to['staff']}>\nDuration: {to['length']}\nReason: {to['reason']}"
                 embed.add_field(name=f"Timeout {toNum}", value=toValues, inline= False)
                 toNum += 1
             for warn in warnList:
-                warnValues = f"{warn['date']}\n Staff: <@{warn['staff']}>\nReason: {warn['reason']}"
+                warnValues = f"{warn['date']}\nStaff: <@{warn['staff']}>\nReason: {warn['reason']}"
                 embed.add_field(name=f"Warn {warnNum}", value=warnValues, inline= False)
                 warnNum += 1
             for note in noteList:
-                banValues = f"{note[0]['date']}\n Staff: <@{note['staff']}>\nNote: {note['note']}"
+                banValues = f"{note[0]['date']}\nStaff: <@{note['staff']}>\nNote: {note['note']}"
                 embed.add_field(name=f"Note {noteNum}", value=banValues, inline= False)
                 noteNum += 1
             await interaction.response.send_message(embed=embed, ephemeral=True)   
@@ -451,12 +451,14 @@ class punishments(commands.Cog):
     @app_commands.command(name='purge', description="Remove a specified number of messages in a given channel.")
     @app_commands.checks.has_any_role(seniormoderator, seniorstaff)
     async def purge(self, interaction: discord.Interaction, amount: int):
+        if amount == 1:
+            await interaction.response.send_message(f"`{amount}` message deleted", ephemeral=True)
             await interaction.channel.purge(limit=amount)
-            if amount == 1:
-                await interaction.response.send_message(f"`{amount}` message deleted", ephemeral=True)
-            elif amount > 1: 
-                await interaction.response.send_message(f"{amount} messages deleted", ephemeral=True)
-            else:
-                await interaction.response.send_message(f"Must be more than 1.", ephemeral=True)
+        elif amount > 1: 
+            await interaction.response.send_message(f"{amount} messages deleted", ephemeral=True)
+            await interaction.channel.purge(limit=amount)
+        else:
+            await interaction.response.send_message(f"Must be more than 1.", ephemeral=True)
+        
 async def setup(bot):
     await bot.add_cog(punishments(bot), guilds=[discord.Object(id=860752406551461909)])
