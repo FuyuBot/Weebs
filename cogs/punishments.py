@@ -135,7 +135,7 @@ class punishments(commands.Cog):
                 await interaction.response.send_message("That user is a staff member you can't timeout them!", ephemeral=True)
                 return
             elif 926163269503299695 == player: # This is checking if the punished player is the bot.
-                await interaction.response.send_message("You cannot put me in timeout.")
+                await interaction.response.send_message("You cannot put me in timeout.", ephemeral=True)
                 return
             if durType in durations: # It passes this if all is correct
                 if durType == "minute" or durType == "minutes" or durType == "min" and duration <= 40320: # It enters this if the duration type is minutes.
@@ -173,7 +173,7 @@ class punishments(commands.Cog):
                     timeoutEmbed.add_field(name="Duration:", value=f"{originaldur} {durType}", inline= True)
                     timeoutEmbed.add_field(name="Reason:", value=f"{reason}")
                     timeoutEmbed.set_image(url=evidence)
-                    await interaction.response.send_message(embed=timeoutEmbed)
+                    await interaction.response.send_message(embed=timeoutEmbed, ephemeral=True)
                     await logs.send(embed=timeoutEmbed)
                     mycol.update_one({'_id': player}, {"$set": {"punishments.timeouts": timeoutList}})
                 elif durType == "day" or durType == "days" or durType == "d" and duration <= 28:# It enters this if the duration type is days.

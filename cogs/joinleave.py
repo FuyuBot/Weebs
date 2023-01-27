@@ -15,6 +15,20 @@ class joinleave(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("LOADED: `joinleave.py`")
+    
+    @commands.Cog.listener()
+    async def on_member_remove(self, member: discord.Member):
+        try:
+            mycol.delete_one({"_id": member.id})
+            logsChannel = self.bot.get_channel(865073673668526080)
+            logsEmbed = discord.Embed(
+                title=f'{member} left the server',
+                color=discord.Color.red()
+            )
+            logsEmbed.set_footer(text=f"ID: {member.id}")
+            await logsChannel.send(embed=logsEmbed)
+        except Exception as e:
+            print(e)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -24,7 +38,6 @@ class joinleave(commands.Cog):
             color=discord.Color.green()
         )
         
-        logsEmbed.set_footer(text=f"ID: {member.id}")
         logsEmbed.set_footer(text=f"ID: {member.id}")
         unverified = discord.utils.get(member.guild.roles, name="unverified")
         await member.add_roles(unverified)

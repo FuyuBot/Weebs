@@ -44,7 +44,7 @@ class verfiy(commands.Cog):
                     color=config.color,
                     description=":loudspeaker: Please follow all the rules and have a great time here.\n\
                     In order to get DM's from our bot <@926163269503299695> please allow DM's on this server.\n\n\
-                    Check out <#892554752175517756> to get as many roles as you would want.\n\
+                    Do `/roles` to get as many roles as you would want.\n\
                     <#915078396990603296> has a lot of the information for the server."
                 )
                 embed = discord.Embed(
@@ -52,7 +52,7 @@ class verfiy(commands.Cog):
                 color=config.color,
                 description=":loudspeaker: Please follow all the rules and have a great time here.\n\
                     In order to get DM's from our bot <@926163269503299695> please allow DM's on this server.\n\n\
-                    Check out <#892554752175517756> to get as many roles as you would want.\n\
+                    Do `/roles` to get as many roles as you would want.\n\
                     <#915078396990603296> has a lot of the information for the server."
                 )
                 mydict = { 
@@ -127,7 +127,7 @@ class VerifyModal(discord.ui.Modal, title="Verify"):
                 color=config.color,
                 description=":loudspeaker: Please follow all the rules and have a great time here.\n\
                     In order to get DM's from our bot <@926163269503299695> please allow DM's on this server.\n\n\
-                    Check out <#892554752175517756> to get as many roles as you would want.\n\
+                    Do `/roles` to get as many roles as you would want.\n\
                     <#915078396990603296> has a lot of the information for the server."
                 )
 

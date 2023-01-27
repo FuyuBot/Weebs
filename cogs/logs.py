@@ -33,6 +33,8 @@ class logs(commands.Cog):
 # edit
     @commands.Cog.listener()
     async def on_message_delete(self, message):
+        if message.id == 865058528913784852:
+            return
         try:
             embed = discord.Embed(color=config.color, timestamp=datetime.now())
             embed.set_author(name=message.author, icon_url=message.author.avatar)

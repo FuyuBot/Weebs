@@ -91,7 +91,8 @@ class SelectGeneralRoles(discord.ui.Select):
                 discord.SelectOption(label="New Anime Episodes", description="When new anime episodes come out. (Daily)"),
                 discord.SelectOption(label="Server Announcements", description="Discord server announcements"),
                 discord.SelectOption(label="Server Updates", description="Discord server announcements"),
-                discord.SelectOption(label="Server Events", description="Server event pings")
+                discord.SelectOption(label="Server Events", description="Server event pings"),
+                discord.SelectOption(label="Bump", description="Be able to bump the server.")
             ]
         super().__init__(placeholder="Select your role.", max_values=1, min_values=1, options=menu)
 
@@ -105,6 +106,7 @@ class SelectGeneralRoles(discord.ui.Select):
             serverAnnouncements = discord.utils.get(member.guild.roles, id=865050483189219338)
             serverUpdates = discord.utils.get(member.guild.roles, id=865050484506886164)
             serverEvents = discord.utils.get(member.guild.roles, id=1036071322020741170)
+            bumps = discord.utils.get(member.guild.roles, id=1051199150101897216)
             if self.values[0] == "Genshin":
                 if genshin in member.roles:
                     await member.remove_roles(genshin)
@@ -154,6 +156,13 @@ class SelectGeneralRoles(discord.ui.Select):
                 else:
                     await member.add_roles(serverEvents)
                     return await interaction.response.send_message("You have successfully added the `Server Events` role.", ephemeral=True)
+            elif self.values[0] == "Bump":
+                if bumps in member.roles:
+                    await member.remove_roles(bumps)
+                    return await interaction.response.send_message("You have successfully removed the `Bump` role.", ephemeral=True)
+                else:
+                    await member.add_roles(bumps)
+                    return await interaction.response.send_message("You have successfully added the `Bump` role.", ephemeral=True)
         except Exception as e:
             print(e)
 

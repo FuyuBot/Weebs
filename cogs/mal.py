@@ -37,7 +37,7 @@ class mal(commands.Cog):
                 else:
                     link = playerDB['info']['mal']
                     embed = discord.Embed(color=config.color, title=f"{member.name}'s MyAnimeList",url=link)
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
+                    await interaction.response.send_message(embed=embed)
             elif option.value == "member":
                 member = who
                 playerDB = mycol.find_one({"_id": member.id})
@@ -46,7 +46,7 @@ class mal(commands.Cog):
                 else:
                     link = playerDB['info']['mal']
                     embed = discord.Embed(color=config.color, title=f"{member.name}'s MyAnimeList",url=link)
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
+                    await interaction.response.send_message(embed=embed)
             elif option.value == "set":
                 await interaction.response.send_modal(LinkModal())
 
