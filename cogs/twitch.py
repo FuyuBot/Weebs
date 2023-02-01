@@ -23,4 +23,4 @@ class twitch(commands.Cog):
 
 
 async def setup(bot):
-    bot.add_cog(twitch(bot), guilds=[discord.Object(id=860752406551461909)])
+    await bot.add_cog(twitch(bot), guilds=[discord.Object(id=860752406551461909)])
