@@ -80,7 +80,7 @@ class levels(commands.Cog):
             xp = playerDB['levels']['xp']
             level = playerDB['levels']['level']
             embed = discord.Embed(color=config.color)
-            embed.set_author(name=interaction.user, icon_url=interaction.user.avatar)
+            embed.set_author(name=user, icon_url=user.avatar)
             embed.add_field(name="__Level__", value=level)
             embed.add_field(name="__XP__", value=f"{xp:,.2f}")
             return await interaction.response.send_message(embed=embed)
