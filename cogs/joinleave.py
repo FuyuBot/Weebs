@@ -42,7 +42,7 @@ class joinleave(commands.Cog):
         unverified = discord.utils.get(member.guild.roles, name="unverified")
         await member.add_roles(unverified)
         await logsChannel.send(embed=logsEmbed)
-   
+
     @app_commands.command(name="test-join", description="Sends a test join to test the database.")
     @app_commands.checks.has_any_role("Management Team")
     async def test_join(self, interaction: discord.Interaction, member: discord.Member):

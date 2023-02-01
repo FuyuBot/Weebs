@@ -87,15 +87,18 @@ class genshin(commands.Cog):
 
         springBirthdays.set_thumbnail(url="https://media.discordapp.net/attachments/587673289560817858/810288620799918140/Spring.png")
         springBirthdays.add_field(name="January", value=f"\
+            03 {anemo} Wanderer\n\
             09 {pyro} Thoma\n\
             18 {cryo} Diona\n\
             24 {cryo} Rosaria", inline=False)
         springBirthdays.add_field(name="February", value=f"\
+            11 {dendro} Alhaitham\n\
             14 {electro} Beidou\n\
             22 {hydro} Sangonomiya Kokomi\n\
             29 {pyro} Bennett", inline=False)
         springBirthdays.add_field(name="March", value=f"\
             03 {cryo} Qiqi\n\
+            06 {dendro} Yaoyao\n\
             10 {cryo} Shenhe\n\
             14 {anemo} Jean\n\
             21 {geo} Noelle\n\
@@ -132,6 +135,7 @@ class genshin(commands.Cog):
             28 {pyro} Yanfei", inline=False)
         fallBirthdays.add_field(name="August", value=f"\
             10 {pyro} Amber\n\
+            20 {anemo} Faruzan\n\
             26 {geo} Ningguang\n\
             31 {hydro} Mona", inline=False)
         fallBirthdays.add_field(name="September", value=f"\
