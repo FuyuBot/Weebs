@@ -44,7 +44,6 @@ class weather(commands.Cog):
                 else:
                     embed.set_author(name=f"{name}, {country}", url=googleURL, icon_url=client.user.avatar)
             else:
-                print("1")
                 beforeUrl = f"http://api.openweathermap.org/geo/1.0/direct?q={city},{state},{country}&limit=1&appid={config.openWeatherApiKEY}"
             
                 LATLONGget = requests.get(beforeUrl)
@@ -94,9 +93,9 @@ class weather(commands.Cog):
             embed.add_field(name="Feels Like", value=f"`{weatherMainFeelsLikeImperial}°F`\n{weatherMainFeelsLikeMetric}°C`")
             embed.add_field(name="Min/Max", value=f"`{weatherMainTempMinImperial}°F` - `{weatherMainTempMaxImperial}°F`\n\
                             `{weatherMainTempMinMetric}°C` - `{weatherMainTempMaxMetric}°C`")
-            embed.add_field(name="Wind Speed", value=f"`{weatherWindSpeedImperial} MPH`\n{weatherWindSpeedMetric} KPH`")
+            embed.add_field(name="Wind Speed", value=f"`{weatherWindSpeedImperial} MPH`\n`{weatherWindSpeedMetric} KPH`")
             if state != None or country == "US":
-                embed.add_field(name="Wind Gust", value=f"`{weatherWindGustImperial} MPH`\n{weatherWindGustMetric} KPH`")
+                embed.add_field(name="Wind Gust", value=f"`{weatherWindGustImperial} MPH`\n`{weatherWindGustMetric} KPH`")
             embed.add_field(name="Air Pressure", value=f"`{weatherMainPressure}`", inline=False)
             embed.add_field(name="Humidity", value=f"`{weatherMainHumidity}`", inline=True)
 
