@@ -90,15 +90,15 @@ class weather(commands.Cog):
             iconURL = f"http://openweathermap.org/img/wn/{weatherWeatherIcon}@2x.png"
             embed.description = f"Conditions: {weatherWeatherMain}, Description: {weatherWeatherDescription}"
             embed.set_thumbnail(url=iconURL)
-            embed.add_field(name="Current Temperature", value=f"{weatherMainTempImperial}°F\n{weatherMainTempMetric}°C")
-            embed.add_field(name="Feels Like", value=f"{weatherMainFeelsLikeImperial}°F\n{weatherMainFeelsLikeMetric}°C")
-            embed.add_field(name="Min/Max", value=f"{weatherMainTempMinImperial}°F - {weatherMainTempMaxImperial}°F\n\
-                            {weatherMainTempMinMetric}°C - {weatherMainTempMaxMetric}°C")
-            embed.add_field(name="Wind Speed", value=f"{weatherWindSpeedImperial} MPH\n{weatherWindSpeedMetric} KPH")
+            embed.add_field(name="Current Temperature", value=f"`{weatherMainTempImperial}°F`\n`{weatherMainTempMetric}°C`")
+            embed.add_field(name="Feels Like", value=f"`{weatherMainFeelsLikeImperial}°F`\n{weatherMainFeelsLikeMetric}°C`")
+            embed.add_field(name="Min/Max", value=f"`{weatherMainTempMinImperial}°F` - `{weatherMainTempMaxImperial}°F`\n\
+                            `{weatherMainTempMinMetric}°C` - `{weatherMainTempMaxMetric}°C`")
+            embed.add_field(name="Wind Speed", value=f"`{weatherWindSpeedImperial} MPH`\n{weatherWindSpeedMetric} KPH`")
             if state != None or country == "US":
-                embed.add_field(name="Wind Gust", value=f"{weatherWindGustImperial} MPH\n{weatherWindGustMetric} KPH")
-            embed.add_field(name="Air Pressure", value=f"{weatherMainPressure}", inline=False)
-            embed.add_field(name="Humidity", value=f"{weatherMainHumidity}", inline=True)
+                embed.add_field(name="Wind Gust", value=f"`{weatherWindGustImperial} MPH`\n{weatherWindGustMetric} KPH`")
+            embed.add_field(name="Air Pressure", value=f"`{weatherMainPressure}`", inline=False)
+            embed.add_field(name="Humidity", value=f"`{weatherMainHumidity}`", inline=True)
 
             await interaction.response.send_message(embed=embed, ephemeral=True)
         except Exception as e:
