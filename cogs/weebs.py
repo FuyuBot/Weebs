@@ -8,6 +8,7 @@ myclient = pymongo.MongoClient(config.mongoDB)
 mydb = myclient['WeebsHangout']
 mycol = mydb["user_info"]
 
+
 class weebs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

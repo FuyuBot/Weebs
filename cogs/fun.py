@@ -24,9 +24,10 @@ class fun(commands.Cog):
                 Dog Command: https://dog.ceo/dog-api/\n\
                 Duck Command: https://random-d.uk/api\n\
                 Fox Command: https://randomfox.ca/\n\
-                Lucifier Command: https://lucifer-quotes.vercel.app/\n\
-                Anime Commands: https://otakugifs.xyz/api\n\n\
-                Bot is coded in `Python` v3.10.5 and using `discord.py` v2.1.0")
+                Lucifer Command: https://lucifer-quotes.vercel.app/\n\
+                Anime Commands: https://otakugifs.xyz/api\n\
+                Weather Command: https://openweathermap.org/\n\n\
+                Bot is coded in `Python` v3.11 and using `discord.py` v2.1.0")
             embed.set_thumbnail(url=client.user.avatar)
             await interaction.response.send_message(embed=embed)
         except Exception as e:
