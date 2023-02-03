@@ -90,7 +90,7 @@ class weather(commands.Cog):
             embed.description = f"Conditions: {weatherWeatherMain}, Description: {weatherWeatherDescription}"
             embed.set_thumbnail(url=iconURL)
             embed.add_field(name="Current Temperature", value=f"`{weatherMainTempImperial}°F`\n`{weatherMainTempMetric}°C`")
-            embed.add_field(name="Feels Like", value=f"`{weatherMainFeelsLikeImperial}°F`\n{weatherMainFeelsLikeMetric}°C`")
+            embed.add_field(name="Feels Like", value=f"`{weatherMainFeelsLikeImperial}°F`\n`{weatherMainFeelsLikeMetric}°C`")
             embed.add_field(name="Min/Max", value=f"`{weatherMainTempMinImperial}°F` - `{weatherMainTempMaxImperial}°F`\n\
                             `{weatherMainTempMinMetric}°C` - `{weatherMainTempMaxMetric}°C`")
             embed.add_field(name="Wind Speed", value=f"`{weatherWindSpeedImperial} MPH`\n`{weatherWindSpeedMetric} KPH`")
