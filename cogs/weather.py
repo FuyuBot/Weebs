@@ -69,7 +69,8 @@ class weather(commands.Cog):
             if state != None or country == "US":
                 if stateX != "Florida":
                     pass
-                weatherWindGustImperial = getImperial.json()['wind']['gust'] # MPH
+                else:
+                    weatherWindGustImperial = getImperial.json()['wind']['gust'] # MPH
             ##### METRIC SYSTEM
             getMetric = requests.get(urlMetric)
             weatherMainTempMetric = getMetric.json()["main"]['temp']
@@ -80,7 +81,8 @@ class weather(commands.Cog):
             if state != None or country == "US" :
                 if stateX != "Florida":
                     pass
-                weatherWindGustMetric = getMetric.json()['wind']['gust'] # KPH
+                else:
+                    weatherWindGustMetric = getMetric.json()['wind']['gust'] # KPH
             #####
             weatherWeather = getImperial.json()['weather']
             for y in weatherWeather:
@@ -101,7 +103,8 @@ class weather(commands.Cog):
             if state != None or country == "US":
                 if stateX != "Florida":
                     pass
-                embed.add_field(name="Wind Gust", value=f"`{weatherWindGustImperial} MPH`\n`{weatherWindGustMetric} KPH`")
+                else:
+                    embed.add_field(name="Wind Gust", value=f"`{weatherWindGustImperial} MPH`\n`{weatherWindGustMetric} KPH`")
             embed.add_field(name="Air Pressure", value=f"`{weatherMainPressure}`", inline=False)
             embed.add_field(name="Humidity", value=f"`{weatherMainHumidity}`", inline=True)
 
