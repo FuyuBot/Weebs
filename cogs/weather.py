@@ -68,6 +68,7 @@ class weather(commands.Cog):
             weatherWindSpeedImperial = getImperial.json()['wind']['speed'] # MPH
             print(beforeUrl)
             print(urlImperial)
+            print(stateX)
             if state != None or country == "US":
                 if stateX != "Florida":
                     pass
