@@ -8,12 +8,10 @@ import requests
 class weather(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
     
     @commands.Cog.listener()
     async def on_ready(self):
         print("LOADED: `weather.py`")
-
     
     @app_commands.command(name="weather", description="This is the weather command")
     async def weather(self, interaction: discord.Interaction, city: str, state: str=None, country: str=None):
@@ -22,7 +20,6 @@ class weather(commands.Cog):
             client = interaction.client
             if state == None:
                 beforeUrl = f"http://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit=1&appid={config.openWeatherApiKEY}"
-
                 LATLONGget = requests.get(beforeUrl)
                 json_data = json.loads(LATLONGget.text)
                 for x in json_data:
@@ -56,7 +53,6 @@ class weather(commands.Cog):
                     stateX = x['state']
                 googleURL = f"https://www.google.com/maps/@{lat},{lon}"
                 embed.set_author(name=f"{name}, {stateX} {country}", url=googleURL, icon_url=client.user.avatar)
-
             urlImperial = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={config.openWeatherApiKEY}&units=imperial"
             urlMetric = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={config.openWeatherApiKEY}&units=metric"
             ##### IMPERIAL SYSTEM
@@ -66,9 +62,6 @@ class weather(commands.Cog):
             weatherMainTempMinImperial = getImperial.json()["main"]['temp_min']
             weatherMainTempMaxImperial = getImperial.json()["main"]['temp_max']
             weatherWindSpeedImperial = getImperial.json()['wind']['speed'] # MPH
-            print(beforeUrl)
-            print(urlImperial)
-            print(stateX)
             if state != None or country == "US":
                 if stateX == "Florida":
                     pass
