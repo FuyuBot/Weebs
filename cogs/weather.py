@@ -66,7 +66,7 @@ class weather(commands.Cog):
             weatherMainTempMinImperial = getImperial.json()["main"]['temp_min']
             weatherMainTempMaxImperial = getImperial.json()["main"]['temp_max']
             weatherWindSpeedImperial = getImperial.json()['wind']['speed'] # MPH
-            if state != None or country == "US":
+            if state != None or country == "US" or stateX != "Florida":
                 weatherWindGustImperial = getImperial.json()['wind']['gust'] # MPH
             ##### METRIC SYSTEM
             getMetric = requests.get(urlMetric)
@@ -75,7 +75,7 @@ class weather(commands.Cog):
             weatherMainTempMinMetric = getMetric.json()["main"]['temp_min']
             weatherMainTempMaxMetric = getMetric.json()["main"]['temp_max']
             weatherWindSpeedMetric = getMetric.json()['wind']['speed'] # KPH
-            if state != None or country == "US":
+            if state != None or country == "US" or stateX != "Florida":
                 weatherWindGustMetric = getMetric.json()['wind']['gust'] # KPH
             #####
             weatherWeather = getImperial.json()['weather']
@@ -94,7 +94,7 @@ class weather(commands.Cog):
             embed.add_field(name="Min/Max", value=f"`{weatherMainTempMinImperial}°F` - `{weatherMainTempMaxImperial}°F`\n\
                             `{weatherMainTempMinMetric}°C` - `{weatherMainTempMaxMetric}°C`")
             embed.add_field(name="Wind Speed", value=f"`{weatherWindSpeedImperial} MPH`\n`{weatherWindSpeedMetric} KPH`")
-            if state != None or country == "US":
+            if state != None or country == "US" or stateX != "Florida":
                 embed.add_field(name="Wind Gust", value=f"`{weatherWindGustImperial} MPH`\n`{weatherWindGustMetric} KPH`")
             embed.add_field(name="Air Pressure", value=f"`{weatherMainPressure}`", inline=False)
             embed.add_field(name="Humidity", value=f"`{weatherMainHumidity}`", inline=True)
