@@ -66,6 +66,7 @@ class weather(commands.Cog):
             weatherMainTempMinImperial = getImperial.json()["main"]['temp_min']
             weatherMainTempMaxImperial = getImperial.json()["main"]['temp_max']
             weatherWindSpeedImperial = getImperial.json()['wind']['speed'] # MPH
+            print(urlImperial)
             if state != None or country == "US":
                 if stateX != "Florida":
                     pass
