@@ -55,6 +55,9 @@ class weather(commands.Cog):
                 embed.set_author(name=f"{name}, {stateX} {country}", url=googleURL, icon_url=client.user.avatar)
             urlImperial = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={config.openWeatherApiKEY}&units=imperial"
             urlMetric = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={config.openWeatherApiKEY}&units=metric"
+            timeURL = f"https://www.timeapi.io/api/Time/current/coordinate?latitude={lat}&longitude={lon}"
+            getTime = requests.get(timeURL)
+            time = getTime.json()['time']
             ##### IMPERIAL SYSTEM
             getImperial = requests.get(urlImperial)
             weatherMainTempImperial = getImperial.json()["main"]['temp']
@@ -91,7 +94,8 @@ class weather(commands.Cog):
             iconURL = f"http://openweathermap.org/img/wn/{weatherWeatherIcon}@2x.png"
             embed.description = f"Conditions: {weatherWeatherMain}, Description: {weatherWeatherDescription}"
             embed.set_thumbnail(url=iconURL)
-            embed.add_field(name="Current Temperature", value=f"`{weatherMainTempImperial}°F`\n`{weatherMainTempMetric}°C`")
+            embed.add_field(name="Current Time", value=time)
+            embed.add_field(name="Current Temp", value=f"`{weatherMainTempImperial}°F`\n`{weatherMainTempMetric}°C`")
             embed.add_field(name="Feels Like", value=f"`{weatherMainFeelsLikeImperial}°F`\n`{weatherMainFeelsLikeMetric}°C`")
             embed.add_field(name="Min/Max", value=f"`{weatherMainTempMinImperial}°F` - `{weatherMainTempMaxImperial}°F`\n\
                             `{weatherMainTempMinMetric}°C` - `{weatherMainTempMaxMetric}°C`")
