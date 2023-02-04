@@ -94,7 +94,7 @@ class weather(commands.Cog):
             iconURL = f"http://openweathermap.org/img/wn/{weatherWeatherIcon}@2x.png"
             embed.description = f"Conditions: {weatherWeatherMain}, Description: {weatherWeatherDescription}"
             embed.set_thumbnail(url=iconURL)
-            embed.add_field(name="Current Time", value=time)
+            embed.add_field(name="Current Time", value=time, inline=False)
             embed.add_field(name="Current Temp", value=f"`{weatherMainTempImperial}°F`\n`{weatherMainTempMetric}°C`")
             embed.add_field(name="Feels Like", value=f"`{weatherMainFeelsLikeImperial}°F`\n`{weatherMainFeelsLikeMetric}°C`")
             embed.add_field(name="Min/Max", value=f"`{weatherMainTempMinImperial}°F` - `{weatherMainTempMaxImperial}°F`\n\
