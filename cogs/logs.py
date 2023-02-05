@@ -59,10 +59,13 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
-        botIDs = [926163269503299695,820031583419367425,774806286051049504,235148962103951360302050872383242240,294882584201003009,720351927581278219,356950275044671499,713586207119900693]
+        ########## WEEBS BOT ########## MUDAE BOT ######## GALAXY.BOT ######## KATHERYNE ######## BUMP REMINDER BOT ## DISBOARD BOT ##### GIVEAWAY BOT ####### POKETWO BOT ####### QOTD BOT ######### SEASONAL ANIME BOT ### TOP.GG BOT ####
+        botIDs = [926163269503299695, 432610292342587392, 820031583419367425, 774806286051049504, 735147814878969968, 302050872383242240, 294882584201003009, 716390085896962058, 713586207119900693, 614495694769618944, 422087909634736160]
+        ############## MANAGEMENT TEAM ###### MESSAGE LOGS
+        channelIDs = [865058528913784852, 865073643553423360]
         if before.author.id in botIDs:
             return
-        if before.channel.id == 865058528913784852:
+        if before.channel.id in channelIDs:
             return
         
         try:
