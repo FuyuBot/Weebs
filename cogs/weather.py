@@ -95,7 +95,9 @@ class weather(commands.Cog):
 
             await interaction.response.send_message(embed=embed, ephemeral=True)
         except Exception as e:
+            logs = self.bot.get_channel(config.errorChannel)
             print(e)
+            await logs.send(f"<@&865727062374744064> {e}")
 
 async def setup(bot):
     await bot.add_cog(weather(bot))

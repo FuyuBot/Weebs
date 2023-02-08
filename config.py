@@ -16,5 +16,7 @@ db='customer_249998_fuyu'
 
 mongoDB = "mongodb+srv://bot:bc2v5zDu@cluster0.uch3p.mongodb.net"
 
+errorChannel = 1072917579234033815
+
 
 color=0xFC90F7
