@@ -5,8 +5,6 @@ from discord.ext import commands
 from discord import app_commands
 import os
 
-
-
 intents = discord.Intents.all()
 intents.members = True
 intents.message_content = True
