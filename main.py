@@ -37,6 +37,12 @@ async def syncweebs(ctx) -> None:
     else:
         print("Failed: not sean or jacob.")
 
+@bot.command()
+async def servers(ctx):
+    if ctx.author.id == 920797181034778655 or ctx.author.id == 155580061888675840:
+        guilds = bot.guilds
+        for guild in guilds:
+            await ctx.send(f"{guild.name}, ID: {guild.id} owned by {guild.owner.name} and their id is {guild.owner.id}")
 
 @bot.event
 async def on_ready():
