@@ -41,6 +41,7 @@ async def syncweebs(ctx) -> None:
 async def servers(ctx):
     if ctx.author.id == 920797181034778655 or ctx.author.id == 155580061888675840:
         guilds = bot.guilds
+        print(guilds)
         for guild in guilds:
             await ctx.send(f"{guild.name}, ID: {guild.id} owned by {guild.owner.name} and their id is {guild.owner.id}")
 
