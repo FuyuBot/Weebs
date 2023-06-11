@@ -58,9 +58,9 @@ class verfiy(commands.Cog):
                 mydict = { 
                     "_id": user.id,
                     "info": {
-                        "name": interaction.user.name,
-                        "tag": interaction.user.discriminator,
-                        "joined": interaction.user.joined_at,
+                        "name": user.name,
+                        "tag": user.discriminator,
+                        "joined": user.joined_at,
                         "applied": False,
                         "currently_banned": False,
                         "messages": 0,
