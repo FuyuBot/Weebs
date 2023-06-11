@@ -84,13 +84,8 @@ class logs(commands.Cog):
         player = before.id
         nameAfter = after.name
         tagAfter = after.discriminator
-        playerDB = mycol.find_one({"_id": player})
-        tag = playerDB['info']['tag']
-        if tag != tagAfter:
-            mycol.update_one({'_id': player}, {"$set": {"info.name": nameAfter}})
-            mycol.update_one({'_id': player}, {"$set": {"info.tag": tagAfter}})
-        else:
-            mycol.update_one({'_id': player}, {"$set": {"info.name": nameAfter}})
+        mycol.update_one({'_id': player}, {"$set": {"info.name": nameAfter}})
+        mycol.update_one({'_id': player}, {"$set": {"info.tag": tagAfter}})
 
 #### User upadte
     @commands.Cog.listener()
