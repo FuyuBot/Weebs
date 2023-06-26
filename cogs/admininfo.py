@@ -21,7 +21,7 @@ class admininfo(commands.Cog):
 
 
     @app_commands.command(name='get-info', description="As a Management Member you can check someone's database status.")
-    @app_commands.checks.has_any_role('Management Team')
+    @app_commands.checks.has_any_role('Management Team', "Hidden Manager")
     async def broadcast(self, interaction: discord.Interaction, user: discord.Member):
         embed = discord.Embed(
             title=f"{user}'s database information",
