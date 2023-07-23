@@ -88,7 +88,7 @@ class logs(commands.Cog):
         mycol.update_one({'_id': player}, {"$set": {"info.tag": tagAfter}})
 
 #### User upadte
-    @commands.Cog.listener()
+    """@commands.Cog.listener()
     async def on_user_update(self, before: discord.User, after: discord.User):
         memberLog = self.bot.get_channel(memberLogs)
         try:
@@ -114,7 +114,7 @@ class logs(commands.Cog):
                 await memberLog.send(embed=embed)
         except Exception as e:
             print(e)
-            print("Error in on_user_update")
+            print("Error in on_user_update")"""
 
 #### Member Update
     @commands.Cog.listener()
