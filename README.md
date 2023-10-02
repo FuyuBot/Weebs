@@ -1,5 +1,6 @@
-# Weebs Commands and Featuers
-## Features
+# Weebs Discord Bot
+##Commands and Featuers
+### Features
 - Applications
 - Appeals
 - Punishments
