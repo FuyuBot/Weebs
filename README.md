@@ -1,6 +1,5 @@
 # Weebs Discord Bot
-## Commands and Featuers
-### Features
+## Features
 - Applications
 - Appeals
 - Punishments
@@ -17,5 +16,4 @@
 - DadJokes (API)
 - Random Number Generator
 - Weather
-- Genshin Impact server specific commands
-
+- Genshin Impact server-specific commands
