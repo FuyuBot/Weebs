@@ -1,5 +1,5 @@
 # Weebs Discord Bot
-##Commands and Featuers
+## Commands and Featuers
 ### Features
 - Applications
 - Appeals
