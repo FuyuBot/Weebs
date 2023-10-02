@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from token import tkn
+from TOKEN import token as tkn
 from discord.ext import commands
 from discord import app_commands
 import os
