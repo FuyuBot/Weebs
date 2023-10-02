@@ -5,6 +5,7 @@ import requests
 import json
 import config
 
+
 class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -14,11 +15,11 @@ class fun(commands.Cog):
         print('LOADED: `fun.py`')
     
     @app_commands.command(name="bot-info", description="Displays information about the bot.")
-    async def botInfo(self, interaction: discord.Interaction):
+    async def botinfo(self, interaction: discord.Interaction):
         try:
             client = interaction.client
             embed = discord.Embed(color=config.color, title=f"{client.user}'s Information", description=f"\
-                Bot's Creators: Jzcob#2842, Sezn#6554, and SpaceZ#4346\n\
+                Bot Creators: Jzcob#2842, Sezn#6554, and SpaceZ#4346\n\
                 Questions Commands: https://docs.truthordarebot.xyz/api-docs\n\
                 Cat Command: https://developers.thecatapi.com/\n\
                 Dog Command: https://dog.ceo/dog-api/\n\
@@ -42,8 +43,9 @@ class fun(commands.Cog):
             quote = x['quote']
             author = x['author']
         
-        embed = discord.Embed(title=author,description=quote,color=config.color)
+        embed = discord.Embed(title=author, description=quote, color=config.color)
         await interaction.response.send_message(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(fun(bot))

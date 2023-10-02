@@ -1,6 +1,6 @@
 import discord
 import asyncio
-import config
+from token import tkn
 from discord.ext import commands
 from discord import app_commands
 import os
@@ -58,7 +58,7 @@ async def load():
             
 async def main():
     await load()
-    await bot.start(config.token)
+    await bot.start(token=tkn)
 
 
 asyncio.run(main())
