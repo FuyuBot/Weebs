@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import config
 import pymongo
+import TOKEN
 from datetime import datetime
 
 moderatorLogs = 865078390109634590
@@ -15,7 +16,7 @@ joinLeaveLogs = 865073673668526080
 ticketLogs = 1022980124909518898
 eventLogs = 1024365047633424404
 
-myclient = pymongo.MongoClient(config.mongoDB)
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
 

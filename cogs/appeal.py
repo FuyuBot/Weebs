@@ -3,8 +3,9 @@ from discord import app_commands, TextStyle
 from discord.ext import commands
 import pymongo
 import config
+import TOKEN
 
-myclient = pymongo.MongoClient(config.mongoDB)
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
 

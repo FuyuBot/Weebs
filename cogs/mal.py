@@ -4,8 +4,10 @@ from discord.ext import commands
 import config
 import pymongo
 import requests
+import TOKEN
 
-myclient = pymongo.MongoClient(config.mongoDB)
+
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
 

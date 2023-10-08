@@ -4,12 +4,13 @@ from discord.ext import commands
 from discord import app_commands
 import config
 import pymongo
+import TOKEN
 
 managementTeam = 860758013731274762
 member = 860757567566774322
 star = 860760039564378142
 
-myclient = pymongo.MongoClient(config.mongoDB)
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
 

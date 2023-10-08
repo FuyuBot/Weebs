@@ -1,6 +1,7 @@
 import discord
 import pymongo
 import config
+import TOKEN
 from datetime import timedelta
 from datetime import datetime as dt
 from discord.ext import commands
@@ -10,7 +11,7 @@ currTime = dt.now()
 timeFormat = currTime.strftime("%b %d, %Y")
 dt_string = currTime.strftime("%m/%d/%Y %H:%M:%S")
 
-myclient = pymongo.MongoClient(config.mongoDB)
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
 
