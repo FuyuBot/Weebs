@@ -4,9 +4,10 @@ from discord.ui import Button, View
 from discord.ext import commands
 from datetime import datetime
 import config
+import TOKEN
 import pymongo
 
-myclient = pymongo.MongoClient(config.mongoDB)
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["WeebsHangout"]
 mycol = mydb["user_info"]
 pageNum = 1

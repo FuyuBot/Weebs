@@ -23,7 +23,7 @@ class joinleave(commands.Cog):
             mycol.delete_one({"_id": member.id})
             logsChannel = self.bot.get_channel(865073673668526080)
             logsEmbed = discord.Embed(
-                title=f'{member} left the server',
+                title=f'{member.name} left the server',
                 color=discord.Color.red()
             )
             logsEmbed.set_footer(text=f"ID: {member.id}")
