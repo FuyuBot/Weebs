@@ -1,3 +1,5 @@
 leveling.py
 token.py
 *.pyc
+*.pyc
+__pycache__/config.cpython-311.pyc
