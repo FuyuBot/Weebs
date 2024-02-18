@@ -82,7 +82,7 @@ class Confirm(discord.ui.View):
         except Exception as e:
             print(e)
 
-class levels(commands.Cog):
+class levelsint(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -273,4 +273,4 @@ class levels(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(levels(bot), guilds=[discord.Object(id=config.internationalGang)])
+    await bot.add_cog(levelsint(bot), guilds=[discord.Object(id=config.internationalGang)])
