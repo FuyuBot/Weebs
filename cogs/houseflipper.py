@@ -2,13 +2,14 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import config
+import TOKEN
 import pymongo
 import random
 
 """styleList = ['Rustic', 'Modern', "Japanese", "Coastal", "Western", "Cyberpunk", 'Antique', "Minimalist", "Medevial", "90's", "80's", "70's", "60's"]
 colorList = ['Blue', 'Green', "Red", "Purple", "Neon **ANY**", "Orage", "Yellow"]"""
 
-myclient = pymongo.MongoClient(config.mongoDB)
+myclient = pymongo.MongoClient(TOKEN.mongoDB)
 mydb = myclient["InternationalGang"]
 mycol = mydb["bot_info"]
 
