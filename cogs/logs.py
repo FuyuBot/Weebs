@@ -34,6 +34,8 @@ class logs(commands.Cog):
 # edit
     @commands.Cog.listener()
     async def on_message_delete(self, message):
+        if message.guild.id != 860752406551461909:
+            return
         if message.id == 865058528913784852:
             return
         try:
@@ -49,6 +51,8 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_bulk_message_delete(self, messages):
+        if message.guild.id != 860752406551461909:
+            return
         try:
             embed = discord.Embed(color=config.color, timestamp=datetime.now())
             embed.add_field(name=f'Messaged Deleted', value=len(messages))
@@ -60,6 +64,8 @@ class logs(commands.Cog):
     
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
+        if message.guild.id != 860752406551461909:
+            return
         ########## WEEBS BOT ########## MUDAE BOT ######## GALAXY.BOT ######## KATHERYNE ######## BUMP REMINDER BOT ## DISBOARD BOT ##### GIVEAWAY BOT ####### POKETWO BOT ####### QOTD BOT ######### SEASONAL ANIME BOT ### TOP.GG BOT ####
         botIDs = [926163269503299695, 432610292342587392, 820031583419367425, 774806286051049504, 735147814878969968, 302050872383242240, 294882584201003009, 716390085896962058, 713586207119900693, 614495694769618944, 422087909634736160]
         ############## MANAGEMENT TEAM ###### MESSAGE LOGS
@@ -82,6 +88,8 @@ class logs(commands.Cog):
 #### UPDATE DB
     @commands.Cog.listener()
     async def on_user_update(self, before: discord.User, after: discord.User):
+        if message.guild.id != 860752406551461909:
+            return
         player = before.id
         nameAfter = after.name
         tagAfter = after.discriminator
@@ -120,6 +128,8 @@ class logs(commands.Cog):
 #### Member Update
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
+        if message.guild.id != 860752406551461909:
+            return
         memberLog = self.bot.get_channel(memberLogs)
         try:
             if after.nick != before.nick:
