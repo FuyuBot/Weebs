@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import config
+import TOKEN
 import json
 import requests
 
@@ -19,7 +20,7 @@ class weather(commands.Cog):
             embed = discord.Embed(color=config.color)
             client = interaction.client
             if state == None:
-                beforeUrl = f"http://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit=1&appid={config.openWeatherApiKEY}"
+                beforeUrl = f"http://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit=1&appid={TOKEN.openWeatherApiKEY}"
                 LATLONGget = requests.get(beforeUrl)
                 json_data = json.loads(LATLONGget.text)
                 for x in json_data:
