@@ -98,6 +98,23 @@ class weather(commands.Cog):
             logs = self.bot.get_channel(config.errorChannel)
             print(e)
             await logs.send(f"Weather Command used by {interaction.user}: Error: `{e}`")
-
+        
+    @app_commands.command(name="f-to-c", description="Converts Fahrenheit to Celsius!")
+    async def fToC(self, interaction : discord.Interaction, fahrenheit: float):
+        try:
+            temp = fahrenheit
+            celsius = (temp - 32) * 5/9
+            return await interaction.response.send_message(f"`{temp}°F` is equal to `{celsius}°C`", ephemeral=True)
+        except Exception as e:
+            return await interaction.response.send_message(f"Error: {e}", ephemeral=True)
+    
+    @app_commands.command(name="c-to-f", description="Converts Celsius to Fahrenheit!")
+    async def cToF(self, interaction : discord.Interaction, celsius: float):
+        try:
+            temp = celsius
+            fahrenheit = (temp * 1.8) + 32
+            return await interaction.response.send_message(f"`{temp}°C` is equal to `{fahrenheit}°F`", ephemeral=True)
+        except Exception as e:
+            return await interaction.response.send_message(f"Error: {e}", ephemeral=True)
 async def setup(bot):
     await bot.add_cog(weather(bot))

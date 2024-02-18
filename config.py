@@ -5,6 +5,7 @@ nhie='https://api.truthordarebot.xyz/v1/nhie'
 paranoia='https://api.truthordarebot.xyz/v1/paranoia'
 footer='Bot created by Jzcob#2842 and Sezn#6554.'
 weebsHangout = 860752406551461909
+internationalGang = 920801858967191573
 
 openWeatherApiKEY = "66a1612e83d41045b58f7853e726c5a7"
 
