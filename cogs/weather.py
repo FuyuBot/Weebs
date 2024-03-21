@@ -42,7 +42,7 @@ class weather(commands.Cog):
                 else:
                     embed.set_author(name=f"{name}, {country}", url=googleURL, icon_url=client.user.avatar)
             else:
-                beforeUrl = f"http://api.openweathermap.org/geo/1.0/direct?q={city},{state},{country}&limit=1&appid={config.openWeatherApiKEY}"
+                beforeUrl = f"http://api.openweathermap.org/geo/1.0/direct?q={city},{state},{country}&limit=1&appid={TOKEN.openWeatherApiKEY}"
             
                 LATLONGget = requests.get(beforeUrl)
                 json_data = json.loads(LATLONGget.text)
@@ -54,8 +54,8 @@ class weather(commands.Cog):
                     stateX = x['state']
                 googleURL = f"https://www.google.com/maps/@{lat},{lon}"
                 embed.set_author(name=f"{name}, {stateX} {country}", url=googleURL, icon_url=client.user.avatar)
-            urlImperial = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={config.openWeatherApiKEY}&units=imperial"
-            urlMetric = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={config.openWeatherApiKEY}&units=metric"
+            urlImperial = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={TOKEN.openWeatherApiKEY}&units=imperial"
+            urlMetric = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={TOKEN.openWeatherApiKEY}&units=metric"
             timeURL = f"https://www.timeapi.io/api/Time/current/coordinate?latitude={lat}&longitude={lon}"
             getTime = requests.get(timeURL)
             time = getTime.json()['time']
